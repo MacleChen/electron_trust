@@ -1,0 +1,310 @@
+{
+    "095ea7b3": {
+        "constant": false,
+        "inputs": [
+            { "name": "_spender", "type": "address" },
+            { "name": "_value", "type": "uint256" }
+        ],
+        "name": "approve",
+        "outputs": [],
+        "payable": false,
+        "stateMutability": "nonpayable",
+        "type": "function"
+    },
+    "a9059cbb": {
+        "constant": false,
+        "inputs": [
+            { "name": "_to", "type": "address" },
+            { "name": "_value", "type": "uint256" }
+        ],
+        "name": "transfer",
+        "outputs": [],
+        "payable": false,
+        "stateMutability": "nonpayable",
+        "type": "function"
+    },
+    "23b872dd": {
+        "constant": false,
+        "inputs": [
+            { "name": "_from", "type": "address" },
+            { "name": "_to", "type": "address" },
+            { "name": "_value", "type": "uint256" }
+        ],
+        "name": "transferFrom",
+        "outputs": [],
+        "payable": false,
+        "stateMutability": "nonpayable",
+        "type": "function"
+    },
+    "84bd6d29": {
+        "inputs": [
+            { "name": "clipperExchange", "type": "address" },
+            { "name": "srcToken", "type": "address" },
+            { "name": "dstToken", "type": "address" },
+            { "name": "inputAmount", "type": "uint256" },
+            { "name": "outputAmount", "type": "uint256" },
+            { "name": "goodUntil", "type": "uint256" },
+            { "name": "r", "type": "bytes32" },
+            { "name": "vs", "type": "bytes32" }
+        ],
+        "name": "clipperSwap",
+        "outputs": [
+            { "name": "returnAmount", "type": "uint256" }
+        ],
+        "stateMutability": "payable",
+        "type": "function"
+    },
+    "093d4fa5": {
+        "inputs": [
+            { "name": "clipperExchange", "type": "address" },
+            { "name": "recipient", "type": "address" },
+            { "name": "srcToken", "type": "address" },
+            { "name": "dstToken", "type": "address" },
+            { "name": "inputAmount", "type": "uint256" },
+            { "name": "outputAmount", "type": "uint256" },
+            { "name": "goodUntil", "type": "uint256" },
+            { "name": "r", "type": "bytes32" },
+            { "name": "vs", "type": "bytes32" }
+        ],
+        "name": "clipperSwapTo",
+        "outputs": [
+            { "name": "returnAmount", "type": "uint256" }
+        ],
+        "stateMutability": "payable",
+        "type": "function"
+    },
+    "3eca9c0a": {
+        "inputs": [
+            {
+                "components": [
+                    { "name": "info", "type": "uint256" },
+                    { "name": "makerAsset", "type": "address" },
+                    { "name": "takerAsset", "type": "address" },
+                    { "name": "maker", "type": "address" },
+                    { "name": "allowedSender", "type": "address" },
+                    { "name": "makingAmount", "type": "uint256" },
+                    { "name": "takingAmount", "type": "uint256" }
+                ],
+                "name": "order",
+                "type": "tuple"
+            },
+            { "name": "signature", "type": "bytes" },
+            { "name": "flagsAndAmount", "type": "uint256" }
+        ],
+        "name": "fillOrderRFQ",
+        "outputs": [
+            { "name": "", "type": "uint256" },
+            { "name": "", "type": "uint256" },
+            { "name": "", "type": "bytes32" }
+        ],
+        "stateMutability": "payable",
+        "type": "function"
+    },
+    "5a099843": {
+        "inputs": [
+            {
+                "components": [
+                    { "name": "info", "type": "uint256" },
+                    { "name": "makerAsset", "type": "address" },
+                    { "name": "takerAsset", "type": "address" },
+                    { "name": "maker", "type": "address" },
+                    { "name": "allowedSender", "type": "address" },
+                    { "name": "makingAmount", "type": "uint256" },
+                    { "name": "takingAmount", "type": "uint256" }
+                ],
+                "name": "order",
+                "type": "tuple"
+            },
+            { "name": "signature", "type": "bytes" },
+            { "name": "flagsAndAmount", "type": "uint256" },
+            { "name": "target", "type": "address" }
+        ],
+        "name": "fillOrderRFQTo",
+        "outputs": [
+            { "name": "filledMakingAmount", "type": "uint256" },
+            { "name": "filledTakingAmount", "type": "uint256" },
+            { "name": "orderHash", "type": "bytes32" }
+        ],
+        "stateMutability": "payable",
+        "type": "function"
+    },
+    "9570eeee": {
+        "inputs": [
+            {
+                "components": [
+                    { "name": "info", "type": "uint256" },
+                    { "name": "makerAsset", "type": "address" },
+                    { "name": "takerAsset", "type": "address" },
+                    { "name": "maker", "type": "address" },
+                    { "name": "allowedSender", "type": "address" },
+                    { "name": "makingAmount", "type": "uint256" },
+                    { "name": "takingAmount", "type": "uint256" }
+                ],
+                "name": "order",
+                "type": "tuple"
+            },
+            { "name": "r", "type": "bytes32" },
+            { "name": "vs", "type": "bytes32" },
+            { "name": "flagsAndAmount", "type": "uint256" }
+        ],
+        "name": "fillOrderRFQCompact",
+        "outputs": [
+            { "name": "filledMakingAmount", "type": "uint256" },
+            { "name": "filledTakingAmount", "type": "uint256" },
+            { "name": "orderHash", "type": "bytes32" }
+        ],
+        "stateMutability": "payable",
+        "type": "function"
+    },
+    "62e238bb": {
+      "inputs": [
+        {
+          "components": [
+            { "name": "salt", "type": "uint256" },
+            { "name": "makerAsset", "type": "address" },
+            { "name": "takerAsset", "type": "address" },
+            { "name": "maker", "type": "address" },
+            { "name": "receiver", "type": "address" },
+            { "name": "allowedSender", "type": "address" },
+            { "name": "makingAmount", "type": "uint256" },
+            { "name": "takingAmount", "type": "uint256" },
+            { "name": "offsets", "type": "uint256" },
+            { "name": "interactions", "type": "bytes" }
+          ],
+          "name": "order",
+          "type": "tuple"
+        },
+        { "name": "signature", "type": "bytes" },
+        { "name": "interaction", "type": "bytes" },
+        { "name": "makingAmount", "type": "uint256" },
+        { "name": "takingAmount", "type": "uint256" },
+        { "name": "skipPermitAndThresholdAmount", "type": "uint256" }
+      ],
+      "name": "fillOrder",
+      "outputs": [
+        { "name": "", "type": "uint256" },
+        { "name": "", "type": "uint256" },
+        { "name": "", "type": "bytes32" }
+      ],
+      "stateMutability": "payable",
+      "type": "function"
+    },
+    "e5d7bde6": {
+      "inputs": [
+        {
+          "components": [
+            { "name": "salt", "type": "uint256" },
+            { "name": "makerAsset", "type": "address" },
+            { "name": "takerAsset", "type": "address" },
+            { "name": "maker", "type": "address" },
+            { "name": "receiver", "type": "address" },
+            { "name": "allowedSender", "type": "address" },
+            { "name": "makingAmount", "type": "uint256" },
+            { "name": "takingAmount", "type": "uint256" },
+            { "name": "offsets", "type": "uint256" },
+            { "name": "interactions", "type": "bytes" }
+          ],
+          "name": "order_",
+          "type": "tuple"
+        },
+        { "name": "signature", "type": "bytes" },
+        { "name": "interaction", "type": "bytes" },
+        { "name": "makingAmount", "type": "uint256" },
+        { "name": "takingAmount", "type": "uint256" },
+        { "name": "skipPermitAndThresholdAmount", "type": "uint256" },
+        { "name": "target", "type": "address" }
+      ],
+      "name": "fillOrderTo",
+      "outputs": [
+        { "name": "actualMakingAmount", "type": "uint256" },
+        { "name": "actualTakingAmount", "type": "uint256" },
+        { "name": "orderHash", "type": "bytes32" }
+      ],
+      "stateMutability": "payable",
+      "type": "function"
+    },
+    "12aa3caf": {
+        "inputs": [
+            { "name": "executor", "type": "address" },
+            {
+                "components": [
+                    { "name": "srcToken", "type": "address" },
+                    { "name": "dstToken", "type": "address" },
+                    { "name": "srcReceiver", "type": "address" },
+                    { "name": "dstReceiver", "type": "address" },
+                    { "name": "amount", "type": "uint256" },
+                    { "name": "minReturnAmount", "type": "uint256" },
+                    { "name": "flags", "type": "uint256" }
+                ],
+                "name": "desc",
+                "type": "tuple"
+            },
+            { "name": "permit", "type": "bytes"
+            },
+            { "name": "data", "type": "bytes" }
+        ],
+        "name": "swap",
+        "outputs": [
+            { "name": "returnAmount", "type": "uint256" },
+            { "name": "spentAmount", "type": "uint256" }
+        ],
+        "stateMutability": "payable",
+        "type": "function"
+    },
+    "e449022e": {
+        "inputs": [
+            { "name": "amount", "type": "uint256" },
+            { "name": "minReturn", "type": "uint256" },
+            { "name": "pools", "type": "uint256[]" }
+        ],
+        "name": "uniswapV3Swap",
+        "outputs": [
+            { "name": "returnAmount", "type": "uint256" }
+        ],
+        "stateMutability": "payable",
+        "type": "function"
+    },
+    "bc80f1a8": {
+        "inputs": [
+            { "name": "recipient", "type": "address" },
+            { "name": "amount", "type": "uint256" },
+            { "name": "minReturn", "type": "uint256" },
+            { "name": "pools", "type": "uint256[]" }
+        ],
+        "name": "uniswapV3SwapTo",
+        "outputs": [
+            { "name": "returnAmount", "type": "uint256" }
+        ],
+        "stateMutability": "payable",
+        "type": "function"
+    },
+    "0502b1c5": {
+        "inputs": [
+            { "name": "srcToken", "type": "address" },
+            { "name": "amount", "type": "uint256" },
+            { "name": "minReturn", "type": "uint256" },
+            { "name": "pools", "type": "uint256[]" }
+        ],
+        "name": "unoswap",
+        "outputs": [
+            { "name": "returnAmount", "type": "uint256" }
+        ],
+        "stateMutability": "payable",
+        "type": "function"
+    },
+    "f78dc253": {
+        "inputs": [
+            { "name": "recipient", "type": "address" },
+            { "name": "srcToken", "type": "address" },
+            { "name": "amount", "type": "uint256" },
+            { "name": "minReturn", "type": "uint256" },
+            { "name": "pools", "type": "uint256[]" }
+        ],
+        "name": "unoswapTo",
+        "outputs": [
+            { "name": "returnAmount", "type": "uint256" }
+        ],
+        "stateMutability": "payable",
+        "type": "function"
+    }
+}
