@@ -16,12 +16,21 @@
 </script>
 
 <style>
-#app {
-  font-family: Avenir, Helvetica, Arial, sans-serif;
+/* 全局样式 */
+body, #app {
+  text-align: center;
+  margin: 0;
+  padding: 0;
+  background-color: #ffffff; /* 你想要的背景颜色 */
+  height: 100%;
+  font-family: 'Avenir', Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
+  color: #333333;
+  -webkit-user-select: none; /* Safari */
+  -moz-user-select: none; /* Firefox */
+  -ms-user-select: none; /* IE10+/Edge */
+  user-select: none; /* Standard syntax */
 }
 
 nav {

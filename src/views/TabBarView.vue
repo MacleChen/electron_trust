@@ -31,7 +31,7 @@
         </van-tabbar>
         <!-- <router-view></router-view> -->
         <!-- 页面跳转的转场动画 -->
-        <transition name="fade" mode="out-in">
+        <transition name="van-fade">
             <router-view></router-view>
         </transition>
     </div>
