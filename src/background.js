@@ -13,12 +13,12 @@ protocol.registerSchemesAsPrivileged([
 async function createWindow() {
   // Create the browser window.
   const win = new BrowserWindow({
-    width: 375,
-    height: 667,
-    minWidth:375,
-    minHeight:667,
-    maxWidth:375,
-    maxHeight:667,
+    width: 390,
+    height: 844,
+    minWidth:390,
+    minHeight:844,
+    maxWidth:390,
+    maxHeight:844,
     frame:false,
     useContentSize: true,
     webPreferences: {
@@ -27,7 +27,7 @@ async function createWindow() {
       // See nklayman.github.io/vue-cli-plugin-electron-builder/guide/security.html#node-integration for more info
       nodeIntegration: process.env.ELECTRON_NODE_INTEGRATION,
       contextIsolation: !process.env.ELECTRON_NODE_INTEGRATION
-    }
+    },
   })
 
   // 隐藏顶部菜单栏

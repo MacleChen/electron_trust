@@ -1,7 +1,20 @@
 {
-  "name": "electron_trust",
-  "version": "0.1.0",
+  "name": "trust",
+  "version": "1.0.0",
   "private": true,
+  "productName": "Trust",
+  "description": "A trade coin market.",
+  "author": {
+    "name": "thundersoft",
+    "email": "foverleee@gmail.com"
+  },
+  "mac": {
+      "target": "dmg",
+      "icon": "build/app.png"
+    },
+    "dmg": {
+      "backgroundColor": "#fff"
+    },
   "scripts": {
     "serve": "vue-cli-service serve",
     "build": "vue-cli-service build",
