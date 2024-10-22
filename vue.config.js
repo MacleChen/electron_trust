@@ -33,6 +33,38 @@ module.exports = defineConfig({
               ]
             }
           ]
+        },
+        "dmg": {
+          "contents": [
+            {
+              "x": 410,
+              "y": 150,
+              "type": "link",
+              "path": "/Applications"
+            },
+            {
+              "x": 130,
+              "y": 150,
+              "type": "file"
+            }
+          ]
+        },
+        "mac": {
+          "category": "com.yishuihuayuan.trust",
+          "identity": "com.yishuihuayuan.trust",
+          "hardenedRuntime": true,
+          "gatekeeperAssess": false,
+          "darkModeSupport": true,
+          "icon": "public/app.png",//图标路径
+          "target": [
+            {
+              "target": "dmg", //利用dmg制作安装程序
+              "arch": [
+                // "x64", //64位
+                "arm64",
+              ]
+            }
+          ]
         }
       },
       nodeIntegration: true
