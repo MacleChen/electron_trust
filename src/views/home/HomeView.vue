@@ -1,15 +1,13 @@
 <template>
-  <van-nav-bar title="" @click-left="navBarLeftClick">
+  <van-sticky>
+    <van-nav-bar title="" @click-left="navBarLeftClick">
     <template #left>
-    <img src="../../assets/asserts/icon-settings-cog_Normal@2x.png" style="height: 24px; width: 24px;" />
+      <img src="../../assets/asserts/icon-settings-cog_Normal@2x.png" style="height: 24px; width: 24px;"/>
     </template>
   </van-nav-bar>
-
+  </van-sticky>
+  
   <van-space direction="vertical" fill :size="20">
-    <van-button type="primary">按钮</van-button>
-  <van-button type="primary">按钮</van-button>
-  <van-button type="primary">按钮</van-button>
-  <van-button type="primary">按钮</van-button>
     <div class="home">
     <img  @dragstart.prevent alt="Vue logo" src="../../assets/asserts/tw-badge_Normal@2x.png" height="150">
     <!-- <HelloWorld msg="Welcome to Your Vue.js App"/> -->
@@ -23,7 +21,7 @@
 // @ is an alias to /src
 // import HelloWorld from '@/components/HelloWorld.vue'
 import disDrag from '../../utils/disDrag.js'
-import { NavBar, Space, Button } from 'vant';
+import { NavBar, Space, Button, Sticky  } from 'vant';
 
 export default {
   name: 'HomeView',
@@ -32,6 +30,7 @@ export default {
     [NavBar.name]: NavBar,
     [Space.name]: Space,
     [Button.name]: Button,
+    [Sticky.name]: Sticky,
   },
   mixins: [disDrag],
   methods: {
@@ -49,6 +48,11 @@ export default {
 }
 .van-nav-bar {
   top: -50px !important;
+}
+.top_nav_setting_bg {
+  background-color: blueviolet;
+  width: auto;
+  height: 44px;
 }
 
 </style>

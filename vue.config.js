@@ -20,7 +20,7 @@ module.exports = defineConfig({
           "installerHeaderIcon": "./public/app.ico", // 安装时头部图标
           "createDesktopShortcut": true, // 是否创建桌面图标
           "createStartMenuShortcut": true,// 是否创建开始菜单图标
-          "shortcutName": "passageway", // 快捷方式名称
+          "shortcutName": "Trust", // 快捷方式名称
           "runAfterFinish": false,//是否安装完成后运行
         },
         "win": {
