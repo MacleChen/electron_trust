@@ -18,7 +18,11 @@
       
       <div class="wallet_containter">
         <div class="left_iamge_containter">
-          <van-image style="background-color: brown;" :src="require('../../assets/asserts/arrow-down-f_Normal@2x.png')" width="20px" />
+          <van-image class="tint-blue" :src="require('../../assets/asserts/arrow-down-f_Normal@2x.png')" width="20px" />
+        </div>
+        <div>
+          <div style="display: flex; justify-content: center; margin-left: 10px;margin-top: 15px;"><label class="home_cell1_title">创建一个新钱包</label><label class="home_cell_flag">赚取积分</label></div>
+          <div><label class="home_cell1_subtitle">创建新的多链钱包</label></div>
         </div>
       </div>
       </van-space>
@@ -85,13 +89,15 @@ export default {
 }
 
 .wallet_containter {
-  background-color: bisque;
+  display: flex;
+  background-color: #cfcfcf;
   margin: 0;
   height: 60pt;
+  border-radius: 10px;
 }
 .left_iamge_containter {
   display: flex;
-  background-color: blueviolet;
+  background-color: #afafaf;
   margin-left: 20px;
   margin-top: 20px;
   width: 40px;
@@ -101,4 +107,25 @@ export default {
   border-radius: 20px;
 }
 
+.tint-blue {
+  filter: hue-rotate(-90deg); /* 改变色调，使之变成蓝色 */
+}
+
+.home_cell1_title {
+  font-size: 16px;
+  font-weight:bold;
+  color: black;
+}
+.home_cell_flag {
+  background-color: #888888;
+  color: #525252;
+  padding: 3px;
+  font-size: 10px;
+  border-radius: 3px;
+  margin-left: 5px;
+}
+.home_cell1_sutitle {
+  font-size: 13px;
+  color: rgb(48, 48, 48);
+}
 </style>
