@@ -41,3 +41,7 @@ https://vant-ui.github.io/vant/#/zh-CN/skeleton
 
 ### 常用色值
 https://www.cnblogs.com/xuhongfei/p/17304386.html
+
+
+### Mac 的arm芯片打包遇到的问题
+https://www.cnblogs.com/mrkr/p/18098964
