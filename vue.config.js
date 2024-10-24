@@ -60,8 +60,8 @@ module.exports = defineConfig({
             {
               "target": "dmg", //利用dmg制作安装程序
               "arch": [
-                "universal", //64位 inter芯片
-                //"arm64",    m芯片
+                "arm64",    //m芯片
+                //"x64",    // inter芯片
               ]
             }
           ]
