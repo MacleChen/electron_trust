@@ -32,6 +32,8 @@ https://blog.csdn.net/weixin_47219632/article/details/134958824?spm=1001.2014.30
 
 
 ### 设置npm代理
+npm config set registry https://registry.npmmirror.com
+或
 http.proxy=http://127.0.0.1:7890
 https.proxy=https://127.0.0.1:7890
 
@@ -45,3 +47,6 @@ https://www.cnblogs.com/xuhongfei/p/17304386.html
 
 ### Mac 的arm芯片打包遇到的问题
 https://www.cnblogs.com/mrkr/p/18098964
+
+### mac中执行 sudo npm install 出现host问题，需执行
+sudo npm install -D electron --ELECTRON_MIRROR="https://npmmirror.com/mirrors/electron/"

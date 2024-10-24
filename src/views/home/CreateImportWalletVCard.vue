@@ -16,8 +16,8 @@
           <van-image :src="require('../../assets/asserts/arrow-down-f_Normal@2x.png')" width="20px" />
         </div>
         <van-space direction="vertical" fill :size="5" style="margin-left: 10px; margin-top: 15px;">
-          <div class="home_cell1_title">创建一个新钱包<label class="home_cell_flag">赚取积分</label></div>
-          <label class="home_cell1_sutitle">创建新的多链钱包</label>
+          <div class="home_cell1_title">添加已有钱包<label class="home_cell_flag">赚取积分</label></div>
+          <label class="home_cell1_sutitle">导入、恢复或仅限查看</label>
           <!-- <div style="display: flex;background-color: blue; justify-content: center; margin-left: 10px;margin-top: 15px;"></div>
           <div style="background-color: aquamarine;"></div> -->
         </van-space>
