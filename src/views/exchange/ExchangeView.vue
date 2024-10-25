@@ -1,4 +1,18 @@
 <template>
+  <van-tabs v-model:active="active" shrink>
+  <van-tab title="兑换">
+    <TabExchangeView />
+  </van-tab>
+  <van-tab title="热门代币">
+    <template #title>
+      <div style="display: flex; justify-content: center; align-items: center;">
+        <label>热门代币</label>
+        <img style="margin-left: 3px;" src="../../assets/asserts/0_Normal.png" width="20px"/>
+      </div>
+    </template>
+    <TabHotCoinView />
+  </van-tab>
+</van-tabs>
 <van-pull-refresh v-model="refreshing" @refresh="onRefresh">
   <van-list
     v-model:loading="loading"
@@ -14,7 +28,9 @@
 
 <script>
 import { ref } from 'vue';
-import { List, PullRefresh } from 'vant';
+import { List, PullRefresh, Tab, Tabs, } from 'vant';
+import TabExchangeView from './TabExchangeView.vue';
+import TabHotCoinView from './TabHotCoinView.vue';
 
 export default {
     setup() {
@@ -61,8 +77,12 @@ export default {
     };
   },
   components: {
+    TabExchangeView,
+    TabHotCoinView,
     [List.name]: List,
     [PullRefresh.name]: PullRefresh,
+    [Tab.name]: Tab,
+    [Tabs.name]: Tabs,
   },
 }
 </script>

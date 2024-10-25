@@ -13,7 +13,7 @@
             <div style="flex-grow: 1;">
                 <div style="display: flex;">
                     <label class="cell_left_title_containter" style="font-weight: bold;">{{ item.title }}</label> 
-                    <label class="cell_right_title_containter" style="font-weight: bold;">{{ item.money }}</label>
+                    <label class="cell_right_title_containter" style="font-weight: bold;">${{ formatNumber(item.money) }}</label>
                 </div>
                 <div style="display: flex;">
                     <label class="cell_left_title_containter">{{ item.subtitle }}</label>
@@ -32,17 +32,22 @@
 import { ref } from 'vue';
 
 const bitCoinList = ref([
-    {title: 'BTC', subtitle: 'Bitcoin', money: '$66692', percent: '-0.64', imgStr: require('../../assets/asserts/0_Normal.png')},
-    {title: 'BTC', subtitle: 'Bitcoin', money: '$66692', percent: '0.64', imgStr: require('../../assets/asserts/0_Normal.png')},
-    {title: 'BTC', subtitle: 'Bitcoin', money: '$66692', percent: '0.0', imgStr: require('../../assets/asserts/0_Normal.png')},
-    {title: 'BTC', subtitle: 'Bitcoin', money: '$66692', percent: '-0.64', imgStr: require('../../assets/asserts/0_Normal.png')},
-    {title: 'BTC', subtitle: 'Bitcoin', money: '$66692', percent: '-0.64', imgStr: require('../../assets/asserts/0_Normal.png')},
-    {title: 'BTC', subtitle: 'Bitcoin', money: '$66692', percent: '-0.64', imgStr: require('../../assets/asserts/0_Normal.png')},
+    {title: 'BTC', subtitle: 'Bitcoin', money: '66692.27', percent: '-0.64', imgStr: require('../../assets/asserts/0_Normal.png')},
+    {title: 'BTC', subtitle: 'Bitcoin', money: '66692', percent: '0.64', imgStr: require('../../assets/asserts/0_Normal.png')},
+    {title: 'BTC', subtitle: 'Bitcoin', money: '66692', percent: '0.0', imgStr: require('../../assets/asserts/0_Normal.png')},
+    {title: 'BTC', subtitle: 'Bitcoin', money: '66692', percent: '-0.64', imgStr: require('../../assets/asserts/0_Normal.png')},
+    {title: 'BTC', subtitle: 'Bitcoin', money: '66692', percent: '-0.64', imgStr: require('../../assets/asserts/0_Normal.png')},
+    {title: 'BTC', subtitle: 'Bitcoin', money: '66692', percent: '-0.64', imgStr: require('../../assets/asserts/0_Normal.png')},
 ]);
 
 export default {
     setup() {
         return {bitCoinList}
+    },
+    methods:{
+        formatNumber(number) {
+            return number.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+        }
     }
 }
 </script>
