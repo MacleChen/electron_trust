@@ -1,7 +1,5 @@
 <template>
-
   <StartView msg="Starting..."/>
-  <!-- <router-view/> -->
 </template>
 
 <script>

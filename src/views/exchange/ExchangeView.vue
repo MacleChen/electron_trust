@@ -6,8 +6,8 @@
   <van-tab title="热门代币">
     <template #title>
       <div style="display: flex; justify-content: center; align-items: center;">
-        <label>热门代币</label>
-        <img style="margin-left: 3px;" src="../../assets/asserts/0_Normal.png" width="20px"/>
+        <label>热门代币 🔥</label>
+        <!-- <img style="margin-left: 3px;" src="../../assets/asserts/0_Normal.png" width="20px"/> -->
       </div>
     </template>
     <TabHotCoinView />

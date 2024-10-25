@@ -38,13 +38,10 @@
 </template>
 
 <script>
-    import { Tabbar, TabbarItem } from 'vant';
     
     export default {
         name: 'App',
         components: {
-            [Tabbar.name]: Tabbar,
-            [TabbarItem.name]: TabbarItem,
         },
         data() {
             return {

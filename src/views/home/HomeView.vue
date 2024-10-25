@@ -1,6 +1,6 @@
 <template>
   <van-sticky>
-    <van-nav-bar title="首页" :border="false" @click-left="navBarLeftClick">
+    <van-nav-bar :title="$t('navigateBar.home')" :border="false" @click-left="navBarLeftClick">
     <template #left>
       <img @dragstart.prevent src="../../assets/asserts/icon-settings-cog_Normal@2x.png" style="height: 24px; width: 24px;"/>
     </template>
@@ -15,8 +15,7 @@
       <van-space direction="vertical" fill :size="20">
       
       <img  @dragstart.prevent alt="Vue logo" src="../../assets/asserts/tw-badge_Normal@2x.png" height="150">
-      <h3>加入币安，与7000多万人一起打造互联网的未来</h3>
-      
+      <h3>{{ $t("homePage.introInfo") }}</h3>
       <CreateImportWalletVCard />
       <BitCoinListView />
       </van-space>

@@ -50,6 +50,16 @@ const routes = [
     name: 'setting',
     component: () => import('../views/setting/SettingView.vue')
   },
+  {
+    path: '/preferences',
+    name: 'preferences',
+    component: () => import('../views/setting/PreferencesView.vue')
+  },
+  {
+    path: '/languageList',
+    name: 'languageList',
+    component: () => import('../views/setting/LanguageListView.vue')
+  },
 ]
 
 const router = createRouter({
