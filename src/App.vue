@@ -44,5 +44,29 @@ nav a.router-link-exact-active {
   color: #42b983;
 }
 
+::-webkit-scrollbar {
+  position: absolute;
+  width: 0.1px;
+  height: 0.1px;
+}
+::-webkit-scrollbar-button {
+  width: 8px;
+  height: 0;
+}
+::-webkit-scrollbar-track {
+  background: 0 0;
+}
+::-webkit-scrollbar-thumb {
+  background: #61a8df;
+  -webkit-transition: 0.3s;
+  transition: 0.3s;
+}
+::-webkit-scrollbar-thumb:hover {
+  background-color: #37dace;
+}
+::-webkit-scrollbar-thumb:active {
+  background-color: #17bbaf;
+}
+
 
 </style>

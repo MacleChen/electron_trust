@@ -1,5 +1,5 @@
 <template>
-    <van-nav-bar title="Preferences" @click-right="navBarLeftClick">
+    <van-nav-bar title="Preferences" @click-left="navBarLeftClick">
         <template #left>
             <img src="../../assets/asserts/arrow-left-f_Normal@2x.png" style="height: 24px; width: 24px;" />
         </template>
@@ -19,8 +19,8 @@ import { ref } from 'vue';
 import { showToast } from 'vant';
 
 const countrysList = ref([
-    {title: 'English', subtitle: 'USD', imgStr: require('../../assets/asserts/icon-settings-cog_Normal@2x.png')},
-    {title: 'China', subtitle: 'English', imgStr: require('../../assets/asserts/icon-settings-cog_Normal@2x.png')},
+    {title: 'English', subtitle: 'en', imgStr: require('../../assets/asserts/icon-settings-cog_Normal@2x.png')},
+    {title: 'China', subtitle: 'zh', imgStr: require('../../assets/asserts/icon-settings-cog_Normal@2x.png')},
 ]);
 
 export default {
@@ -32,9 +32,9 @@ export default {
             history.back()
         },
         languagesCellClick(index) {
-            var item = countrysList[index];
-            showToast("已切换到:" + item)
-            // 切换语言
+            var country = countrysList.value[index];
+            this.$i18n.locale = country.subtitle;
+            showToast("" + country.title);
         }
     }
 }

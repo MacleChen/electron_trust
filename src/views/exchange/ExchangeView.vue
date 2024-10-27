@@ -1,92 +1,68 @@
 <template>
-  <van-tabs v-model:active="active" shrink>
-  <van-tab title="兑换">
-    <TabExchangeView />
-  </van-tab>
-  <van-tab title="热门代币">
-    <template #title>
-      <div style="display: flex; justify-content: center; align-items: center;">
-        <label>热门代币 🔥</label>
-        <!-- <img style="margin-left: 3px;" src="../../assets/asserts/0_Normal.png" width="20px"/> -->
-      </div>
-    </template>
-    <TabHotCoinView />
-  </van-tab>
-</van-tabs>
-<van-pull-refresh v-model="refreshing" @refresh="onRefresh">
-  <van-list
-    v-model:loading="loading"
-    :finished="finished"
-    finished-text="没有更多了"
-    @load="onLoad"
-  >
-    <van-cell v-for="item in list" :key="item" :title="item" style="color: black;"/>
-  </van-list>
-</van-pull-refresh>
+  <div style="background-color: white; width: 100%;height: 44px; position: fixed; z-index: 1;">
+    <van-tabs v-model:active="active" shrink style="position: fixed; z-index: 1;" @click-tab="onClickTab">
+    <van-tab title="兑换">
+      <!-- <TabExchangeView /> -->
+    </van-tab>
+    <van-tab title="热门代币">
+      <template #title>
+        <div style="display: flex; justify-content: center; align-items: center;">
+          <label>热门代币 🔥</label>
+          <!-- <img style="margin-left: 3px;" src="../../assets/asserts/0_Normal.png" width="20px"/> -->
+        </div>
+      </template>
+      <!-- <TabHotCoinView /> -->
+    </van-tab>
+  </van-tabs>
+  <img v-if="!isShowHotBitcoin" class="setting_image_container" @dragstart.prevent src="../../assets/asserts/icon-settings-cog_Normal@2x.png" @click="settingBtnClick"/>
 
+</div>
+
+<div style="padding-top: 44px;">
+  <TabHotCoinView v-if="isShowHotBitcoin" />
+  <TabExchangeView v-else />
+</div>
 </template>
 
 <script>
-import { ref } from 'vue';
-import { List, PullRefresh, Tab, Tabs, } from 'vant';
 import TabExchangeView from './TabExchangeView.vue';
 import TabHotCoinView from './TabHotCoinView.vue';
+import { ref } from 'vue';
 
 export default {
-    setup() {
-    const list = ref([]);
-    const loading = ref(false);
-    const finished = ref(false);
-    const refreshing = ref(false);
-
-    const onLoad = () => {
-      setTimeout(() => {
-        if (refreshing.value) {
-          list.value = [];
-          refreshing.value = false;
-        }
-
-        for (let i = 0; i < 10; i++) {
-          list.value.push(list.value.length + 1);
-        }
-        loading.value = false;
-
-        if (list.value.length >= 40) {
-          finished.value = true;
-        }
-      }, 1000);
+  setup() {
+    const active = ref(0);
+    const isShowHotBitcoin = ref(false);
+    const onClickTab = ({ title }) => {
+      isShowHotBitcoin.value = title == '热门代币'
     };
-
-    const onRefresh = () => {
-      // 清空列表数据
-      finished.value = false;
-
-      // 重新加载数据
-      // 将 loading 设置为 true，表示处于加载状态
-      loading.value = true;
-      onLoad();
-    };
-
     return {
-      list,
-      onLoad,
-      loading,
-      finished,
-      onRefresh,
-      refreshing,
+      active,
+      isShowHotBitcoin,
+      onClickTab
     };
   },
+
   components: {
     TabExchangeView,
     TabHotCoinView,
-    [List.name]: List,
-    [PullRefresh.name]: PullRefresh,
-    [Tab.name]: Tab,
-    [Tabs.name]: Tabs,
   },
+
+  methods: {
+    settingBtnClick() {
+      this.$router.push({ name: 'swapSetting' });
+    }
+  }
 }
 </script>
 
 <style>
-
+.setting_image_container {
+  height: 24px; 
+  width: 24px; 
+  position:fixed; 
+  z-index: 999; 
+  margin-top: 10px; 
+  margin-left: 150px;
+}
 </style>

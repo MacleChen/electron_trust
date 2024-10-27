@@ -1,26 +1,25 @@
 <template>
-  <van-sticky>
-    <van-nav-bar :title="$t('navigateBar.home')" :border="false" @click-left="navBarLeftClick">
+  <div>
+    <van-nav-bar :title="$t('')" :border="false" @click-left="navBarLeftClick" :safe-area-inset-top="false" :fixed="true" :placeholder="true">
     <template #left>
       <img @dragstart.prevent src="../../assets/asserts/icon-settings-cog_Normal@2x.png" style="height: 24px; width: 24px;"/>
     </template>
   </van-nav-bar>
-  <!-- <div class="top_navi_containter">
-    <img src="../../assets/asserts/icon-settings-cog_Normal@2x.png" style="height: 24px; width: 24px;"/>
-  </div> -->
-  </van-sticky>
   
   <div class="home">
     <van-pull-refresh v-model="refreshing" @refresh="onRefresh">
       <van-space direction="vertical" fill :size="20">
       
       <img  @dragstart.prevent alt="Vue logo" src="../../assets/asserts/tw-badge_Normal@2x.png" height="150">
-      <h3>{{ $t("homePage.introInfo") }}</h3>
+      <h3>{{ $t("homePage.intro") }}</h3>
       <CreateImportWalletVCard />
       <BitCoinListView />
       </van-space>
     </van-pull-refresh>
   </div>
+
+  </div>
+    
   
 </template>
 

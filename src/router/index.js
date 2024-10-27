@@ -20,21 +20,37 @@ const routes = [
   {
     path: '/home',
     name: 'home',
+    meta: {
+      showTab:true,
+      index:0,
+    },
     component: HomeView
   },
   {
     path: '/exchange',
     name: 'exchange',
+    meta: {
+      showTab:true,
+      index:0,
+    },
     component: ExchangeView
   },
   {
     path: '/money',
     name: 'money',
+    meta: {
+      showTab:true,
+      index:0,
+    },
     component: MoneyView
   },
   {
     path: '/discover',
     name: 'discover',
+    meta: {
+      showTab:true,
+      index:0,
+    },
     component: DiscoverView
   },
   {
@@ -48,18 +64,37 @@ const routes = [
   {
     path: '/setting',
     name: 'setting',
+    meta: {
+      index:1,
+    },
     component: () => import('../views/setting/SettingView.vue')
   },
   {
     path: '/preferences',
     name: 'preferences',
+    meta: {
+      index:2,
+    },
     component: () => import('../views/setting/PreferencesView.vue')
   },
   {
     path: '/languageList',
     name: 'languageList',
+    meta: {
+      index:3,
+    },
     component: () => import('../views/setting/LanguageListView.vue')
   },
+  {
+    path: '/swapSetting',
+    name: 'swapSetting',
+    meta: {
+      index:1,
+      showTab:true,
+    },
+    component: () => import('../views/exchange/SwapSettingView.vue')
+  },
+  
 ]
 
 const router = createRouter({

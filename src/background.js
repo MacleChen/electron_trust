@@ -34,8 +34,14 @@ async function createWindow() {
   // 隐藏顶部菜单栏
   win.setMenu(null);
 
-
-  
+  // 设置窗口位置在右上角
+  // const screenSize = screen.getPrimaryDisplay().workAreaSize;
+  // const winPosition = {
+  //   x: screenSize.width - 800, // 窗口的x坐标
+  //   y: 0 // 窗口的y坐标
+  // };
+  // win.setPosition(winPosition.x, winPosition.y);
+  win.setBounds({ x: 1500, y: 100, width: 800, height: 600 });
 
   if (process.env.WEBPACK_DEV_SERVER_URL) {
     // Load the url of the dev server if in development mode

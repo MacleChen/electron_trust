@@ -1,6 +1,6 @@
 <template>
-    
-    <van-nav-bar title="设置" @click-right="navBarLeftClick">
+    <div>
+        <van-nav-bar title="设置" @click-left="navBarLeftClick" >
         <template #left>
             <img src="../../assets/asserts/arrow-left-f_Normal@2x.png" style="height: 24px; width: 24px;" />
         </template>
@@ -18,11 +18,12 @@
         </div>
         </ul>
     </div>
+    </div>
+    
 </template>
 
 <script>
 import { ref } from 'vue';
-import { showToast } from 'vant';
 
 const settingList = ref([
     {title: 'Preferences', imgStr: require('../../assets/asserts/icon-settings-cog_Normal@2x.png')},
@@ -46,10 +47,9 @@ export default {
     },
     methods: {
         navBarLeftClick() {
-            history.back(); // 使用浏览器的前进后退功能实现返回 
+            this.$router.back();
     },
     settingCellClick(index) {
-        showToast('提示内容' + index);
         if (index == 0 ) {
             this.$router.push({ name: 'preferences' });
         }
@@ -59,6 +59,10 @@ export default {
 </script>
 
 <style>
+.wrapper {
+  width: 100%;
+  min-height: 100vh;
+}
 .setting {
   margin: 0;
   padding: 0;
@@ -71,4 +75,5 @@ export default {
     height: 60px;
     margin-left: 20px;
 }
+
 </style>

@@ -1,5 +1,6 @@
 <template>
-    <van-nav-bar title="Preferences" @click-right="navBarLeftClick">
+    <div>
+        <van-nav-bar title="Preferences" @click-left="navBarLeftClick">
         <template #left>
             <img src="../../assets/asserts/arrow-left-f_Normal@2x.png" style="height: 24px; width: 24px;" />
         </template>
@@ -17,6 +18,7 @@
         </div>
         </ul>
     </div>
+</div>
 </template>
 
 <script>

@@ -1,8 +1,8 @@
 <template>
     <div class="header_containter">
         <!-- title -->
-         <label style="width: 50%; text-align: left;color: gray;">热门代币</label>
-         <label style="width: 50%; text-align: right;font-size: 12px; color: lightgray;">最新24h</label>
+         <label style="width: 50%; text-align: left;color: gray;">{{ $t('homePage.popularTokens') }}</label>
+         <label style="width: 50%; text-align: right;font-size: 12px; color: lightgray;">{{ $t('homePage.lastTime') }}</label>
     </div>
     <div style="padding-bottom: 50px;">
         <ul v-for="item in bitCoinList" :key="item.title">
