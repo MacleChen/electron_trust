@@ -34,6 +34,7 @@ async function createWindow() {
   // 隐藏顶部菜单栏
   win.setMenu(null);
 
+  
   // 设置窗口位置在右上角
   // const screenSize = screen.getPrimaryDisplay().workAreaSize;
   // const winPosition = {

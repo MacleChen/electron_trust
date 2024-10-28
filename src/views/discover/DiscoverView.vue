@@ -5,27 +5,6 @@
     </template>
   </van-nav-bar>
 
-  <van-pull-refresh v-model="refreshing" @refresh="onRefresh">
-      <div class="rewards_cell_container">
-
-      </div>
-
-      <div class="learn_more_cell_container">
-
-      </div>
-
-      <div class="learn_more_cell_container">
-
-      </div>
-
-      <div class="learn_more_cell_container">
-
-      </div>
-
-      <div class="learn_more_cell_container">
-
-      </div>
-    </van-pull-refresh>
 </template>
 
 <script>
@@ -58,13 +37,13 @@ export default {
 </script>
 
 <style>
-.rewards_cell_container {
+.discover_cell_container {
   width: 100%;
   height: 100px;
   background-color: red;
 }
 
-.learn_more_cell_container {
+.discover_more_cell_container {
   margin-top: 20px;
   width: 100%;
   height: 50px;

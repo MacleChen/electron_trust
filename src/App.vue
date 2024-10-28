@@ -68,5 +68,10 @@ nav a.router-link-exact-active {
   background-color: #17bbaf;
 }
 
+.divider {
+  border-top: 1px solid #ccc; /* 分割线颜色和宽度 */
+  margin-left: 10px;
+  margin-right: 10px;
+}
 
 </style>
