@@ -1,14 +1,31 @@
 <template>
-    <van-nav-bar :title="$t('Discover')" :border="false" @click-right="navBarRightClick" :safe-area-inset-top="false" :fixed="true" :placeholder="true">
+    <van-nav-bar :title="$t('Discover')" :border="false" :safe-area-inset-top="false" :fixed="true" :placeholder="true">
     <template #right>
-      <img @dragstart.prevent src="../../assets/asserts/menu-dots-f_Normal@2x.png" style="height: 24px; width: 24px;"/>
+      <div style="display: flex; justify-content: center; align-items: center;">
+        <div @click="navBarTabsClick"
+        style="border: 1px solid blue; border-radius: 3px; width: 20px; height: 20px; display: flex; justify-content: center; align-items: center; margin-right: 15px;">
+          <label style="color: blue;">3</label>
+        </div>
+        <img @click="show = true" @dragstart.prevent src="../../assets/asserts/menu-dots-f_Normal@2x.png" style="height: 24px; width: 24px;"/>
+      </div>
     </template>
   </van-nav-bar>
 
+
+<!-- ActionSheet -->
+  <van-action-sheet
+  v-model:show="show"
+  :actions="actions"
+  cancel-text="Cancel"
+  close-on-click-action
+  @cancel="onCancel"
+  @select="onSelect"
+/>
 </template>
 
 <script>
 import { ref } from 'vue';
+import { showToast } from 'vant';
 
 export default {
   setup() {
@@ -21,15 +38,38 @@ export default {
         count.value++;
       }, 1000);
     };
+
+    const show = ref(false);
+    const actions = [
+      { name: 'History' },
+      { name: 'Favorite' },
+    ];
+
+    const onSelect = (item) => {
+      // 默认情况下点击选项时不会自动收起
+      // 可以通过 close-on-click-action 属性开启自动收起
+      show.value = false;
+      showToast(item.name);
+    };
+
+    const onCancel = () => showToast('取消');
+
     return {
       count,
       loading,
       onRefresh,
+      show,
+      actions,
+      onCancel,
+      onSelect,
     };
   },
   methods: {
-    navBarRightClick() {
-      this.$router.push({ name: 'setting' });
+    navBarTabsClick() {
+      this.$router.push({ name: 'discoverTabs' });
+    },
+    navBarActionSheetClick() {
+      this.$show.value = true
     }
   }
 }

@@ -35,6 +35,7 @@ async function createWindow() {
   win.setMenu(null);
 
   
+  
   // 设置窗口位置在右上角
   // const screenSize = screen.getPrimaryDisplay().workAreaSize;
   // const winPosition = {
@@ -42,7 +43,9 @@ async function createWindow() {
   //   y: 0 // 窗口的y坐标
   // };
   // win.setPosition(winPosition.x, winPosition.y);
-  win.setBounds({ x: 1500, y: 100, width: 800, height: 600 });
+  //win.setBounds({ x: 1500, y: 100, width: 800, height: 600 });
+
+
 
   if (process.env.WEBPACK_DEV_SERVER_URL) {
     // Load the url of the dev server if in development mode

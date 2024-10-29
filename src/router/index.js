@@ -94,7 +94,14 @@ const routes = [
     },
     component: () => import('../views/exchange/SwapSettingView.vue')
   },
-  
+  {
+    path: '/discoverTabs',
+    name: 'discoverTabs',
+    meta: {
+      index:1,
+    },
+    component: () => import('../views/discover/DiscoverTabsView.vue')
+  },
 ]
 
 const router = createRouter({
