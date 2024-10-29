@@ -11,6 +11,27 @@
     </template>
   </van-nav-bar>
 
+  <van-search
+  v-model="value"
+  shape="round"
+  background="#fff"
+  placeholder="Search or enter dApp URL"
+/>
+
+
+<van-swipe class="my-swipe" :loop="false" :width="300" :show-indicators="false">
+  <van-swipe-item @click="launchPoolCardClick">
+    <div class="discover_scroll_top_content">
+      <DiscoverTopScrollCard />
+    </div>
+  </van-swipe-item>
+  <van-swipe-item @click="inAppQuestEarnCardClick">
+    <div class="discover_scroll_top_content" style="margin-right: 10px;">
+      <DiscoverTopScrollCard />
+    </div>
+  </van-swipe-item>
+</van-swipe>
+
 
 <!-- ActionSheet -->
   <van-action-sheet
@@ -26,6 +47,7 @@
 <script>
 import { ref } from 'vue';
 import { showToast } from 'vant';
+import DiscoverTopScrollCard from './widgets/DiscoverTopScrollCard.vue';
 
 export default {
   setup() {
@@ -64,13 +86,23 @@ export default {
       onSelect,
     };
   },
+  components: {
+    DiscoverTopScrollCard,
+  },
   methods: {
     navBarTabsClick() {
       this.$router.push({ name: 'discoverTabs' });
     },
     navBarActionSheetClick() {
       this.$show.value = true
+    },
+    launchPoolCardClick() {
+      showToast('launchPoolCardClick');
+    },
+    inAppQuestEarnCardClick() {
+      showToast('inAppQuestEarnCardClick');
     }
+      
   }
 }
 
@@ -88,6 +120,14 @@ export default {
   width: 100%;
   height: 50px;
   background-color: beige;
+}
+
+.discover_scroll_top_content {
+  margin-top: 10px;
+  margin-left: 10px;
+  height: 100px; 
+  background-color: #f4f4f6; 
+  border-radius: 10px;
 }
 
 </style>

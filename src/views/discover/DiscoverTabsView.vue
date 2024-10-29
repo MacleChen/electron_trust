@@ -11,38 +11,15 @@
     
     <van-grid :border="false" :column-num="2">
     <van-grid-item>
-        <div style="height: 200px; background-color: lightslategray;">
-            <div style="height: 50px; display: flex; align-items: center;">
-                <div class="item_content_cell_style" style="width: 50%; justify-content: left;">
-                    <img style="margin-left: 5px;" src="../../assets/asserts/viacoin_Normal.png" width="15px" height="15px"/>
-                    <div style="margin-left: 10px; ">
-                        <div>
-                            <label style="font-size: 10px; font-weight: bold; color: black;">four.meme</label>
-                        </div>
-                    </div>
-                    
-                </div>
-
-                <div class="item_content_cell_style" style="width: 50%; justify-content: flex-end;">
-                    <img style="margin-left: 5px;" src="../../assets/asserts/viacoin_Normal.png" width="15px" height="15px"/>
-                </div>
-            </div>
-
-
-            <div>
-
-            </div>
-        </div>
+        <DiscoverTabCard />
     </van-grid-item>
+
     <van-grid-item>
-        <van-image
-        src="https://fastly.jsdelivr.net/npm/@vant/assets/apple-2.jpeg"
-        />
+        <DiscoverTabCard />
     </van-grid-item>
+
     <van-grid-item>
-        <van-image
-        src="https://fastly.jsdelivr.net/npm/@vant/assets/apple-3.jpeg"
-        />
+        <DiscoverAddTabCard />
     </van-grid-item>
     </van-grid>
 
@@ -52,6 +29,8 @@
 
 <script>
 import { ref } from 'vue';
+import DiscoverTabCard from './DiscoverTabCard.vue';
+import DiscoverAddTabCard from './DiscoverAddTabCard.vue';
 
 const settingList = ref([
     {title: 'Preferences', imgStr: require('../../assets/asserts/icon-settings-cog_Normal@2x.png')},
@@ -71,6 +50,8 @@ export default {
         return { settingList }
     },
     components: {
+        DiscoverTabCard,
+        DiscoverAddTabCard,
     },
     methods: {
         navBarLeftClick() {
