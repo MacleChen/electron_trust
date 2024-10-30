@@ -320,10 +320,4 @@ export default {
     color: gray;
 }
 
-.ended_cell_bottom_cell_ellipsis {
-  white-space: nowrap; /* 确保文本在一行内显示 */
-  overflow: hidden; /* 超出容器部分的文本隐藏 */
-  text-overflow: ellipsis; /* 超出部分显示为省略号 */
-  max-width: 100%; /* 最大宽度限制 */
-}
 </style>

@@ -43,7 +43,7 @@ async function createWindow() {
   //   y: 0 // 窗口的y坐标
   // };
   // win.setPosition(winPosition.x, winPosition.y);
-  win.setBounds({ x: 1500, y: 100, width: 800, height: 600 });
+  //win.setBounds({ x: 100, y: 100, width: 800, height: 600 });
 
 
 

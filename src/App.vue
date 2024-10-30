@@ -74,4 +74,36 @@ nav a.router-link-exact-active {
   margin-right: 10px;
 }
 
+.ended_cell_bottom_cell_ellipsis {
+  white-space: nowrap; /* 确保文本在一行内显示 */
+  overflow: hidden; /* 超出容器部分的文本隐藏 */
+  text-overflow: ellipsis; /* 超出部分显示为省略号 */
+  max-width: 100%; /* 最大宽度限制 */
+}
+
+.content_hleft_vcenter {
+    display: flex;
+    justify-content: left;
+    align-items: center; 
+}
+
+
+.content_hcenter_vcenter {
+    display: flex;
+    justify-content: center;
+    align-items: center; 
+}
+
+.content_hright_vcenter {
+    display: flex;
+    justify-content: flex-end;
+    align-items: center; 
+}
+
+.content_hleft_vtop {
+    display: flex;
+    justify-content: flex-end;
+    align-items: top; 
+}
+
 </style>

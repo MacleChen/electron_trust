@@ -11,6 +11,8 @@
     </template>
   </van-nav-bar>
 
+  <van-pull-refresh v-model="refreshing" @refresh="onRefresh">
+
   <van-search
   v-model="value"
   shape="round"
@@ -33,6 +35,27 @@
 </van-swipe>
 
 
+<DappHeaderView header-title="Discover dApp" />
+<DappContentView />
+
+<DappHeaderView header-title="Top dApp tokens" />
+
+<van-swipe class="my-swipe" :loop="false" :width="300" :show-indicators="false">
+  <van-swipe-item @click="launchPoolCardClick">
+    <div class="discover_scroll_bottom_content">
+      <DiscoverBottomScrollToken />
+    </div>
+  </van-swipe-item>
+  <van-swipe-item @click="inAppQuestEarnCardClick">
+    <div class="discover_scroll_bottom_content" style="margin-right: 10px;">
+      <DiscoverBottomScrollToken />
+    </div>
+  </van-swipe-item>
+</van-swipe>
+
+<DiscoverFeedback />
+
+</van-pull-refresh>
 <!-- ActionSheet -->
   <van-action-sheet
   v-model:show="show"
@@ -48,11 +71,16 @@
 import { ref } from 'vue';
 import { showToast } from 'vant';
 import DiscoverTopScrollCard from './widgets/DiscoverTopScrollCard.vue';
+import DappHeaderView from './widgets/DappHeaderView.vue';
+import DappContentView from './widgets/DappContentView.vue';
+import DiscoverBottomScrollToken from './widgets/DiscoverBottomScrollToken.vue';
+import DiscoverFeedback from './widgets/DiscoverFeedback.vue';
 
 export default {
   setup() {
     const count = ref(0);
     const loading = ref(false);
+    const refreshing = ref(false);
     const onRefresh = () => {
       setTimeout(() => {
         // showToast('刷新成功');
@@ -84,10 +112,15 @@ export default {
       actions,
       onCancel,
       onSelect,
+      refreshing,
     };
   },
   components: {
     DiscoverTopScrollCard,
+    DappHeaderView,
+    DappContentView,
+    DiscoverBottomScrollToken,
+    DiscoverFeedback,
   },
   methods: {
     navBarTabsClick() {
@@ -126,6 +159,14 @@ export default {
   margin-top: 10px;
   margin-left: 10px;
   height: 100px; 
+  background-color: #f4f4f6; 
+  border-radius: 10px;
+}
+
+.discover_scroll_bottom_content {
+  margin-top: 10px;
+  margin-left: 10px;
+  height: 80px; 
   background-color: #f4f4f6; 
   border-radius: 10px;
 }
