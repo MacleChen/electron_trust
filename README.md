@@ -59,4 +59,5 @@ https://www.cnblogs.com/mrkr/p/18098964
 ### mac中执行 sudo npm install 出现host问题，需执行
 sudo npm install -D electron --ELECTRON_MIRROR="https://npmmirror.com/mirrors/electron/"
 
-
+### Electron 手动下载安装放置的位置：
+https://electron.nodejs.cn/docs/latest/tutorial/installation/
