@@ -61,3 +61,12 @@ sudo npm install -D electron --ELECTRON_MIRROR="https://npmmirror.com/mirrors/el
 
 ### Electron 手动下载安装放置的位置：
 https://electron.nodejs.cn/docs/latest/tutorial/installation/
+
+### 修改mac的下载源(~/.npmrc)
+ELECTRON_MIRROR="https://npmmirror.com/mirrors/electron/"
+https-proxy=http://127.0.0.1:7890/
+proxy=http://127.0.0.1:7890/
+registry=https://registry.npmmirror.com
+
+### 页面植入加载圈
+<GlobalLoading v-if="showLoading"/>

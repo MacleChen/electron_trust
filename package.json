@@ -21,6 +21,7 @@
     "@vant/touch-emulator": "^1.4.0",
     "animate.css": "^4.1.1",
     "core-js": "^3.8.3",
+    "lottie-web": "^5.12.2",
     "storejs": "^2.1.0",
     "vant": "^4.9.8",
     "vue": "^3.2.13",

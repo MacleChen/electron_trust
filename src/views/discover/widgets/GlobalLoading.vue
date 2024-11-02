@@ -1,8 +1,24 @@
 <template>
-    <div class="global_loading">
-        <van-loading type="spinner" color="#1989fa"/>
+    <div id="lottie_box" class="global_loading">
+        <!-- <van-loading type="spinner" color="#1989fa"/> -->
     </div>
 </template>
+
+<script>
+import Lottie from 'lottie-web';
+export default {
+    mounted() {
+        Lottie.loadAnimation({
+            container: document.getElementById('lottie_box'),
+            renderer: 'svg',
+            loop: true,
+            path: './loading1730548374976.json'
+        })
+    },
+    methods: {
+    }
+}
+</script>
 
 <style>
 .global_loading {
@@ -20,6 +36,6 @@
   transform: translate(-50%, -50%); /* 使用transform进行微调 */
   width: 100px; /* div的宽度 */
   height: 100px; /* div的高度 */
-  background-color: rgba(0, 0, 0, 0.5); /* 半透明背景 */
+  /* background-color: rgba(0, 0, 0, 0.5); */
 }
 </style>

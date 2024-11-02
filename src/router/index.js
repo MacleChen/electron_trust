@@ -118,7 +118,14 @@ const routes = [
     },
     component: () => import('../views/home/CreatePasscode.vue')
   },
-  
+  {
+    path: '/createNewWalletView',
+    name: 'createNewWalletView',
+    meta: {
+      index:2,
+    },
+    component: () => import('../views/home/CreateNewWalletView.vue')
+  }
 ]
 
 const router = createRouter({
