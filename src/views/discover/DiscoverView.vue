@@ -36,7 +36,7 @@
 
 
 <DappHeaderView header-title="Discover dApp" />
-<DappContentView />
+<DappContentView @valueChanged="dappHandleValueChange"/>
 
 <DappHeaderView header-title="Top dApp tokens" />
 
@@ -68,7 +68,7 @@
 </template>
 
 <script>
-import { ref } from 'vue';
+import { ref, inject } from 'vue';
 import { showToast } from 'vant';
 import DiscoverTopScrollCard from './widgets/DiscoverTopScrollCard.vue';
 import DappHeaderView from './widgets/DappHeaderView.vue';
@@ -104,6 +104,7 @@ export default {
 
     const onCancel = () => showToast('取消');
 
+    const globalVars = inject('globalVars')
     return {
       count,
       loading,
@@ -113,6 +114,7 @@ export default {
       onCancel,
       onSelect,
       refreshing,
+      globalVars,
     };
   },
   components: {
@@ -130,10 +132,16 @@ export default {
       this.$show.value = true
     },
     launchPoolCardClick() {
-      showToast('launchPoolCardClick');
+      this.globalVars.isShowCreateImportWalletAlert = true;
+      //showToast(this.globalVars.isShowCreateImportWalletAlert)
     },
     inAppQuestEarnCardClick() {
-      showToast('inAppQuestEarnCardClick');
+      //showToast('inAppQuestEarnCardClick');
+      this.globalVars.isShowCreateImportWalletAlert = false;
+    },
+    dappHandleValueChange(section, rowIndex) {
+      console.log("" + section + '-' + rowIndex)
+      this.$router.push({ name: 'dappWebView', query: { requestURL: 'https://sunpump.meme/?utm_source=Trust_iOS_Browser' } })
     }
       
   }

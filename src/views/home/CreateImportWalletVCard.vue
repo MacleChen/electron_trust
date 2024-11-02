@@ -1,7 +1,7 @@
 <template>
-    <div class="wallet_containter">
+      <div class="wallet_containter" @click="createWalletClick">
         <div class="left_iamge_containter">
-          <van-image @dragstart.prevent :src="require('../../assets/asserts/arrow-down-f_Normal@2x.png')" width="20px" />
+          <van-image style="transform: translateY(-2000px); filter: drop-shadow(blue 0 2000px);" :src="require('../../assets/asserts/arrow-down-f_Normal@2x.png')" width="20px" />
         </div>
         <van-space direction="vertical" fill :size="5" style="margin-left: 10px; margin-top: 15px;">
           <div class="home_cell1_title">{{ $t("homePage.createWallet") }}<label class="home_cell_flag">{{ $t("homePage.earnPoints") }}</label></div>
@@ -11,9 +11,9 @@
         </van-space>
       </div>
 
-      <div class="wallet_containter" style="margin-top: 20px;">
+      <div class="wallet_containter" style="margin-top: 20px;" @click="importWalletClick">
         <div class="left_iamge_containter">
-          <van-image @dragstart.prevent :src="require('../../assets/asserts/arrow-down-f_Normal@2x.png')" width="20px" />
+          <van-image style="transform: translateY(-2000px); filter: drop-shadow(blue 0 2000px);" :src="require('../../assets/asserts/arrow-down-f_Normal@2x.png')" width="20px" />
         </div>
         <van-space direction="vertical" fill :size="5" style="margin-left: 10px; margin-top: 15px;">
           <div class="home_cell1_title">{{ $t("homePage.existingWallet") }}<label class="home_cell_flag">{{ $t("homePage.earnPoints") }}</label></div>
@@ -33,6 +33,14 @@ export default {
     [Space.name]: Space,
     [VanImage.name]: VanImage
   },
+  methods: {
+    createWalletClick() {
+      this.$router.push({name: "createPasscode", query: {pageType: 'create' }})
+    },
+    importWalletClick() {
+      this.$router.push({name: "createPasscode", query: {pageType: 'import' }})
+    }
+  }
 }
 
 </script>
@@ -40,7 +48,7 @@ export default {
 <style>
 .wallet_containter {
   display: flex;
-  background-color: #cfcfcf;
+  background-color: #f4f4f6;
   margin: 0;
   height: 60pt;
   border-radius: 10px;
@@ -48,7 +56,7 @@ export default {
 }
 .left_iamge_containter {
   display: flex;
-  background-color: #afafaf;
+  background-color: #e5e5f6;
   margin-left: 20px;
   margin-top: 20px;
   width: 40px;
@@ -69,8 +77,8 @@ export default {
   
 }
 .home_cell_flag {
-  background-color: #888888;
-  color: #525252;
+  background-color: #dbdce4;
+  color: #868d9a;
   font-size: 10px;
   border-radius: 3px;
   margin-left: 5px;
@@ -80,6 +88,6 @@ export default {
 }
 .home_cell1_sutitle {
   font-size: 12px;
-  color: rgb(138, 138, 138);
+  color: #868d9a;
 }
 </style>

@@ -102,6 +102,23 @@ const routes = [
     },
     component: () => import('../views/discover/DiscoverTabsView.vue')
   },
+  {
+    path: '/dappWebView',
+    name: 'dappWebView',
+    meta: {
+      index:1,
+    },
+    component: () => import('../views/others/DappWebView.vue')
+  },
+  {
+    path: '/createPasscode',
+    name: 'createPasscode',
+    meta: {
+      index:1,
+    },
+    component: () => import('../views/home/CreatePasscode.vue')
+  },
+  
 ]
 
 const router = createRouter({

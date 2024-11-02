@@ -51,11 +51,39 @@
             </van-tabbar-item>
         </van-tabbar>
     </div>
+
+    <!-- 全局的创建和导入钱包弹窗 -->
+    <van-action-sheet v-model:show="globalVars.isShowCreateImportWalletAlert" title="Connect Wallet">
+        <CreateImportWalletAlert /> 
+    </van-action-sheet>
+
+    <!-- 全局加载圈 -->
+    <!-- <van-loading vertical>
+        <template #icon>
+            <van-icon name="star-o" size="30" />
+        </template>
+        加载中...
+    </van-loading> -->
 </template>
 
 <script>
-
+import { inject } from 'vue';
+import CreateImportWalletAlert from './discover/widgets/CreateImportWalletAlert.vue';
 export default {
+    setup() {
+        const globalVars = inject("globalVars")
+
+        // // alert 
+        // watch(() => globalVars.isShowCreateImportWalletAlert, (newValue) => {
+        //     // isCreateImportShow.value = newValue == '1' ? true : false
+        //     showToast("abcs" + newValue)
+        // })
+
+        return {
+            // isCreateImportShow,
+            globalVars,
+        }
+    },
     data() {
         return {
             active: 0,//由于这里使用了vant 标签栏路由模式，该设置无效（但是此处不可删除）。可以自己尝试看看
@@ -73,7 +101,7 @@ export default {
                 discover_inactive: require('../assets/asserts/tabbar-browser-inactive-dark_Normal@2x.png'),
             },
             animation: '',
-            transitionName: 'slide-left'
+            transitionName: 'slide-left',
         }
     },
     //初始化页面选中状态
@@ -83,6 +111,9 @@ export default {
         if (this.$route.path === '/') {
             this.$router.push('/home');
         }
+    },
+    components: {
+        CreateImportWalletAlert,
     },
     watch: {
     // 使用watch 监听$router的变化

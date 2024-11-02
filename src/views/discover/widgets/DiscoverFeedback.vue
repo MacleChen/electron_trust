@@ -7,11 +7,11 @@
 
         <div class="content_hcenter_vcenter" style="height: 50%;">
             <div class="feedback_yes_or_not_container">
-                <img src="../../../assets/asserts/feedback_bottom_cry.png" width="20px" height="20px" />
+                <img src="../../../assets/asserts/sad-f_Normal@2x.png" width="20px" height="20px" />
             </div>
             <div style="width: 4%;"></div>
             <div class="feedback_yes_or_not_container">
-                <img src="../../../assets/asserts/feedback_bottom_smail.png" width="20px" height="20px" />
+                <img src="../../../assets/asserts/happy-f_Normal@2x.png" width="20px" height="20px" />
             </div>
         </div>
 

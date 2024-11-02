@@ -33,9 +33,10 @@ async function createWindow() {
 
   // 隐藏顶部菜单栏
   win.setMenu(null);
+  // 当主窗口准备就绪时，关闭检查窗口
+  
 
-  
-  
+
   // 设置窗口位置在右上角
   // const screenSize = screen.getPrimaryDisplay().workAreaSize;
   // const winPosition = {
@@ -44,7 +45,6 @@ async function createWindow() {
   // };
   // win.setPosition(winPosition.x, winPosition.y);
   //win.setBounds({ x: 100, y: 100, width: 800, height: 600 });
-
 
 
   if (process.env.WEBPACK_DEV_SERVER_URL) {

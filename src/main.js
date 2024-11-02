@@ -1,4 +1,4 @@
-import { createApp } from 'vue'
+import { createApp, reactive } from 'vue'
 import App from './App.vue'
 import router from './router'
 import { createI18n } from 'vue-i18n'
@@ -34,9 +34,15 @@ const i18n = createI18n({
     locale: 'en'  // 设置默认语言
   }); 
 
+// global vars
+const globalVars = reactive({
+  isShowCreateImportWalletAlert: false,
+})
+
 const app = createApp(App);
 app.use(i18n)
 app.use(Vant)
+app.provide('globalVars', globalVars)
 // app.use(Tabbar)
 // app.use(Toast)
 app.use(router).mount('#app')

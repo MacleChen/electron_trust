@@ -1,8 +1,8 @@
 <template>
     <van-tabs v-model:active="active">
-  <van-tab v-for="item in tabsList" :title="item.title" :key="item.title">
-    <ul v-for="mydata in dataSourceList" :key="mydata.title">
-        <div class="mydata_cell_containter">
+  <van-tab v-for="(item, section) in tabsList" :title="item.title" :key="item.title">
+    <ul v-for="(mydata, row) in dataSourceList" :key="mydata.title">
+        <div class="mydata_cell_containter" @click="cellContentClick(section, row)">
             <div style="width: 35px; height: 35px;">
                 <img @dragstart.prevent :src="mydata.imgStr" width="100%" />
             </div> 
@@ -54,6 +54,11 @@ export default {
         dataSourceList,
      };
   },
+  methods: {
+    cellContentClick(section, row) {
+        this.$emit('valueChanged', section, row)
+    }
+  }
 };
 </script>
 

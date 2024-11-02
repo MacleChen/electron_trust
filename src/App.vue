@@ -34,6 +34,10 @@ body, #app {
 nav {
   padding: 30px;
 }
+img {
+  -webkit-user-drag: none;    /* 禁止全局拖动 */
+  cursor: default;
+}
 
 nav a {
   font-weight: bold;
