@@ -125,7 +125,15 @@ const routes = [
       index:2,
     },
     component: () => import('../views/home/CreateNewWalletView.vue')
-  }
+  },
+  {
+    path: '/backupWalletView',
+    name: 'backupWalletView',
+    meta: {
+      index:3,
+    },
+    component: () => import('../views/home/BackupWalletView.vue')
+  },
 ]
 
 const router = createRouter({

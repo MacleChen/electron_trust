@@ -73,7 +73,9 @@ nav a.router-link-exact-active {
 }
 
 .divider {
-  border-top: 1px solid #ccc; /* 分割线颜色和宽度 */
+  margin-top: 10px;
+  height: 10px;
+  border-top: 1px solid #eaebee; /* 分割线颜色和宽度 */
   margin-left: 10px;
   margin-right: 10px;
 }
@@ -106,7 +108,7 @@ nav a.router-link-exact-active {
 
 .content_hleft_vtop {
     display: flex;
-    justify-content: flex-end;
+    justify-content: left;
     align-items: top; 
 }
 

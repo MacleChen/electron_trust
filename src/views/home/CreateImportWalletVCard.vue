@@ -79,12 +79,11 @@ export default {
 .home_cell_flag {
   background-color: #dbdce4;
   color: #868d9a;
-  font-size: 10px;
+  font-size: 8px;
   border-radius: 3px;
   margin-left: 5px;
-  height: 15px;
-  padding-left: 2px;
-  padding-right: 2px;
+  height: 8px;
+  padding: 4px;
 }
 .home_cell1_sutitle {
   font-size: 12px;
