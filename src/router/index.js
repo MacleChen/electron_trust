@@ -111,6 +111,14 @@ const routes = [
     component: () => import('../views/others/DappWebView.vue')
   },
   {
+    path: '/commonWebView',
+    name: 'commonWebView',
+    meta: {
+      index:1,
+    },
+    component: () => import('../views/others/CommonWebView.vue')
+  },
+  {
     path: '/createPasscode',
     name: 'createPasscode',
     meta: {
@@ -133,6 +141,22 @@ const routes = [
       index:3,
     },
     component: () => import('../views/home/BackupWalletView.vue')
+  },
+  {
+    path: '/secretPhraseView',
+    name: 'secretPhraseView',
+    meta: {
+      index:4,
+    },
+    component: () => import('../views/home/SecretPhraseView.vue')
+  },
+  {
+    path: '/confirmSecretPhraseView',
+    name: 'confirmSecretPhraseView',
+    meta: {
+      index:5,
+    },
+    component: () => import('../views/home/ConfirmSecretPhraseView.vue')
   },
 ]
 

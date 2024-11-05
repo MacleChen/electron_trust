@@ -33,7 +33,7 @@
 
     <!-- 全局的创建和导入钱包弹窗 -->
     <van-action-sheet v-model:show="isWalletManuallyAlertShow" title="Tip">
-        <BackupWalletSecretTipAlert /> 
+        <BackupWalletSecretTipAlert @valueChanged="secretTipAlertContinueClick" /> 
     </van-action-sheet>
 </template>
 
@@ -71,6 +71,10 @@ export default {
                 }).then(() => {
                 // on close
             });
+        },
+        secretTipAlertContinueClick() {
+            this.isWalletManuallyAlertShow = false
+            this.$router.push({ name: "secretPhraseView" })
         }
     }
 }

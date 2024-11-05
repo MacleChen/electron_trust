@@ -93,7 +93,6 @@ nav a.router-link-exact-active {
     align-items: center; 
 }
 
-
 .content_hcenter_vcenter {
     display: flex;
     justify-content: center;
@@ -110,6 +109,18 @@ nav a.router-link-exact-active {
     display: flex;
     justify-content: left;
     align-items: top; 
+}
+
+.content_hcenter_vtop {
+    display: flex;
+    justify-content: center;
+    align-items: flex-start; 
+}
+
+.content_hcenter_vbottom {
+    display: flex;
+    justify-content: center;
+    align-items: flex-end; 
 }
 
 </style>

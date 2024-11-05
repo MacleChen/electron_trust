@@ -67,7 +67,6 @@
 </template>
 
 <script>
-import { showToast } from 'vant';
 import { ref } from 'vue';
 
 
@@ -97,7 +96,7 @@ export default {
         },
         contineBtnClick() {
             if (this.stepOneOpacity == 1 && this.stepTwoOpacity == 1 && this.stepThreeOpacity == 1) {
-                showToast("good")
+                this.$emit('valueChanged')
             }
         }
     }

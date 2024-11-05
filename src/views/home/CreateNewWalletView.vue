@@ -7,7 +7,7 @@
 
     <div style="margin-left: 15px; margin-right: 15px; margin-top: 15px;">
         <div class="new_wallet_content_secret">
-            <div class="content_hleft_vcenter cell_tontent_top_container" @click="showBackupViewCLick">
+            <div class="content_hleft_vcenter cell_tontent_top_container" >
                 <div style="width: 10%;margin-left: 10px;">
                     <div class="content_hcenter_vcenter" style="background-color: #e5e5f6; width: 40px; height: 40px; border-radius: 20px;">
                         <van-image style="transform: translateY(-2000px); filter: drop-shadow(blue 0 2000px);" :src="require('../../assets/asserts/icon-edit-quick_Normal@2x.png')" width="20px" />
@@ -18,14 +18,16 @@
                 <div style="width: 80%; margin-left: 20px; text-align: left;">
                     <div class="home_cell1_title" style="justify-content: left; font-size: 14px;">Secret phrase
                         <label class="home_cell_flag">+100 points</label></div>
-                    <div @click="showSecretPhraseClick">
-                        <label class="home_cell1_sutitle" style="font-size: 10px;">Show detail</label>
-                        <img src="../../assets/asserts/chevron-down-f_Normal@2x.png" width="10px" height="10px" />
+                    <div @click="showSecretPhraseClick" style="width: 70px;">
+                        <label v-if="isSecretShow" class="home_cell1_sutitle" style="font-size: 10px;">Hidden detail</label>
+                        <label v-else class="home_cell1_sutitle" style="font-size: 10px;">Show detail</label>
+                        <img v-if="isSecretShow" src="../../assets/asserts/chevron-up-f_Normal@2x.png" width="10px" height="10px" />
+                        <img v-else src="../../assets/asserts/chevron-down-f_Normal@2x.png" width="10px" height="10px" />
                     </div>
                 </div>
 
                 <div class="content_hright_vcenter" style="width: 10%; margin-right: 10px">
-                    <div style="background-color: #e5e5f6; border-radius: 5px; color: blue; font-size: 14px; font-weight: bold; padding: 10px; width: 80px;">
+                    <div @click="showBackupViewCLick" style="background-color: #e5e5f6; border-radius: 5px; color: blue; font-size: 14px; font-weight: bold; padding: 10px; width: 80px;">
                         Create</div>
                 </div>
             </div>
@@ -73,7 +75,7 @@
 
     <div style="margin-left: 15px; margin-right: 15px; margin-top: 15px;">
         <div class="new_wallet_content_swift">
-            <div class="content_hleft_vcenter cell_tontent_top_container" @click="showBackupViewCLick">
+            <div class="content_hleft_vcenter cell_tontent_top_container">
                 <div style="width: 10%;margin-left: 10px;">
                     <div class="content_hcenter_vcenter" style="background-color: #e5e5f6; width: 40px; height: 40px; border-radius: 20px;">
                         <van-image  :src="require('../../assets/asserts/sw_icon_Normal@2x.png')" width="20px" />
@@ -84,14 +86,16 @@
                 <div style="width: 80%; margin-left: 20px; text-align: left;">
                     <div class="home_cell1_title" style="justify-content: left; font-size: 14px;">Swift
                         <label class="home_cell_flag" style="background-color: black;color: white;">Bata</label></div>
-                    <div @click="showSwiftClick">
-                        <label class="home_cell1_sutitle" style="font-size: 10px;">Show detail</label>
-                        <img src="../../assets/asserts/chevron-down-f_Normal@2x.png" width="10px" height="10px" />
+                    <div @click="showSwiftClick" style="width: 70px;">
+                        <label v-if="isSwiftShow" class="home_cell1_sutitle" style="font-size: 10px;">Hidden detail</label>
+                        <label v-else class="home_cell1_sutitle" style="font-size: 10px;">Show detail</label>
+                        <img v-if="isSwiftShow" src="../../assets/asserts/chevron-up-f_Normal@2x.png" width="10px" height="10px" />
+                        <img v-else src="../../assets/asserts/chevron-down-f_Normal@2x.png" width="10px" height="10px" />
                     </div>
                 </div>
 
                 <div class="content_hright_vcenter" style="width: 10%; margin-right: 10px">
-                    <div style="background-color: #e5e5f6; border-radius: 5px; color: blue; font-size: 14px; font-weight: bold; padding: 10px; width: 80px;">
+                    <div @click="showBackupViewCLick" style="background-color: #e5e5f6; border-radius: 5px; color: blue; font-size: 14px; font-weight: bold; padding: 10px; width: 80px;">
                         Create</div>
                 </div>
             </div>

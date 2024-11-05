@@ -1,5 +1,5 @@
 <template>
-    <div style="margin-left: 15px; margin-right: 15px; margin-bottom: 100px">
+    <div style="margin-left: 15px; margin-right: 15px; margin-bottom: 100px; margin-top: 50px;">
         <div class="wallet_alert_top_img">
             <img src="../../../assets/asserts/tw-safe_Normal@2x.png" width="143" />
         </div>
@@ -55,7 +55,7 @@
             </div>
         </div>
         
-        <div class="content_hcenter_vcenter" @click="backupiCloudClick"
+        <div class="content_hcenter_vcenter" @click="backupContinueClick"
             style="background-color: blue; width: 100%; height: 50px; border-radius: 25px; color: white; font-size: 14px; font-weight: bold; margin-top: 45px;">
                 Continue
             </div>
@@ -66,7 +66,11 @@
 <script>
 
 export default {
-    components: {
+    methods: {
+        backupContinueClick() {
+            this.$emit("valueChanged")
+        }
+        
     }
 }
 </script>
