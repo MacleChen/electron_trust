@@ -71,6 +71,8 @@ registry=https://registry.npmmirror.com
 ### 页面植入加载圈
 <GlobalLoading v-if="showLoading"/>
 
+### 创建随机助记词
+https://github.com/hujiulong/web-bip39
 
 ### 对接区块链的接口
 https://api.blockchain.com/v3/#authentication

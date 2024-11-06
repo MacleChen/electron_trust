@@ -1,11 +1,23 @@
 const { defineConfig } = require('@vue/cli-service')
-const NodePolyfillPlugin = require('node-polyfill-webpack-plugin')
+const webpack = require('webpack'); // 引入 webpack 模块
 module.exports = defineConfig({
   transpileDependencies: true,
   // 插件配置
   configureWebpack: {
+    resolve: {
+      fallback: {
+        crypto: require.resolve('crypto-browserify'),
+        stream: require.resolve('stream-browserify'),
+        buffer: require.resolve('buffer'),
+        assert: require.resolve('assert'),
+        util: require.resolve('util/'),
+      },
+    },
     plugins: [
-      new NodePolyfillPlugin(),
+      new webpack.ProvidePlugin({
+        Buffer: ['buffer', 'Buffer'],
+        process: 'process/browser',
+      }),
     ],
   },
   pluginOptions: {

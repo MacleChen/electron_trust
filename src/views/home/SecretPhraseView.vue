@@ -35,7 +35,6 @@
     </div>
     
 
-    
     <van-action-sheet v-model:show="isWalletManuallyAlertShow" title=" ">
         <BackupWalletManuallyAlert @valueChanged="secretTipAlertContinueClick" /> 
     </van-action-sheet>
@@ -44,18 +43,25 @@
 
 <script>
 import { ref } from 'vue';
-import { generateMnemonic } from '@/utils/mnemonic';
+import {
+  generateMnemonic,
+} from 'web-bip39';
+import wordlist from 'web-bip39/wordlists/english';
 import ShowWarningGoldMessageTip from '../discover/widgets/ShowWarningGoldMessageTip.vue';
 import BackupWalletManuallyAlert from '../discover/widgets/BackupWalletManuallyAlert.vue';
-import { showToast } from 'vant';
+
 
 
 export default {
     setup() {
         const isWalletManuallyAlertShow = ref(false)
         const secretPhraseList = ref([])
-        const secretPraseStr = generateMnemonic()
-        showToast(secretPraseStr)
+        
+        async function loadWords() {
+            const mywords = await generateMnemonic(wordlist);
+            secretPhraseList.value = mywords.split(' ')
+        }
+        loadWords()
         return {
             secretPhraseList,
             isWalletManuallyAlertShow,

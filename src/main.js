@@ -7,20 +7,11 @@ import zh from './langurage/zh';
 // 引入模块后自动生效
 import '@vant/touch-emulator';
 
-// 1. 引入vant
-// import { 
-//     Button,
-//     Tabbar,
-//     Toast,
-//  } from 'vant';
 import Vant from 'vant';
 // 2. 引入组件样式
 import 'vant/lib/index.css';
 // 引入动画
 import 'animate.css';
-
-// 本地存储Store
-// import store from 'storejs';
 
 
 const messages = {
