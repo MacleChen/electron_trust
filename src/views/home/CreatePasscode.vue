@@ -49,11 +49,12 @@
 
 <script>
 import { showToast } from 'vant';
-import { ref, watch } from 'vue';
+import { ref, watch, inject } from 'vue';
 import { useRoute, useRouter } from 'vue-router';
 
 export default {
     setup() {
+        const globalVars = inject("globalVars")
         const route = useRoute()
         const router = useRouter()
         const pageType = route.query.pageType
@@ -74,7 +75,8 @@ export default {
         watch(surePasscode, (newValue) => {
             if (newValue.length === 6) {
                 if (newValue == passcode.value) {
-                    showToast('密码设置正确')
+                    globalVars.userSetPassword = passcode.value
+                    localStorage.setItem("pwd", passcode.value)
                     router.push({ name: "createNewWalletView", query: { passcode: passcode.value } })
                 } else {
                     showToast('Incorrect. Please try again.')

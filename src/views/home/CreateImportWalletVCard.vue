@@ -27,18 +27,35 @@
 
 <script>
 import { Space,Image as VanImage } from 'vant';
+import { inject } from 'vue';
 
 export default {
+  setup() {
+    const globalVars = inject("globalVars")
+    
+    return {
+      globalVars,
+    }
+  },
     components: {
     [Space.name]: Space,
     [VanImage.name]: VanImage
   },
   methods: {
     createWalletClick() {
-      this.$router.push({name: "createPasscode", query: {pageType: 'create' }})
+      if (this.globalVars.userSetPassword == "" || this.globalVars.userSetPassword == null) {
+        this.$router.push({name: "createPasscode", query: {pageType: 'create' }})
+      } else {
+        this.$router.push({ name: "createNewWalletView", query: { passcode: this.globalVars.userSetPassword } })
+      }
+      
     },
     importWalletClick() {
-      this.$router.push({name: "createPasscode", query: {pageType: 'import' }})
+      if (this.globalVars.userSetPassword == "" || this.globalVars.userSetPassword == null) {
+        this.$router.push({name: "createPasscode", query: {pageType: 'import' }})
+      } else {
+        this.$router.push({ name: "createNewWalletView", query: { passcode: this.globalVars.userSetPassword } })
+      }
     }
   }
 }

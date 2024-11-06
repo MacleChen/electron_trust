@@ -72,7 +72,7 @@ import CreateImportWalletAlert from './discover/widgets/CreateImportWalletAlert.
 export default {
     setup() {
         const globalVars = inject("globalVars")
-
+        globalVars.userSetPassword = localStorage.getItem("pwd")
         // // alert 
         // watch(() => globalVars.isShowCreateImportWalletAlert, (newValue) => {
         //     // isCreateImportShow.value = newValue == '1' ? true : false

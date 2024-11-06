@@ -44,18 +44,18 @@
 
 <script>
 import { ref } from 'vue';
+import { generateMnemonic } from '@/utils/mnemonic';
 import ShowWarningGoldMessageTip from '../discover/widgets/ShowWarningGoldMessageTip.vue';
 import BackupWalletManuallyAlert from '../discover/widgets/BackupWalletManuallyAlert.vue';
+import { showToast } from 'vant';
 
-const secretPhraseList = ref(["mobile", "mobile", "mobile", "mobile",
-                            "mobile", "mobile", "mobile", "mobile",
-                            "mobile", "mobile", "mobile", "mobile",
-                        ]);
 
 export default {
     setup() {
         const isWalletManuallyAlertShow = ref(false)
-
+        const secretPhraseList = ref([])
+        const secretPraseStr = generateMnemonic()
+        showToast(secretPraseStr)
         return {
             secretPhraseList,
             isWalletManuallyAlertShow,

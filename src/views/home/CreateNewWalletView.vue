@@ -18,7 +18,7 @@
                 <div style="width: 80%; margin-left: 20px; text-align: left;">
                     <div class="home_cell1_title" style="justify-content: left; font-size: 14px;">Secret phrase
                         <label class="home_cell_flag">+100 points</label></div>
-                    <div @click="showSecretPhraseClick" style="width: 70px;">
+                    <div @click="showSecretPhraseClick" style="width: 80px;">
                         <label v-if="isSecretShow" class="home_cell1_sutitle" style="font-size: 10px;">Hidden detail</label>
                         <label v-else class="home_cell1_sutitle" style="font-size: 10px;">Show detail</label>
                         <img v-if="isSecretShow" src="../../assets/asserts/chevron-up-f_Normal@2x.png" width="10px" height="10px" />
@@ -86,7 +86,7 @@
                 <div style="width: 80%; margin-left: 20px; text-align: left;">
                     <div class="home_cell1_title" style="justify-content: left; font-size: 14px;">Swift
                         <label class="home_cell_flag" style="background-color: black;color: white;">Bata</label></div>
-                    <div @click="showSwiftClick" style="width: 70px;">
+                    <div @click="showSwiftClick" style="width: 80px;">
                         <label v-if="isSwiftShow" class="home_cell1_sutitle" style="font-size: 10px;">Hidden detail</label>
                         <label v-else class="home_cell1_sutitle" style="font-size: 10px;">Show detail</label>
                         <img v-if="isSwiftShow" src="../../assets/asserts/chevron-up-f_Normal@2x.png" width="10px" height="10px" />

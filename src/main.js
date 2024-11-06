@@ -37,6 +37,7 @@ const i18n = createI18n({
 // global vars
 const globalVars = reactive({
   isShowCreateImportWalletAlert: false,
+  userSetPassword: "",
 })
 
 const app = createApp(App);

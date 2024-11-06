@@ -58,7 +58,7 @@ export default {
             this.$router.back()
         }, 
         navBarRightClick() {
-
+            this.$router.go(-3)
         },
         backupManuallyClick() {
             this.isWalletManuallyAlertShow = true
