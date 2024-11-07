@@ -29,6 +29,8 @@ const i18n = createI18n({
 const globalVars = reactive({
   isShowCreateImportWalletAlert: false,
   userSetPassword: "",
+  secretPhraseStr: "",
+  isBackupPhrase: false,
 })
 
 const app = createApp(App);

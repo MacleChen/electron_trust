@@ -73,6 +73,8 @@ export default {
     setup() {
         const globalVars = inject("globalVars")
         globalVars.userSetPassword = localStorage.getItem("pwd")
+        globalVars.secretPhraseStr = localStorage.getItem("words")
+        globalVars.isBackupPhrase = localStorage.getItem("isBackup")
         // // alert 
         // watch(() => globalVars.isShowCreateImportWalletAlert, (newValue) => {
         //     // isCreateImportShow.value = newValue == '1' ? true : false

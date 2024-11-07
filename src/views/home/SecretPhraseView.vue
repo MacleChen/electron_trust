@@ -42,7 +42,7 @@
 </template>
 
 <script>
-import { ref } from 'vue';
+import { ref, inject } from 'vue';
 import {
   generateMnemonic,
 } from 'web-bip39';
@@ -54,11 +54,15 @@ import BackupWalletManuallyAlert from '../discover/widgets/BackupWalletManuallyA
 
 export default {
     setup() {
+        const globalVars = inject("globalVars")
+
         const isWalletManuallyAlertShow = ref(false)
         const secretPhraseList = ref([])
         
         async function loadWords() {
             const mywords = await generateMnemonic(wordlist);
+            globalVars.secretPhraseStr = mywords
+            localStorage.setItem("words", mywords)
             secretPhraseList.value = mywords.split(' ')
         }
         loadWords()

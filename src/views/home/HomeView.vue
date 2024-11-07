@@ -26,7 +26,7 @@
 <script>
 // @ is an alias to /src
 // import HelloWorld from '@/components/HelloWorld.vue'
-import { ref } from 'vue';
+import { ref, inject } from 'vue';
 import disDrag from '../../utils/disDrag.js'
 import { NavBar, Space, Button, Sticky, PullRefresh, Image as VanImage } from 'vant';
 import CreateImportWalletVCard from './CreateImportWalletVCard.vue';
@@ -34,6 +34,8 @@ import BitCoinListView from './BitCoinListView.vue';
 
 export default {
   setup() {
+    const globalVars = inject("globalVars")
+    const secretPhraseStr = ref(globalVars.secretPhraseStr)
     const count = ref(0);
     const loading = ref(false);
     const onRefresh = () => {
@@ -47,6 +49,7 @@ export default {
       count,
       loading,
       onRefresh,
+      secretPhraseStr,
     };
   },
   name: 'HomeView',
