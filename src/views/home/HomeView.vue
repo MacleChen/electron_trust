@@ -1,8 +1,14 @@
 <template>
   <div>
-    <van-nav-bar :title="$t('')" :border="false" @click-left="navBarLeftClick" :safe-area-inset-top="false" :fixed="true" :placeholder="true">
+    <van-nav-bar :title="isHasPhrase ? $t('Home') : $t('')" :border="false" 
+    @click-left="navBarLeftClick" 
+    @click-right="navBarRightClick"
+    :safe-area-inset-top="false" :fixed="true" :placeholder="true">
     <template #left>
       <img @dragstart.prevent src="../../assets/asserts/icon-settings-cog_Normal@2x.png" style="height: 24px; width: 24px;"/>
+    </template>
+    <template #right v-if="isHasPhrase">
+      <img @dragstart.prevent src="../../assets/asserts/trade-f_Normal@2x.png" style="height: 24px; width: 24px;"/>
     </template>
   </van-nav-bar>
   
@@ -35,7 +41,8 @@ import BitCoinListView from './BitCoinListView.vue';
 export default {
   setup() {
     const globalVars = inject("globalVars")
-    const secretPhraseStr = ref(globalVars.secretPhraseStr)
+    
+    const isHasPhrase = ref(globalVars.secretPhraseStr.split(' ').length == 12)
     const count = ref(0);
     const loading = ref(false);
     const onRefresh = () => {
@@ -49,7 +56,7 @@ export default {
       count,
       loading,
       onRefresh,
-      secretPhraseStr,
+      isHasPhrase,
     };
   },
   name: 'HomeView',
@@ -67,6 +74,11 @@ export default {
   methods: {
     navBarLeftClick() {
       this.$router.push({ name: 'setting' });
+    },
+    navBarRightClick() {
+      if (!this.isHasPhrase) { return }
+
+      
     }
   }
 }
