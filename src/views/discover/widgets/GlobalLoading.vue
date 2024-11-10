@@ -12,7 +12,7 @@ export default {
             container: document.getElementById('lottie_box'),
             renderer: 'svg',
             loop: true,
-            path: './loading1730548374976.json'
+            path: './loading1730548374976.json'  //'global_offical_loading.json'
         })
     },
     methods: {

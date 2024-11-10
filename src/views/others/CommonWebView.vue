@@ -8,11 +8,14 @@
   <div> 
     <iframe ref="myIframe" style="width: 100%; height: 800px;" :src="requestURL" frameborder="0"></iframe>
   </div>
+
+  <GlobalLoading  v-if="isShowLoading"/>
 </template>
 
 <script>
 import { ref, onMounted, computed } from 'vue'
 import { useRoute } from 'vue-router';
+import GlobalLoading from '../discover/widgets/GlobalLoading.vue';
 
 export default {
     setup() {
@@ -24,9 +27,12 @@ export default {
         const naviTitle = computed(() => newRequestURL.hostname)
 
         const myIframe = ref(null)
+
+        const isShowLoading = ref(true)
         onMounted(() => {
             myIframe.value.addEventListener("load", () => {
                 console.log('loading success')
+                isShowLoading.value = false
             })
         })
         // onUnmounted(() => {
@@ -35,8 +41,12 @@ export default {
         return {
             requestURL,
             myIframe,
-            naviTitle
+            naviTitle,
+            isShowLoading,
         }
+    },
+    components: {
+        GlobalLoading,
     },
     methods: {
         navBarLeftClick() {

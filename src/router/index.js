@@ -54,20 +54,84 @@ const routes = [
     component: DiscoverView
   },
   {
-    path: '/about',
-    name: 'about',
-    // route level code-splitting
-    // this generates a separate chunk (about.[hash].js) for this route
-    // which is lazy-loaded when the route is visited.
-    component: () => import(/* webpackChunkName: "about" */ '../views/AboutView.vue')
-  },
-  {
     path: '/setting',
     name: 'setting',
     meta: {
       index:1,
     },
     component: () => import('../views/setting/SettingView.vue')
+  },
+  {
+    path: '/manageCryptoView',
+    name: 'manageCryptoView',
+    meta: {
+      index:1,
+    },
+    component: () => import('../views/home/ManageCrypto/ManageCryptoView.vue')
+  },
+  {
+    path: '/settingWalletsView',
+    name: 'settingWalletsView',
+    meta: {
+      index:2,
+    },
+    component: () => import('../views/setting/wallets/SettingWalletsView.vue')
+  },
+  {
+    path: '/settingPriceAlertsView',
+    name: 'settingPriceAlertsView',
+    meta: {
+      index:2,
+    },
+    component: () => import('../views/setting/priceAlerts/SettingPriceAlertsView.vue')
+  },
+  {
+    path: '/addressBookView',
+    name: 'addressBookView',
+    meta: {
+      index:2,
+    },
+    component: () => import('../views/setting/addressBook/AddressBookView.vue')
+  },
+  {
+    path: '/trustHandlesView',
+    name: 'trustHandlesView',
+    meta: {
+      index:2,
+    },
+    component: () => import('../views/setting/TrustHandles/TrustHandlesView.vue')
+  },
+  {
+    path: '/walletConnectView',
+    name: 'walletConnectView',
+    meta: {
+      index:2,
+    },
+    component: () => import('../views/setting/WalletConnect/WalletConnectView.vue')
+  },
+  {
+    path: '/settingSecurityView',
+    name: 'settingSecurityView',
+    meta: {
+      index:2,
+    },
+    component: () => import('../views/setting/Security/SettingSecurityView.vue')
+  },
+  {
+    path: '/settingNotificationsView',
+    name: 'settingNotificationsView',
+    meta: {
+      index:2,
+    },
+    component: () => import('../views/setting/Notifications/SettingNotificationsView.vue')
+  },
+  {
+    path: '/settingAboutView',
+    name: 'settingAboutView',
+    meta: {
+      index:2,
+    },
+    component: () => import('../views/setting/About/SettingAboutView.vue')
   },
   {
     path: '/preferences',
@@ -157,6 +221,14 @@ const routes = [
       index:5,
     },
     component: () => import('../views/home/ConfirmSecretPhraseView.vue')
+  },
+  {
+    path: '/confirmPasscodeAlert',
+    name: 'confirmPasscodeAlert',
+    meta: {
+      index:5,
+    },
+    component: () => import('../views/discover/widgets/ConfirmPasscodeAlert.vue')
   },
 ]
 

@@ -12,7 +12,7 @@
     </template>
   </van-nav-bar>
   
-  <div class="home">
+  <div class="home" v-if="!isHasPhrase">
     <van-pull-refresh v-model="refreshing" @refresh="onRefresh">
       <van-space direction="vertical" fill :size="20">
       
@@ -24,6 +24,8 @@
     </van-pull-refresh>
   </div>
 
+  <MainHomeCardView v-else />
+
   </div>
     
   
@@ -34,9 +36,9 @@
 // import HelloWorld from '@/components/HelloWorld.vue'
 import { ref, inject } from 'vue';
 import disDrag from '../../utils/disDrag.js'
-import { NavBar, Space, Button, Sticky, PullRefresh, Image as VanImage } from 'vant';
 import CreateImportWalletVCard from './CreateImportWalletVCard.vue';
 import BitCoinListView from './BitCoinListView.vue';
+import MainHomeCardView from './MainHomeCardView.vue';
 
 export default {
   setup() {
@@ -63,12 +65,7 @@ export default {
   components: {
     CreateImportWalletVCard,
     BitCoinListView,
-    [NavBar.name]: NavBar,
-    [Space.name]: Space,
-    [Button.name]: Button,
-    [Sticky.name]: Sticky,
-    [PullRefresh.name]: PullRefresh,
-    [VanImage.name]: VanImage
+    MainHomeCardView
   },
   mixins: [disDrag],
   methods: {
@@ -77,8 +74,7 @@ export default {
     },
     navBarRightClick() {
       if (!this.isHasPhrase) { return }
-
-      
+      this.$router.push({ name: 'manageCryptoView' })
     }
   }
 }

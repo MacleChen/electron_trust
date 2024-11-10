@@ -119,9 +119,5 @@ export default {
     margin-top: 250px;
 
 }
-.custom-password-input .van-password-input__item {
-  /* 设置您想要的背景颜色 */
-  border: #f0f0f0 solid 1px;
-  border-radius: 3px;
-}
+
 </style>

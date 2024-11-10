@@ -80,6 +80,11 @@ nav a.router-link-exact-active {
   margin-right: 10px;
 }
 
+.dividerLittle {
+  height: 0px;
+  border-bottom: 1px solid #eaebee; /* 分割线颜色和宽度 */
+}
+
 .ended_cell_bottom_cell_ellipsis {
   white-space: nowrap; /* 确保文本在一行内显示 */
   overflow: hidden; /* 超出容器部分的文本隐藏 */
@@ -123,4 +128,77 @@ nav a.router-link-exact-active {
     align-items: flex-end; 
 }
 
+.global_main_blue_text_color {
+  color: #0400f4;
+}
+
+.global_main_light_gray_bg_color {
+  color: #f4f4f6;
+}
+
+.global_main_black_text_color {
+  color: #21262f;
+}
+
+/* 全局的字体样式 */
+.global_big_primary_black_text_style {
+  font-size: 16px;
+  font-weight: bold;
+  color: #21262f;
+}
+
+.global_primary_black_text_style {
+  font-size: 14px;
+  font-weight: bold;
+  color: #21262f;
+}
+
+.global_primary_gray_text_style {
+  font-size: 14px;
+  font-weight: bold;
+  color: #868d9a;
+}
+
+.global_desciption_text_style {
+  font-size: 12px;
+  font-weight: 100;
+  color: #868d9a;
+}
+
+.global_primary_blue_text_style {
+  font-size: 14px;
+  font-weight: bold;
+  color: #0400f4;
+}
+
+.global_flag_gray_text_style {
+  background-color: #f4f4f6;
+  border-radius: 5px;
+  padding-left: 5px;
+  padding-right: 5px;
+  padding-top: 2px;
+  padding-bottom: 2px;
+  font-size: 9px;
+  font-weight: bolder;
+  color: #868d9a;
+}
+
+.global_primary_button_div_style {
+  background-color: #0400f4;
+  color: white;
+  font-size: 14px;
+  font-weight: bold;
+  text-align: center;
+  height: 44px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: 22px;
+}
+
+.custom-password-input .van-password-input__item {
+  /* 设置您想要的背景颜色 */
+  border: #f0f0f0 solid 1px;
+  border-radius: 3px;
+}
 </style>
