@@ -43,7 +43,7 @@ export default {
   },
   methods: {
     createWalletClick() {
-      if (this.globalVars.userSetPassword == "" || this.globalVars.userSetPassword == null) {
+      if (this.globalVars.secretPhraseStr == "" || this.globalVars.secretPhraseStr == null) {
         this.$router.push({name: "createPasscode", query: {pageType: 'create' }})
       } else {
         this.$router.push({ name: "createNewWalletView", query: { passcode: this.globalVars.userSetPassword } })
@@ -51,7 +51,7 @@ export default {
       
     },
     importWalletClick() {
-      if (this.globalVars.userSetPassword == "" || this.globalVars.userSetPassword == null) {
+      if (this.globalVars.secretPhraseStr == "" || this.globalVars.secretPhraseStr == null) {
         this.$router.push({name: "createPasscode", query: {pageType: 'import' }})
       } else {
         this.$router.push({ name: "createNewWalletView", query: { passcode: this.globalVars.userSetPassword } })

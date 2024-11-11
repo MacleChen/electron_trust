@@ -77,6 +77,7 @@ export default {
                 if (newValue == passcode.value) {
                     globalVars.userSetPassword = passcode.value
                     localStorage.setItem("pwd", passcode.value)
+                    
                     router.push({ name: "createNewWalletView", query: { passcode: passcode.value } })
                 } else {
                     showToast('Incorrect. Please try again.')

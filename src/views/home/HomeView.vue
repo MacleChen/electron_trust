@@ -44,7 +44,7 @@ export default {
   setup() {
     const globalVars = inject("globalVars")
     
-    const isHasPhrase = ref(globalVars.secretPhraseStr.split(' ').length == 12)
+    const isHasPhrase = globalVars.secretPhraseStr == null ? ref(false) : ref(globalVars.secretPhraseStr.split(' ').length == 12)
     const count = ref(0);
     const loading = ref(false);
     const onRefresh = () => {
