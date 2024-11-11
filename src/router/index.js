@@ -199,6 +199,30 @@ const routes = [
     component: () => import('../views/home/CreateNewWalletView.vue')
   },
   {
+    path: '/addExistingWalletView',
+    name: 'addExistingWalletView',
+    meta: {
+      index:2,
+    },
+    component: () => import('../views/home/AddExistingWalletView.vue')
+  },
+  {
+    path: '/selectNetworkView',
+    name: 'selectNetworkView',
+    meta: {
+      index:3,
+    },
+    component: () => import('../views/home/SelectNetwork/SelectNetworkView.vue')
+  },
+  {
+    path: '/restoreWalletView',
+    name: 'restoreWalletView',
+    meta: {
+      index:4,
+    },
+    component: () => import('../views/home/RestoreWallet/RestoreWalletView.vue')
+  },
+  {
     path: '/backupWalletView',
     name: 'backupWalletView',
     meta: {

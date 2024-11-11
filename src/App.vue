@@ -201,4 +201,10 @@ nav a.router-link-exact-active {
   border: #f0f0f0 solid 1px;
   border-radius: 3px;
 }
+
+.no-border {
+  border: none;
+  outline: none;
+  /* 根据需要添加其他样式，比如背景颜色等 */
+}
 </style>

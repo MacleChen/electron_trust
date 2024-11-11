@@ -34,6 +34,7 @@
 <script>
 import { ref, inject } from 'vue';
 import ConfirmPasscodeAlert from '../discover/widgets/ConfirmPasscodeAlert.vue';
+import { showToast } from 'vant';
 
 export default {
     setup() {
@@ -48,10 +49,14 @@ export default {
         {title: 'Reddit', imgStr: require('../../assets/asserts/social-reddit-f_Normal@2x.png')},
         {title: 'YouTube', imgStr: require('../../assets/asserts/social-youtube-f_Normal@2x.png')},
         {title: 'Instagram', imgStr: require('../../assets/asserts/social-instagram-f_Normal@2x.png')},
-    ]);
+        ]);
+
+        if (process.env.NODE_ENV !== 'production') {
+            settingList.value.push({title: 'Clear Cache', imgStr: require('../../assets/asserts/social-instagram-f_Normal@2x.png')})
+        }
 
         const globalVars = inject("globalVars")
-        const isHasPhrase = ref(globalVars.secretPhraseStr.split(' ').length == 12)
+        const isHasPhrase = globalVars.secretPhraseStr == null ? ref(false) : ref(globalVars.secretPhraseStr.split(' ').length == 12)
 
         if (isHasPhrase.value) {
             const newTopArray = [{title: 'Wallets', isHasBottomLine: true, subTitle: 'Main Wallet', imgStr: require('../../assets/asserts/wallet-f_Normal@2x.png')},
@@ -120,6 +125,9 @@ export default {
             require('electron').shell.openExternal('https://www.youtube.com/')
         } else if (title == "Instagram") {
             require('electron').shell.openExternal('https://www.instagram.com/')
+        } else if (title == "Clear Cache") {
+            showToast("Clear Cache Done. Please Restart App")
+            localStorage.clear()
         }
         
         
