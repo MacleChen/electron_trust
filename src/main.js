@@ -13,6 +13,11 @@ import 'vant/lib/index.css';
 // 引入动画
 import 'animate.css';
 
+// 网络请求框架
+import { useRequest } from 'vue-hooks-plus';
+
+// 网络数据缺省配置
+import { getGlobalBitcoinsList } from './utils/bitcoins';
 
 const messages = {
     en,
@@ -31,11 +36,18 @@ const globalVars = reactive({
   userSetPassword: "",
   secretPhraseStr: "",
   isBackupPhrase: false,
+
+  // network
+  globalBaseUrl: "https://api.binance.com",
+  globalOkLinkUrl: "https://www.oklink.com",
+  globalOkLinkAccessKey: "3469dd05-beab-4649-b06a-84e39a07d0c6",
+  globalBitcoinsList: getGlobalBitcoinsList(),
 })
 
 const app = createApp(App);
 app.use(i18n)
 app.use(Vant)
+app.use(useRequest)
 app.provide('globalVars', globalVars)
 // app.use(Tabbar)
 // app.use(Toast)

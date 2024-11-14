@@ -77,3 +77,15 @@ https://github.com/hujiulong/web-bip39
 ### 对接区块链的接口
 https://api.blockchain.com/v3/#authentication
 https://www.blockcypher.com/dev/bitcoin/#restful-resources
+
+https://api.coingecko.com/api/v3/coins/bitcoin/history?date=01-01-2024
+
+https://tsanghi.com/fin/doc?index=7-1-1
+https://developers.binance.com/docs/zh-CN/binance-spot-api-docs/testnet/rest-api/public-api-endpoints
+
+### 测试用的助记词
+phone glow wool speed local shock frequent bring hair sunny fire moon
+
+
+### 网络请求框架
+https://inhiblabcore.github.io/docs/hooks/guide/#%E2%9C%A8-%E7%89%B9%E6%80%A7

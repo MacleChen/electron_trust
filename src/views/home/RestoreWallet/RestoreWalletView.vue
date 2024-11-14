@@ -41,6 +41,7 @@
         </div>
 
         <div class="global_primary_button_div_style" style="margin-top: 330px;" 
+        @click="restoreWalletBtnClick"
         :style="{backgroundColor: secretPhraseStr == '' ? '#ebecf0' : '#0400f4', color: secretPhraseStr == '' ? '#c0c1c5' : 'white'}">
             <label>Restore wallet</label>
         </div>
@@ -53,18 +54,43 @@
 </template>
 
 <script>
-import { ref } from 'vue';
-import { useRoute } from 'vue-router';
+import { showToast } from 'vant';
+import { ref, inject } from 'vue';
+import { useRoute, useRouter } from 'vue-router';
+import {
+    validateMnemonic,
+} from 'web-bip39';
+import wordlist from 'web-bip39/wordlists/english';
+
 export default {
     setup() {
         const route = useRoute()
+        const router = useRouter()
         const walletName = ref(route.query.walletName)
         const inputWalletName = ref('Main Wallet')
         const secretPhraseStr = ref('')
+
+        const globalVars = inject("globalVars")
+
+        async function myValidateMnemonic(mnemonic) {
+            const isValide = await validateMnemonic(mnemonic, wordlist)
+            if (isValide) {
+                globalVars.secretPhraseStr = secretPhraseStr.value
+                localStorage.setItem("words", secretPhraseStr.value)
+                localStorage.setItem("isBackup", true)
+                globalVars.isBackupPhrase = true
+                router.push({name: "home"})
+            }
+            
+            return isValide
+        }
+
         return {
             walletName,
             inputWalletName,
-            secretPhraseStr
+            secretPhraseStr,
+            myValidateMnemonic,
+            globalVars
         }
     },
     methods: {
@@ -76,6 +102,25 @@ export default {
         },
         walletNameCloseClick() {
             this.inputWalletName = ''
+        },
+        restoreWalletBtnClick() {
+            if (this.inputWalletName == null || this.inputWalletName == '') {
+                showToast("Please Input Wallet Name.")
+                return
+            }
+
+            const phraseList = this.secretPhraseStr.split(' ')
+            if (phraseList.length == 12 || phraseList.length == 18 || phraseList.length == 24) {
+                this.myValidateMnemonic(this.secretPhraseStr).then(function (isValide) {
+                    if (isValide) {
+                        showToast(" Your Secret Phrase is valide.")
+                    } else {
+                        showToast("Secret Phrase is not valide.")
+                    }
+                })
+            } else {
+                showToast("Secret Phrase is not correct.")
+            }
         }
     }
 }

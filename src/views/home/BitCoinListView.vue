@@ -30,9 +30,10 @@
 
 <script>
 import { ref } from 'vue';
+import { formatNumber } from '@/utils/utils';
 
 const bitCoinList = ref([
-    {title: 'BTC', subtitle: 'Bitcoin', money: '66692.27', percent: '-0.64', imgStr: require('../../assets/asserts/0_Normal.png')},
+    {title: 'BTC1', subtitle: 'Bitcoin', money: '66692.27', percent: '-0.64', imgStr: require('../../assets/asserts/0_Normal.png')},
     {title: 'BTC', subtitle: 'Bitcoin', money: '66692', percent: '0.64', imgStr: require('../../assets/asserts/0_Normal.png')},
     {title: 'BTC', subtitle: 'Bitcoin', money: '66692', percent: '0.0', imgStr: require('../../assets/asserts/0_Normal.png')},
     {title: 'BTC', subtitle: 'Bitcoin', money: '66692', percent: '-0.64', imgStr: require('../../assets/asserts/0_Normal.png')},
@@ -42,12 +43,13 @@ const bitCoinList = ref([
 
 export default {
     setup() {
-        return {bitCoinList}
+
+        return {
+            bitCoinList,
+            formatNumber,
+        }
     },
     methods:{
-        formatNumber(number) {
-            return number.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
-        }
     }
 }
 </script>

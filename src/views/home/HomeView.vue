@@ -12,19 +12,18 @@
     </template>
   </van-nav-bar>
   
-  <div class="home" v-if="!isHasPhrase">
-    <van-pull-refresh v-model="refreshing" @refresh="onRefresh">
-      <van-space direction="vertical" fill :size="20">
-      
-      <img  @dragstart.prevent alt="Vue logo" src="../../assets/asserts/tw-badge_Normal@2x.png" height="150">
-      <h3>{{ $t("homePage.intro") }}</h3>
-      <CreateImportWalletVCard />
-      <BitCoinListView />
-      </van-space>
-    </van-pull-refresh>
-  </div>
-
-  <MainHomeCardView v-else />
+  <van-pull-refresh v-model="loading" @refresh="onRefresh">
+    <div class="home" v-if="!isHasPhrase">
+        <van-space direction="vertical" fill :size="20">
+        
+        <img  @dragstart.prevent alt="Vue logo" src="../../assets/asserts/tw-badge_Normal@2x.png" height="150">
+        <h3>{{ $t("homePage.intro") }}</h3>
+        <CreateImportWalletVCard />
+        <BitCoinListView />
+        </van-space>
+    </div>
+    <MainHomeCardView v-else  :isNeedRefresh="isNeedRefresh" ref="child"/>
+  </van-pull-refresh>
 
   </div>
     
@@ -43,14 +42,18 @@ import MainHomeCardView from './MainHomeCardView.vue';
 export default {
   setup() {
     const globalVars = inject("globalVars")
+    const child = ref()
     
     const isHasPhrase = globalVars.secretPhraseStr == null ? ref(false) : ref(globalVars.secretPhraseStr.split(' ').length == 12)
     const count = ref(0);
     const loading = ref(false);
+    const isNeedRefresh = ref(false)
     const onRefresh = () => {
       setTimeout(() => {
         // showToast('刷新成功');
+        isNeedRefresh.value = true
         loading.value = false;
+        child.value.reloadCryptoListData()
         count.value++;
       }, 1000);
     };
@@ -59,6 +62,8 @@ export default {
       loading,
       onRefresh,
       isHasPhrase,
+      isNeedRefresh,
+      child,
     };
   },
   name: 'HomeView',

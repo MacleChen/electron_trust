@@ -117,11 +117,11 @@
 
     <!-- 标签栏切换 -->
     <van-tabs v-model:active="tabsActive" color="blue">
-    <van-tab title="Crypto"><MainHomeCryptoList :isEncryptionMoney="isEncryptionMoney"/></van-tab>
+    <van-tab title="Crypto"><MainHomeCryptoList :isEncryptionMoney="isEncryptionMoney" ref="child" /></van-tab>
     <van-tab title="NFTs"><MainHomeNFTsDefault /></van-tab>
     </van-tabs>
 
-    <div style="margin-top: 10px;" v-if="tabsActive == 0">
+    <div style="margin-top: 10px;" v-if="tabsActive == 0" @click="manageCryptoBottomClick">
         <label style="font-size: 12px; color: blue;">Manage crypto</label>
     </div>
 
@@ -132,10 +132,11 @@
 </template>
 
 <script>
-import { ref } from 'vue';
+import { ref, defineExpose } from 'vue';
 import MainHomeCryptoList from './MainHomeSubview/MainHomeCryptoList.vue';
 import MainHomeNFTsDefault from './MainHomeSubview/MainHomeNFTsDefault.vue';
 import HomeSearchOverLay from '../discover/widgets/OverLay/HomeSearchOverLay.vue';
+// import { showToast } from 'vant';
 
 const cardInfoList = ref([
     {title: 'Launchpool is Live! Simply Lock and Earn FREE Rewards!', imgStr: require('../../assets/asserts/launchpool _ dm_Normal@2x.png')},
@@ -151,16 +152,31 @@ const cardInfoList = ref([
 ]);
 
 export default {
-    setup() {
+    props: {
+        isNeedRefresh: { type: Boolean } 
+    },
+    setup(props) {
+        console.log(props.isNeedRefresh ? "1" : "0")
         const tabsActive = ref(0);
         const isShowSearchOveryLay = ref(false)
-
         const isEncryptionMoney = ref(false)
+
+        const child = ref()
+
+        const reloadCryptoListData = () => {
+            // showToast("reload")
+            child.value.reloadCryptoListData()
+        }
+        defineExpose({
+            reloadCryptoListData,
+        })
         return {
             cardInfoList,
             tabsActive,
             isShowSearchOveryLay,
             isEncryptionMoney,
+            reloadCryptoListData,
+            child,
         }
     },
     components: {
@@ -169,9 +185,6 @@ export default {
         HomeSearchOverLay
     },
     methods:{
-        formatNumber(number) {
-            return number.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
-        },
         mainHomeSearchBarClick() {
             this.isShowSearchOveryLay = true
         },
@@ -180,8 +193,11 @@ export default {
         },
         eyeImageClick() {
             this.isEncryptionMoney = !this.isEncryptionMoney
+        },
+        manageCryptoBottomClick() {
+            this.$router.push({ name: 'manageCryptoView' })
         }
-    }
+    },
 }
 </script>
 
