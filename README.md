@@ -83,6 +83,10 @@ https://api.coingecko.com/api/v3/coins/bitcoin/history?date=01-01-2024
 https://tsanghi.com/fin/doc?index=7-1-1
 https://developers.binance.com/docs/zh-CN/binance-spot-api-docs/testnet/rest-api/public-api-endpoints
 
+##### 正在使用的API
+https://developers.binance.com/docs/zh-CN/binance-spot-api-docs/testnet/rest-api/public-api-endpoints#exchange-information
+https://www.oklink.com/docs/zh/#fundamental-blockchain-data-fundamental-get-list-of-supported-public-chains
+
 ### 测试用的助记词
 phone glow wool speed local shock frequent bring hair sunny fire moon
 
