@@ -70,6 +70,14 @@ const routes = [
     component: () => import('../views/home/ManageCrypto/ManageCryptoView.vue')
   },
   {
+    path: '/importCryptoView',
+    name: 'importCryptoView',
+    meta: {
+      index:2,
+    },
+    component: () => import('../views/home/ManageCrypto/ImportCryptoView.vue')
+  },
+  {
     path: '/settingWalletsView',
     name: 'settingWalletsView',
     meta: {

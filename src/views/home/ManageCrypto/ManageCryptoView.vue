@@ -1,6 +1,6 @@
 <template>
 
-    <van-nav-bar title="Manage crypto" @click-left="navBarLeftClick" @click-right="navBarRightClick" :fixed="true" >
+    <van-nav-bar title="Manage crypto" @click-left="navBarLeftClick" @click-right="importOrAndNewCryptoClick" :fixed="true" >
         <template #left>
             <img src="../../../assets/asserts/arrow-left-f_Normal@2x.png" style="height: 24px; width: 24px;" />
         </template>
@@ -153,7 +153,7 @@ export default {
             
         },
         importOrAndNewCryptoClick() {
-            showToast("add")
+            this.$router.push({ name: 'importCryptoView' })
         }
     }
 }
