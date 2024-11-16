@@ -78,6 +78,62 @@ const routes = [
     component: () => import('../views/home/ManageCrypto/ImportCryptoView.vue')
   },
   {
+    path: '/notificationsView',
+    name: 'notificationsView',
+    meta: {
+      index:2,
+    },
+    component: () => import('../views/home/Notifications/NotificationsView.vue')
+  },
+  {
+    path: '/sendCryptoView',
+    name: 'sendCryptoView',
+    meta: {
+      index:2,
+    },
+    component: () => import('../views/home/HomeWalletOperate/SendCryptoView.vue')
+  },
+  {
+    path: '/receiveCryptoView',
+    name: 'receiveCryptoView',
+    meta: {
+      index:2,
+    },
+    component: () => import('../views/home/HomeWalletOperate/ReceiveCryptoView.vue')
+  },
+  {
+    path: '/buyCryptoView',
+    name: 'buyCryptoView',
+    meta: {
+      index:2,
+    },
+    component: () => import('../views/home/HomeWalletOperate/BuyCryptoView.vue')
+  },
+  {
+    path: '/sellCryptoView',
+    name: 'sellCryptoView',
+    meta: {
+      index:2,
+    },
+    component: () => import('../views/home/HomeWalletOperate/SellCryptoView.vue')
+  },
+  {
+    path: '/historyCryptoView',
+    name: 'historyCryptoView',
+    meta: {
+      index:2,
+    },
+    component: () => import('../views/home/HomeWalletOperate/HistoryCryptoView.vue')
+  },
+  {
+    path: '/selectAssetView',
+    name: 'selectAssetView',
+    meta: {
+      index:3,
+    },
+    component: () => import('../views/home/HomeWalletOperate/SelectAssetView.vue')
+  },
+  {
     path: '/settingWalletsView',
     name: 'settingWalletsView',
     meta: {

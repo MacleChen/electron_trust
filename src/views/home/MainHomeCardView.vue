@@ -49,35 +49,35 @@
 
     <!-- trade button -->
      <div class="content_hcenter_vcenter" style="margin-top: 20px;">
-        <div>
+        <div @click="sendCryptoClick">
             <div class="content_hcenter_vcenter" style="width: 45px; height: 45px; background-color: #f4f4f6; border-radius: 25px;">
                 <img src="../../assets/asserts/Vector_Normal_black_up@3x.png" width="15px" />
             </div>
             <div style="font-size: 12px; font-weight: bold; margin-top: 8px;">Send</div>
         </div>
 
-        <div style="margin-left: 20px;">
+        <div style="margin-left: 20px;" @click="receiveCryptoClick">
             <div class="content_hcenter_vcenter" style="width: 45px; height: 45px; background-color: #f4f4f6; border-radius: 25px;">
                 <img src="../../assets/asserts/Vector_Normal_black_down@3x.png" width="15px" />
             </div>
             <div style="font-size: 12px; font-weight: bold; margin-top: 8px;">Receive</div>
         </div>
 
-        <div style="margin-left: 20px;">
+        <div style="margin-left: 20px;" @click="buyCryptoClick">
             <div class="content_hcenter_vcenter" style="width: 45px; height: 45px; background-color: #f4f4f6; border-radius: 25px;">
                 <img src="../../assets/asserts/icon-card_Normal_black@2x.png" width="20px"/>
             </div>
             <div style="font-size: 12px; font-weight: bold; margin-top: 8px;">Buy</div>
         </div>
 
-        <div style="margin-left: 20px;">
+        <div style="margin-left: 20px;" @click="sellCryptoClick">
             <div class="content_hcenter_vcenter" style="width: 45px; height: 45px; background-color: #f4f4f6; border-radius: 25px;">
                 <img src="../../assets/asserts/bank-f_Normal_black@2x_1.png" width="20px" />
             </div>
-            <div style="font-size: 12px; font-weight: bold; margin-top: 8px;">Shell</div>
+            <div style="font-size: 12px; font-weight: bold; margin-top: 8px;">Sell</div>
         </div>
 
-        <div style="margin-left: 20px;">
+        <div style="margin-left: 20px;" @click="historyCryptoClick">
             <div class="content_hcenter_vcenter" style="width: 45px; height: 45px; background-color: #f4f4f6; border-radius: 25px;">
                 <img src="../../assets/asserts/icon-history_Normal_black@2x.png" width="20px" />
             </div>
@@ -96,11 +96,11 @@
                 </div>
 
                 <div style="width: 65%; height: 60px;">
-                    <div style="height: 50%; line-height: 15px; text-align: left;" >
+                    <div class="content_hleft_vcenter" style="height: 80%; line-height: 15px; text-align: left" >
                         <label style="font-size: 12px; font-weight: bold; color: #21262f;">{{ item.title }}</label>
                     </div>
-                    <div class="content_hleft_vcenter" style="height: 50%; margin-top: 5px;">
-                        <label style="color: blue; font-size: 12px; font-weight: bold;">Check now</label>
+                    <div class="content_hleft_vcenter" style="height: 20%;" @click="startNextCardClick(item.pushName)">
+                        <label style="color: blue; font-size: 12px; font-weight: bold;">{{ item.nextBtnName }}</label>
                         <img style="margin-left: 5px;" src="../../assets/asserts/arrow-right-f_Normal_blue@2x.png" width="15px" />
                     </div>
                 </div>
@@ -159,16 +159,26 @@ import useClipboard from 'vue-clipboard3';
 import jsQR from 'jsqr';
 
 const cardInfoList = ref([
-    {title: 'Launchpool is Live! Simply Lock and Earn FREE Rewards!', imgStr: require('../../assets/asserts/launchpool _ dm_Normal@2x.png')},
-    {title: 'Earn up to 210 Trust Points daily to unlock future rewards', imgStr: require('../../assets/asserts/Mystery Box _ dm_Normal@2x.png')},
-    {title: 'Add crypto from Binance or Coinbase', imgStr: require('../../assets/asserts/Transfer _ dm_Normal@2x.png')},
-    {title: 'Buy crypto with the best quote', imgStr: require('../../assets/asserts/tw-card-payments-dark_Normal@2x.png')},
-    {title: 'Earn up to 30% yield on -chain', imgStr: require('../../assets/asserts/tw-savings-light_Normal@2x.png')},
-    {title: 'Back up to secure vour assets', imgStr: require('../../assets/asserts/tw-lock_Normal@2x.png')},
-    {title: 'View hot tokens opportunities on multiple chains', imgStr: require('../../assets/asserts/tw-universe_Normal@2x.png')},
-    {title: 'Blast swaps now available in Trust Wallet!', imgStr: require('../../assets/asserts/BLAST_Normal@2x.png')},
-    {title: 'Stake $INJ on Trust Nodes and earn 12.5% APR', imgStr: require('../../assets/asserts/INJ_Normal@2x.png')},
-    {title: 'Say goodbye to those scam NFTs!', imgStr: require('../../assets/asserts/NFTS_Normal@2x.png')},
+    {title: 'Launchpool is Live! Simply Lock and Earn FREE Rewards!', 
+    imgStr: require('../../assets/asserts/launchpool _ dm_Normal@2x.png'), pushName: 'money', nextBtnName: 'Join NOW'},
+    {title: 'Buy crypto cheaper with Binance P2P today', 
+    imgStr: require('../../assets/asserts/tw-card-payments-light_Normal@2x.png'), pushName: 'launchPoolView', nextBtnName: 'Buy crypto'},
+    {title: 'Earn up to 210 Trust Points daily to unlock future rewards', 
+    imgStr: require('../../assets/asserts/Mystery Box _ dm_Normal@2x.png'), pushName: 'launchPoolView', nextBtnName: 'Check now'},
+    {title: 'Add crypto from Binance or Coinbase', 
+    imgStr: require('../../assets/asserts/Transfer _ dm_Normal@2x.png'), pushName: 'launchPoolView', nextBtnName: 'Deposit now'},
+    {title: 'Buy crypto with the best quote', 
+    imgStr: require('../../assets/asserts/tw-card-payments-dark_Normal@2x.png'), pushName: 'launchPoolView', nextBtnName: 'Buy now'},
+    {title: 'Earn up to 30% yield on -chain', 
+    imgStr: require('../../assets/asserts/tw-savings-light_Normal@2x.png'), pushName: 'launchPoolView', nextBtnName: 'Start eraning'},
+    {title: 'View hot tokens opportunities on multiple chains', 
+    imgStr: require('../../assets/asserts/tw-universe_Normal@2x.png'), pushName: 'launchPoolView', nextBtnName: 'View more'},
+    {title: 'Blast swaps now available in Trust Wallet!', 
+    imgStr: require('../../assets/asserts/BLAST_Normal@2x.png'), pushName: 'launchPoolView', nextBtnName: 'Get started'},
+    {title: 'Stake $INJ on Trust Nodes and earn 12.5% APR', 
+    imgStr: require('../../assets/asserts/INJ_Normal@2x.png'), pushName: 'launchPoolView', nextBtnName: "Stake $INJ"},
+    {title: 'Say goodbye to those scam NFTs!', 
+    imgStr: require('../../assets/asserts/NFTS_Normal@2x.png'), pushName: 'launchPoolView', nextBtnName: "Let's go"},
 ]);
 
 export default {
@@ -280,7 +290,7 @@ export default {
             onImport()
         },
         topRightNotificationClick() {
-
+            this.$router.push({name: 'notificationsView'})
         },
         yourAddressesAlertCellClickCallback(item) {
             showToast({message: 'Address copied:' + item.subTitle, position: 'bottom'})
@@ -295,7 +305,29 @@ export default {
                 }
             }
             copy(item.subTitle)
-        }
+        },
+        sendCryptoClick() {
+            this.$router.push({name: 'sendCryptoView'})
+        },
+        receiveCryptoClick() {
+            this.$router.push({name: 'receiveCryptoView'})
+        },
+        buyCryptoClick() {
+            this.$router.push({name: 'buyCryptoView'})
+        },
+        sellCryptoClick() {
+            this.$router.push({name: 'sellCryptoView'})
+        },
+        historyCryptoClick() {
+            this.$router.push({name: 'historyCryptoView'})
+        },
+        startNextCardClick(pushName) {
+            if (pushName == 'money') {
+                this.$router.push({name: pushName, query: {isLaunchPool: true}})
+            } else {
+                this.$router.push({name: pushName})
+            }
+        } 
     },
 }
 </script>

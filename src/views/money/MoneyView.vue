@@ -1,6 +1,6 @@
 <template>
     <div style="background-color: white; width: 100%;height: 44px; position: fixed; z-index: 1;">
-      <van-tabs v-model:active="active" shrink style="position: fixed; z-index: 1;" @click-tab="onClickTab">
+      <van-tabs v-model:active="active" shrink style="position: fixed; z-index: 1;" @click-tab="onClickTab" color="#0400f4">
       <van-tab title="Native staking">
       </van-tab>
       <van-tab title="Launchpool">
@@ -19,10 +19,14 @@
 import { ref } from 'vue';
 import LaunchPoolView from './LaunchPoolView.vue';
 import NativeStakingView from './NativeStakingView.vue';
+import { useRoute } from 'vue-router';
 
 export default {
   setup() {
-    const isShowLaunchPool = ref(false);
+    const active = ref(0);
+    const route = useRoute()
+    const isShowLaunchPool = ref(route.query.isLaunchPool);
+    active.value = isShowLaunchPool.value ? 1 : 0
     const count = ref(0);
     const loading = ref(false);
     const onClickTab = ({ title }) => {
@@ -36,6 +40,7 @@ export default {
       }, 1000);
     };
     return {
+      active,
       count,
       loading,
       onRefresh,

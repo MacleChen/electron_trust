@@ -41,28 +41,28 @@
             finished-text="没有更多了"
             @load="onLoad"
         >
-            <van-cell v-for="item in list" :key="item">
+            <van-cell v-for="item in cryptoList" :key="item">
                 <template #default>
                     <div style="width: 100%; height: 50px; display: flex; align-items: center;">
                         <div class="item_content_cell_style" style="width: 50%; justify-content: left;">
-                            <img style="margin-left: 5px;" src="../../assets/asserts/0_Normal.png" width="30px" height="30px"/>
-                            <div style="margin-left: 10px; ">
+                            <img style="margin-left: 5px; border-radius: 15px;" :src="item.imgName" width="30px" height="30px"/>
+                            <div style="margin-left: 10px; text-align: left">
                                 <div>
-                                    <label style="font-size: 16px; font-weight: bold; color: black;">BTC</label>
+                                    <label style="font-size: 16px; font-weight: bold; color: black;">{{ item.title }}</label>
                                 </div>
                                 <div>
-                                    <label class="sort_title_text_style">$31.11B</label>
+                                    <label class="sort_title_text_style">${{ item.subTitle }}B</label>
                                 </div>
                             </div>
                             
                         </div>
 
                         <div class="item_content_cell_style" style="width: 25%; justify-content: flex-end; margin-right: 10px;">
-                            <label style="font-size: 14px; font-weight: bold; color: black;">$2506.02</label>
+                            <label style="font-size: 14px; font-weight: bold; color: black;">${{ item.price }}</label>
                         </div>
 
                         <div class="item_content_cell_style" style="width: 25%; justify-content: flex-end;">
-                            <label style="font-size: 14px; font-weight: bold; color: red;">-1.53%</label>
+                            <label style="font-size: 14px; font-weight: bold; color: red;">{{ item.percent }}%</label>
                         </div>
                     </div>
                 </template>
@@ -73,31 +73,45 @@
 </template>
 
 <script>
-import { ref } from 'vue';
+import { ref, watch, inject } from 'vue';
+import { useRequest } from 'vue-hooks-plus';
+import { formatNumber } from '@/utils/utils';
 
 export default {
     setup() {
-    const list = ref([]);
     const loading = ref(false);
     const finished = ref(false);
     const refreshing = ref(false);
+    const globarVars = inject("globalVars")
+
+    const cryptoList = ref([]);
+    var backupCryptoList = ref([])
 
     const onLoad = () => {
-      setTimeout(() => {
-        if (refreshing.value) {
-          list.value = [];
-          refreshing.value = false;
-        }
+        
+        var { data } = useRequest(() => {
+            return fetch(globarVars.globalOkLinkUrl + '/api/v5/explorer/token/token-list?chainShortName=eth&limit=50', {
+                headers: {
+                    "OK-Access-Key": globarVars.globalOkLinkAccessKey,
+                }
+            }).then(res => res.json());
+        })
+        watch(data, (newValue) => {
+            if (newValue.code == "0") {
+                
+                for(var i = 0; i < newValue.data[0].tokenList.length; i++) {
+                    const chainData = newValue.data[0].tokenList[i]
+                    cryptoList.value.push({title: chainData.token, subTitle: formatNumber(parseFloat(chainData.transactionAmount24h).toFixed(2)), 
+                    price: formatNumber(parseFloat(chainData.price).toFixed(2)), percent: 2.63,
+                    imgName: chainData.logoUrl})
+                }
+                
+                backupCryptoList.value = cryptoList.value
+            }
 
-        for (let i = 0; i < 10; i++) {
-          list.value.push(list.value.length + 1);
-        }
-        loading.value = false;
-
-        if (list.value.length >= 400) {
-          finished.value = true;
-        }
-      }, 1000);
+            loading.value = false
+            finished.value = true
+        })
     };
 
     const onRefresh = () => {
@@ -111,12 +125,12 @@ export default {
     };
 
     return {
-      list,
       onLoad,
       loading,
       finished,
       onRefresh,
       refreshing,
+      cryptoList,
     };
   },
 }
