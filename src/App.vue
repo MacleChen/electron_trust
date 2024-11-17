@@ -172,8 +172,8 @@ nav a.router-link-exact-active {
 }
 
 .global_flag_gray_text_style {
-  background-color: #f4f4f6;
-  border-radius: 5px;
+  background-color: #e2e2e2;
+  border-radius: 3px;
   padding-left: 5px;
   padding-right: 5px;
   padding-top: 2px;

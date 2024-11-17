@@ -22,6 +22,44 @@
                 <img src="../../../assets/asserts/icon-caret-down_Normal@2x.png" width="8px" />
             </div>
 
+            <div style="margin-top: 10px;">
+                <div style="text-align: left;">
+                    <label class="global_primary_gray_text_style">Popular</label>
+                </div>
+
+                <div class="content_hcenter_vcenter"  style="margin-top: 5px;">
+                    <div class="content_hleft_vcenter" 
+                    style="background-color: #f4f4f6; border-radius: 10px; text-align: left; height: 60px; width: 50%;">
+                        <div style="margin-left: 10px;">
+                            <img src="../../../assets/asserts/60_Normal.png" width="24px" style="border: #d9d9d9 solid 1px; border-radius: 13px;"/>
+                        </div>
+                        <div style="margin-left: 10px;">
+                            <div>
+                                <label class="global_primary_black_text_style">ETH</label>
+                            </div>
+                            <div style="margin-top: -5px;">
+                                <label class="global_desciption_text_style">Ethereum</label>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="content_hleft_vcenter" 
+                    style="background-color: #f4f4f6; border-radius: 10px; text-align: left; height: 60px; width: 50%; margin-left: 10px;">
+                        <div style="margin-left: 10px;">
+                            <img src="../../../assets/asserts/0_Normal.png" width="24px" />
+                        </div>
+                        <div style="margin-left: 10px;">
+                            <div>
+                                <label class="global_primary_black_text_style">BTC</label>
+                            </div>
+                            <div style="margin-top: -5px;">
+                                <label class="global_desciption_text_style">Bitcoin</label>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
             <div style="margin-top: 8px;">
                 <div class="content_hleft_vcenter" style="height: 50px;"
                 v-for="item in cryptoList" :key="item.title">

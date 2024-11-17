@@ -134,6 +134,22 @@ const routes = [
     component: () => import('../views/home/HomeWalletOperate/SelectAssetView.vue')
   },
   {
+    path: '/questDetailsView',
+    name: 'questDetailsView',
+    meta: {
+      index:2,
+    },
+    component: () => import('../views/home/QuestDetails/QuestDetailsView.vue')
+  },
+  {
+    path: '/homeEarnView',
+    name: 'homeEarnView',
+    meta: {
+      index:2,
+    },
+    component: () => import('../views/home/HomeEarn/HomeEarnView.vue')
+  },
+  {
     path: '/settingWalletsView',
     name: 'settingWalletsView',
     meta: {
