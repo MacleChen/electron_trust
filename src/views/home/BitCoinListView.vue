@@ -5,7 +5,7 @@
          <label style="width: 50%; text-align: right;font-size: 12px; color: lightgray;">{{ $t('homePage.lastTime') }}</label>
     </div>
     <div style="padding-bottom: 50px;">
-        <ul v-for="item in bitCoinList" :key="item.title">
+        <ul v-for="item in cyptoCoinList" :key="item.title">
         <div class="bit_coin_cell_containter">
             <div style="width: 30px; height: 30px;">
                 <img @dragstart.prevent :src="item.imgStr" width="100%" />
@@ -29,23 +29,57 @@
 </template>
 
 <script>
-import { ref } from 'vue';
+import { ref, watch, inject, defineExpose } from 'vue';
 import { formatNumber } from '@/utils/utils';
+import { useRequest } from 'vue-hooks-plus';
 
-const bitCoinList = ref([
-    {title: 'BTC1', subtitle: 'Bitcoin', money: '66692.27', percent: '-0.64', imgStr: require('../../assets/asserts/0_Normal.png')},
-    {title: 'BTC', subtitle: 'Bitcoin', money: '66692', percent: '0.64', imgStr: require('../../assets/asserts/0_Normal.png')},
-    {title: 'BTC', subtitle: 'Bitcoin', money: '66692', percent: '0.0', imgStr: require('../../assets/asserts/0_Normal.png')},
-    {title: 'BTC', subtitle: 'Bitcoin', money: '66692', percent: '-0.64', imgStr: require('../../assets/asserts/0_Normal.png')},
-    {title: 'BTC', subtitle: 'Bitcoin', money: '66692', percent: '-0.64', imgStr: require('../../assets/asserts/0_Normal.png')},
-    {title: 'BTC', subtitle: 'Bitcoin', money: '66692', percent: '-0.64', imgStr: require('../../assets/asserts/0_Normal.png')},
-]);
 
 export default {
     setup() {
+        const globarVars = inject("globalVars")
+        const cyptoCoinList = ref([]);
+
+        const selSymbolsList = globarVars.globalBitcoinsList.filter((bitCoinModal) => bitCoinModal.isSel)
+
+        const symbolsList = selSymbolsList.map((bitCoinModal) => bitCoinModal.title )
+        const symbolsSubTitleList = selSymbolsList.map((bitCoinModal) => bitCoinModal.subTitle)
+        const symbolsImgNameList = selSymbolsList.map((bitCoinModal) => bitCoinModal.imgName)
+
+
+        // 请求币的市场列表
+        var { data } = useRequest(() => {
+            return fetch(globarVars.globalBaseUrl + '/api/v3/ticker/tradingDay?symbols=' + JSON.stringify(symbolsList)).then(res => res.json());
+        })
+        watch(data, (newValue) => {
+            for(var i = 0; i < newValue.length; i++) {
+                const symbolData = newValue[i]
+                cyptoCoinList.value.push({title: symbolData.symbol.replace('USDT', ''), subtitle: symbolsSubTitleList[i], 
+                money: formatNumber(parseFloat(symbolData.lastPrice).toFixed(2)), percent: parseFloat(symbolData.priceChangePercent).toFixed(2),
+                 imgStr: require('../../assets/asserts/' + symbolsImgNameList[i] + '.png')},)
+            }
+        })
+
+        // 接收下拉刷新处理
+        const reloadCryptoListData = () => {
+            const { data } = useRequest(() => {
+                return fetch(globarVars.globalBaseUrl + '/api/v3/ticker/tradingDay?symbols=' + JSON.stringify(symbolsList)).then(res => res.json());
+            })
+            watch(data, (newValue) => {
+                cyptoCoinList.value = []
+                for(var i = 0; i < newValue.length; i++) {
+                    const symbolData = newValue[i]
+                    cyptoCoinList.value.push({title: symbolData.symbol.replace('USDT', ''), subtitle: symbolsSubTitleList[i], 
+                    leftAllMoney: formatNumber(parseFloat(symbolData.lastPrice).toFixed(2)), percent: parseFloat(symbolData.priceChangePercent).toFixed(2), rightTopMoney: '0', 
+                    rightBottomMoney:'0.00', imgStr: require('../../assets/asserts/' + symbolsImgNameList[i] + '.png')},)
+                }
+            })
+        }
+        defineExpose({
+            reloadCryptoListData,
+        })
 
         return {
-            bitCoinList,
+            cyptoCoinList,
             formatNumber,
         }
     },
