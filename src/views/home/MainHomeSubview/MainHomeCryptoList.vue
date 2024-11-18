@@ -1,6 +1,6 @@
 <template>
     <div class="content_hleft_vcenter" style="width: 100%; height: 60px; text-align: left;"
-    v-for="item in cyptoCoinList" :key="item.title">
+    v-for="item in cyptoCoinList" :key="item.title" @click="homeCryptoCellClick">
         <div style="width: 15%;">
             <img :src="item.imgStr" width="35px"/>
         </div>
@@ -98,7 +98,9 @@ export default {
         }
     },
     methods:{
-        
+        homeCryptoCellClick() {
+            this.$router.push({name: 'cryptoDetailView'})
+        }
     }
 }
 </script>

@@ -172,13 +172,13 @@ const cardInfoList = ref([
     {title: 'Earn up to 30% yield on -chain', 
     imgStr: require('../../assets/asserts/tw-savings-light_Normal@2x.png'), pushName: 'homeEarnView', nextBtnName: 'Start eraning'},
     {title: 'View hot tokens opportunities on multiple chains', 
-    imgStr: require('../../assets/asserts/tw-universe_Normal@2x.png'), pushName: 'launchPoolView', nextBtnName: 'View more'},
+    imgStr: require('../../assets/asserts/tw-universe_Normal@2x.png'), pushName: 'exchange', nextBtnName: 'View more'},
     {title: 'Blast swaps now available in Trust Wallet!', 
-    imgStr: require('../../assets/asserts/BLAST_Normal@2x.png'), pushName: 'launchPoolView', nextBtnName: 'Get started'},
+    imgStr: require('../../assets/asserts/BLAST_Normal@2x.png'), pushName: 'swap', nextBtnName: 'Get started'},
     {title: 'Stake $INJ on Trust Nodes and earn 12.5% APR', 
-    imgStr: require('../../assets/asserts/INJ_Normal@2x.png'), pushName: 'launchPoolView', nextBtnName: "Stake $INJ"},
+    imgStr: require('../../assets/asserts/INJ_Normal@2x.png'), pushName: 'stakeINJView', nextBtnName: "Stake $INJ"},
     {title: 'Say goodbye to those scam NFTs!', 
-    imgStr: require('../../assets/asserts/NFTS_Normal@2x.png'), pushName: 'launchPoolView', nextBtnName: "Let's go"},
+    imgStr: require('../../assets/asserts/NFTS_Normal@2x.png'), pushName: 'NFT', nextBtnName: "Let's go"},
 ]);
 
 export default {
@@ -324,6 +324,12 @@ export default {
         startNextCardClick(pushName) {
             if (pushName == 'money') {
                 this.$router.push({name: pushName, query: {isLaunchPool: true}})
+            } else if (pushName == 'exchange') {
+                this.$router.push({name: pushName, query: {isShowHotBitcoin: true}})
+            } else if (pushName == 'swap') {
+                this.$router.push({name: pushName, query: {isShowHotBitcoin: false}})
+            } else if (pushName == 'NFT') {
+                this.tabsActive = 1
             } else {
                 this.$router.push({name: pushName})
             }

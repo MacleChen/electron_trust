@@ -72,7 +72,7 @@
         </div>  
 
         <!-- Warning If points not claimed -->
-         <div class="content_hleft_vtop" style="background-color: #f4f4f6; border-radius: 5px; margin-top: 10px; padding: 10px;">
+         <div class="content_hleft_vtop" style="background-color: #fcf9f0; border-radius: 5px; margin-top: 10px; padding: 10px;">
             <div class="content_hleft_vtop" >
                 <img src="../../../assets/asserts/circled-info-f_Normal_gold@2x.png" width="13px" height="13px" />
             </div>

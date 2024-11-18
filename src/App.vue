@@ -207,4 +207,14 @@ nav a.router-link-exact-active {
   outline: none;
   /* 根据需要添加其他样式，比如背景颜色等 */
 }
+
+
+input[type=number]::-webkit-inner-spin-button, 
+input[type=number]::-webkit-outer-spin-button { 
+  -webkit-appearance: none;
+  margin: 0; 
+}
+input[type=number] {
+    -moz-appearance:textfield;
+}
 </style>

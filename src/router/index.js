@@ -150,6 +150,22 @@ const routes = [
     component: () => import('../views/home/HomeEarn/HomeEarnView.vue')
   },
   {
+    path: '/stakeINJView',
+    name: 'stakeINJView',
+    meta: {
+      index:2,
+    },
+    component: () => import('../views/home/StakeINJ/StakeINJView.vue')
+  },
+  {
+    path: '/cryptoDetailView',
+    name: 'cryptoDetailView',
+    meta: {
+      index:2,
+    },
+    component: () => import('../views/home/MainHomeSubview/CryptoDetailView.vue')
+  },
+  {
     path: '/settingWalletsView',
     name: 'settingWalletsView',
     meta: {

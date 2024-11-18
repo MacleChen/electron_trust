@@ -1,14 +1,14 @@
 <template>
   <div style="background-color: white; width: 100%;height: 44px; position: fixed; z-index: 1;">
-    <van-tabs v-model:active="active" shrink style="position: fixed; z-index: 1;" @click-tab="onClickTab">
+    <van-tabs v-model:active="active" shrink style="position: fixed; z-index: 1;" @click-tab="onClickTab" color="#0400f4">
     <van-tab title="兑换">
       <!-- <TabExchangeView /> -->
     </van-tab>
     <van-tab title="热门代币">
       <template #title>
         <div style="display: flex; justify-content: center; align-items: center;">
-          <label>热门代币 🔥</label>
-          <!-- <img style="margin-left: 3px;" src="../../assets/asserts/0_Normal.png" width="20px"/> -->
+          <label>热门代币 </label>
+          <img style="margin-left: 3px;" src="../../assets/asserts/hot_tokens_fire.png" width="20px"/>
         </div>
       </template>
       <!-- <TabHotCoinView /> -->
@@ -28,11 +28,13 @@
 import TabExchangeView from './TabExchangeView.vue';
 import TabHotCoinView from './TabHotCoinView.vue';
 import { ref } from 'vue';
+import { useRoute } from 'vue-router';
 
 export default {
   setup() {
-    const active = ref(0);
-    const isShowHotBitcoin = ref(false);
+    const route = useRoute()
+    const active = ref(route.query.isShowHotBitcoin ? 1:0);
+    const isShowHotBitcoin = ref(route.query.isShowHotBitcoin);
     const onClickTab = ({ title }) => {
       isShowHotBitcoin.value = title == '热门代币'
     };
