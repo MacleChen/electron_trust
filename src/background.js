@@ -1,10 +1,13 @@
 'use strict'
 
-import { app, protocol, BrowserWindow  } from 'electron'
+import { app, protocol, BrowserWindow, ipcMain  } from 'electron'
 import { createProtocol } from 'vue-cli-plugin-electron-builder/lib'
 import installExtension, { VUEJS3_DEVTOOLS } from 'electron-devtools-installer'
 const isDevelopment = process.env.NODE_ENV !== 'production'
-
+import * as bip39 from 'bip39'
+import * as path from 'path'
+// const path = require('path');
+// const bip39 = require('bip39');  // 用于生成助记词
 
 // Scheme must be registered before the app is ready
 protocol.registerSchemesAsPrivileged([
@@ -27,11 +30,20 @@ async function createWindow() {
       // See nklayman.github.io/vue-cli-plugin-electron-builder/guide/security.html#node-integration for more info
       // nodeIntegration: process.env.ELECTRON_NODE_INTEGRATION,
       // contextIsolation: !process.env.ELECTRON_NODE_INTEGRATION,
-      nodeIntegration: true,        // 启用 nodeIntegration
-      contextIsolation: false,      // 暂时禁用 contextIsolation
+      // preload: path.join(__dirname, 'preload.js'), // 开发模式下路径
+
+      preload: path.join(__dirname, 'preload.js'), // 预加载脚本路径
+      contextIsolation: true, // 必须启用 contextIsolation
+      nodeIntegration: false, // 禁用 Node.js 集成
+      
     },
     icon: './public/app.ico'
   })
+
+  // 监听渲染进程请求生成助记词
+  ipcMain.handle('generate-mnemonic', async () => {
+    return bip39.generateMnemonic();  // 返回生成的助记词
+  });
 
   // 隐藏顶部菜单栏
   win.setMenu(null);
@@ -45,7 +57,6 @@ async function createWindow() {
   // };
   // win.setPosition(winPosition.x, winPosition.y);
   //win.setBounds({ x: 100, y: 100, width: 800, height: 600 });
-
  
   if (process.env.WEBPACK_DEV_SERVER_URL) {
     // Load the url of the dev server if in development mode
@@ -76,6 +87,7 @@ app.on('activate', () => {
 // This method will be called when Electron has finished
 // initialization and is ready to create browser windows.
 // Some APIs can only be used after this event occurs.
+
 app.on('ready', async () => {
   if (isDevelopment && !process.env.IS_TEST) {
     // Install Vue Devtools

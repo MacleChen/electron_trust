@@ -5,12 +5,12 @@ module.exports = defineConfig({
   // 插件配置
   configureWebpack: {
     resolve: {
+      alias: {
+        crypto: require.resolve("crypto-browserify"),
+        stream: require.resolve("stream-browserify"),
+      },
       fallback: {
         crypto: require.resolve('crypto-browserify'),
-        stream: require.resolve('stream-browserify'),
-        buffer: require.resolve('buffer'),
-        assert: require.resolve('assert'),
-        util: require.resolve('util/'),
       },
     },
     plugins: [
@@ -22,6 +22,7 @@ module.exports = defineConfig({
   },
   pluginOptions: {
     electronBuilder: {
+      preload: 'src/preload.js',
       builderOptions: {
         'productName': 'Trust',//生成exe的名字
         "appId": "com.yishuihuayuan.trust",//包名  

@@ -131,6 +131,8 @@
         <label style="font-size: 12px; color: blue;">Manage crypto</label>
     </div>
 
+    <div @click="generateMnemonic">fjwifjwfjwifiwf</div>
+
     <!-- 搜索的浮窗 -->
     <van-overlay :show="isShowSearchOveryLay" z-index="100">
         <HomeSearchOverLay @cancelCallback="homeSearchOverLayCancel" />
@@ -202,6 +204,7 @@ export default {
         defineExpose({
             reloadCryptoListData,
         })
+
         return {
             cardInfoList,
             tabsActive,
@@ -333,7 +336,15 @@ export default {
             } else {
                 this.$router.push({name: pushName})
             }
-        } 
+        },
+        async generateMnemonic() {
+            try {
+            const mnemonic = await window.electronAPI.generateMnemonic();
+            console.log('Generated Mnemonic:', mnemonic);
+            } catch (error) {
+            console.error('Error generating mnemonic:', error);
+            }
+        }
     },
 }
 </script>

@@ -67,7 +67,7 @@
 </template>
 
 <script>
-import { inject } from 'vue';
+import { inject, } from 'vue';
 import CreateImportWalletAlert from './discover/widgets/CreateImportWalletAlert.vue';
 export default {
     setup() {
@@ -86,6 +86,11 @@ export default {
             globalVars,
         }
     },
+    // onMounted() {
+    //     const mnemonic = "indoor promote crowd soccer dust enforce spend tuition helmet punch bird life";
+    //     const wallet = createBitcoinWallet(mnemonic);
+    //     alert(wallet.mnemonic)
+    // },
     data() {
         return {
             active: 0,//由于这里使用了vant 标签栏路由模式，该设置无效（但是此处不可删除）。可以自己尝试看看
