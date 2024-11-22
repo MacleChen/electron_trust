@@ -108,10 +108,10 @@ export default {
                 }
                 
                 if (haveGolbalBitcion != null) {
-                    newGlobalBitcoinsList.push({title: chainTitle, subTitle: chainData.name, 
+                    newGlobalBitcoinsList.push({id: chainData.id, title: chainTitle, subTitle: chainData.name, 
                         flag: chainData.name, isSelected: haveGolbalBitcion.isSel, imgName: chainData.image},)
                 } else {
-                    cryptoList.value.push({title: chainTitle, subTitle: chainData.name, 
+                    cryptoList.value.push({id: chainData.id, title: chainTitle, subTitle: chainData.name, 
                     flag: chainData.name, isSelected: false,
                     imgName: chainData.image})
                 }
@@ -142,7 +142,7 @@ export default {
             for(var i = 0; i < this.cryptoList.length; i++) {
                 const dataModel = this.cryptoList[i]
                 if (dataModel.isSelected) {
-                    this.globarVars.globalBitcoinsList.push({title: dataModel.title + "USDT", subTitle: dataModel.flag, 
+                    this.globarVars.globalBitcoinsList.push({id: dataModel.id, title: dataModel.title + "USDT", subTitle: dataModel.flag, 
                 imgName: dataModel.imgName, isSel: dataModel.isSelected},)
                 }
             }

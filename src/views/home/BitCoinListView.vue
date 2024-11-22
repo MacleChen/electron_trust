@@ -13,7 +13,7 @@
             <div style="flex-grow: 1;">
                 <div style="display: flex;">
                     <label class="cell_left_title_containter" style="font-weight: bold;">{{ item.title }}</label> 
-                    <label class="cell_right_title_containter" style="font-weight: bold;">${{ formatNumber(item.money) }}</label>
+                    <label class="cell_right_title_containter" style="font-weight: bold;">${{ item.leftAllMoney }}</label>
                 </div>
                 <div style="display: flex;">
                     <label class="cell_left_title_containter">{{ item.subtitle }}</label>
@@ -40,37 +40,33 @@ export default {
         const cyptoCoinList = ref([]);
 
         const selSymbolsList = globarVars.globalBitcoinsList.filter((bitCoinModal) => bitCoinModal.isSel)
-
-        const symbolsList = selSymbolsList.map((bitCoinModal) => bitCoinModal.title )
-        const symbolsSubTitleList = selSymbolsList.map((bitCoinModal) => bitCoinModal.subTitle)
-        const symbolsImgNameList = selSymbolsList.map((bitCoinModal) => bitCoinModal.imgName)
-
+        const symbolsIDList = selSymbolsList.map((bitCoinModal) => bitCoinModal.id )
 
         // 请求币的市场列表
         var { data } = useRequest(() => {
-            return fetch(globarVars.globalBaseUrl + '/api/v3/ticker/tradingDay?symbols=' + JSON.stringify(symbolsList)).then(res => res.json());
+            return fetch('https://api.coingecko.com/api/v3/coins/markets?vs_currency=usd&ids=' + symbolsIDList.join(',')).then(res => res.json());
         })
         watch(data, (newValue) => {
             for(var i = 0; i < newValue.length; i++) {
                 const symbolData = newValue[i]
-                cyptoCoinList.value.push({title: symbolData.symbol.replace('USDT', ''), subtitle: symbolsSubTitleList[i], 
-                money: formatNumber(parseFloat(symbolData.lastPrice).toFixed(2)), percent: parseFloat(symbolData.priceChangePercent).toFixed(2),
-                 imgStr: require('../../assets/asserts/' + symbolsImgNameList[i] + '.png')},)
+                cyptoCoinList.value.push({title: symbolData.symbol.toUpperCase(), subtitle: symbolData.name, 
+                leftAllMoney: formatNumber(parseFloat(symbolData.current_price).toFixed(2)), percent: parseFloat(symbolData.price_change_percentage_24h).toFixed(2), rightTopMoney: '0', 
+                rightBottomMoney:'0.00', imgStr: symbolData.image},)
             }
         })
 
         // 接收下拉刷新处理
         const reloadCryptoListData = () => {
             const { data } = useRequest(() => {
-                return fetch(globarVars.globalBaseUrl + '/api/v3/ticker/tradingDay?symbols=' + JSON.stringify(symbolsList)).then(res => res.json());
+                return fetch('https://api.coingecko.com/api/v3/coins/markets?vs_currency=usd&ids=' + symbolsIDList.join(',')).then(res => res.json());
             })
             watch(data, (newValue) => {
                 cyptoCoinList.value = []
                 for(var i = 0; i < newValue.length; i++) {
                     const symbolData = newValue[i]
-                    cyptoCoinList.value.push({title: symbolData.symbol.replace('USDT', ''), subtitle: symbolsSubTitleList[i], 
-                    leftAllMoney: formatNumber(parseFloat(symbolData.lastPrice).toFixed(2)), percent: parseFloat(symbolData.priceChangePercent).toFixed(2), rightTopMoney: '0', 
-                    rightBottomMoney:'0.00', imgStr: require('../../assets/asserts/' + symbolsImgNameList[i] + '.png')},)
+                    cyptoCoinList.value.push({title: symbolData.symbol.toUpperCase(), subtitle: symbolData.name, 
+                    leftAllMoney: formatNumber(parseFloat(symbolData.current_price).toFixed(2)), percent: parseFloat(symbolData.price_change_percentage_24h).toFixed(2), rightTopMoney: '0', 
+                    rightBottomMoney:'0.00', imgStr: symbolData.image},)
                 }
             })
         }
