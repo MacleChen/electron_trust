@@ -43,13 +43,13 @@
 
 <script>
 import { ref, inject } from 'vue';
-import {
-  generateMnemonic,
-} from 'web-bip39';
-import wordlist from 'web-bip39/wordlists/english';
+const bip39 = require('bip39')
+import { createBitcoinWallet } from '@/services/wallet';
+import { saveUserData } from '@/utils/utils';
+
 import ShowWarningGoldMessageTip from '../discover/widgets/ShowWarningGoldMessageTip.vue';
 import BackupWalletManuallyAlert from '../discover/widgets/BackupWalletManuallyAlert.vue';
-
+import { getMyWeb3 } from '@/services/wallet';
 
 
 export default {
@@ -60,10 +60,19 @@ export default {
         const secretPhraseList = ref([])
         
         async function loadWords() {
-            const mywords = await generateMnemonic(wordlist);
-            globalVars.secretPhraseStr = mywords
-            localStorage.setItem("words", mywords)
-            secretPhraseList.value = mywords.split(' ')
+            const myWords = bip39.generateMnemonic()
+            globalVars.secretPhraseStr = myWords
+            localStorage.setItem("words", myWords)
+            secretPhraseList.value = myWords.split(' ')
+
+            const walletData = createBitcoinWallet(myWords)
+
+            // web3 
+            const web3 = getMyWeb3()
+            const userAccount = web3.eth.accounts.privateKeyToAccount(walletData.privateKey)
+
+            const userData = {userId: walletData.privateKey, wallets:[walletData], account: userAccount}
+            saveUserData(userData)
         }
         loadWords()
         return {

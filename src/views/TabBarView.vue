@@ -81,6 +81,12 @@ export default {
         //     showToast("abcs" + newValue)
         // })
 
+        // const mnemonic = "example twelve word seed phrase here example twelve";
+        // const mytest = createBitcoinWallet(mnemonic);
+        // console.log(mytest)
+
+        
+
         return {
             // isCreateImportShow,
             globalVars,

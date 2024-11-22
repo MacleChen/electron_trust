@@ -1,25 +1,16 @@
 const { defineConfig } = require('@vue/cli-service')
-const webpack = require('webpack'); // 引入 webpack 模块
+const path = require('path');
 module.exports = defineConfig({
-  transpileDependencies: true,
-  // 插件配置
   configureWebpack: {
     resolve: {
-      alias: {
-        crypto: require.resolve("crypto-browserify"),
-        stream: require.resolve("stream-browserify"),
-      },
       fallback: {
         crypto: require.resolve('crypto-browserify'),
+        stream: require.resolve('stream-browserify'),
+        // 如有其他 Node.js 模块需求，也可以在这里添加
       },
     },
-    plugins: [
-      new webpack.ProvidePlugin({
-        Buffer: ['buffer', 'Buffer'],
-        process: 'process/browser',
-      }),
-    ],
   },
+  transpileDependencies: true,
   pluginOptions: {
     electronBuilder: {
       preload: 'src/preload.js',

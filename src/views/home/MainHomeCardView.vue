@@ -16,7 +16,7 @@
                 <img v-if="!isEncryptionMoney" src="../../assets/asserts/icon-eye-show_Normal@2x.png" width="15px" height="15px" />
                 <img v-else src="../../assets/asserts/icon-eye-hide_Normal@2x.png" width="15px" height="15px" />
             </div> 
-            <label style="font-size: 14px; font-weight: bold;margin-left: 10px;" @click="mainWalletClick">Main Wallet</label>
+            <label style="font-size: 14px; font-weight: bold;margin-left: 10px;" @click="mainWalletClick">{{ walletName }}</label>
             <img style="margin-left: 3px;" src="../../assets/asserts/icon-caret-down_Normal@2x.png" width="15px" height="15px" />
         </div>
 
@@ -44,7 +44,7 @@
 
     <!-- money count -->
     <div style="text-align: left;">
-        <label style="font-size: 30px; font-weight: bold">{{ isEncryptionMoney ? "*****" : "$0.00" }}</label>
+        <label style="font-size: 30px; font-weight: bold">{{ isEncryptionMoney ? "*****" : "$" + myBalance }}</label>
     </div>
 
     <!-- trade button -->
@@ -131,8 +131,6 @@
         <label style="font-size: 12px; color: blue;">Manage crypto</label>
     </div>
 
-    <div @click="generateMnemonic">fjwifjwfjwifiwf</div>
-
     <!-- 搜索的浮窗 -->
     <van-overlay :show="isShowSearchOveryLay" z-index="100">
         <HomeSearchOverLay @cancelCallback="homeSearchOverLayCancel" />
@@ -159,6 +157,10 @@ import GlobalLoading from '../discover/widgets/GlobalLoading.vue';
 import YourAddressesAlert from '../discover/widgets/Alert/YourAddressesAlert.vue';
 import useClipboard from 'vue-clipboard3';
 import jsQR from 'jsqr';
+import { getUserData } from '@/utils/utils';
+// import { Transaction } from 'bitcoinjs-lib';
+import { getMyWeb3 } from '@/services/wallet';
+
 
 const cardInfoList = ref([
     {title: 'Launchpool is Live! Simply Lock and Earn FREE Rewards!', 
@@ -195,6 +197,18 @@ export default {
         const isShowYourAddress = ref(false)
         const isShowLoading = ref(false)
 
+        const userData = getUserData()
+        console.log(userData)
+
+        const myWeb3 = getMyWeb3()
+        const walletName = ref(userData != null ? userData.wallets[0].walletName : "")
+        const myBalance = ref(0)
+
+        const getBalance = async () => {
+            myBalance.value = await myWeb3.eth.getBalance(userData.account.address);
+        }
+        getBalance()
+
         const child = ref()
 
         const reloadCryptoListData = () => {
@@ -214,6 +228,8 @@ export default {
             child,
             isShowYourAddress,
             isShowLoading,
+            walletName,
+            myBalance,
         }
     },
     components: {
@@ -337,14 +353,6 @@ export default {
                 this.$router.push({name: pushName})
             }
         },
-        async generateMnemonic() {
-            try {
-            const mnemonic = await window.electronAPI.generateMnemonic();
-            console.log('Generated Mnemonic:', mnemonic);
-            } catch (error) {
-            console.error('Error generating mnemonic:', error);
-            }
-        }
     },
 }
 </script>

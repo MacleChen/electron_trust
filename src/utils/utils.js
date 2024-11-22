@@ -21,3 +21,13 @@ export function shuffleArray(originArray) {
 export function formatNumber(number) {
   return number.toString().replace(/\d(?=(\d{3})+\.)/g, '$&,');
 }
+
+// 存储用户信息
+export function saveUserData(userInfo) {
+  localStorage.setItem('userData', JSON.stringify(userInfo))
+}
+
+// 读取用户信息
+export function getUserData() {
+  return JSON.parse(localStorage.getItem('userData'))
+}

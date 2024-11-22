@@ -33,7 +33,7 @@
             style="margin-left: 10px; margin-top: 10px; resize: none;"
             v-model="secretPhraseStr"  
             placeholder=""></textarea>
-            <div class="global_primary_blue_text_style" style="text-align: right; margin-right: 10px">Paste</div>
+            <div class="global_primary_blue_text_style" style="text-align: right; margin-right: 10px; margin-top: -30px;">Paste</div>
         </div>
 
         <div style="margin-top: 10px; margin-left: 30px; margin-right: 30px; text-align: center;">
@@ -61,6 +61,9 @@ import {
     validateMnemonic,
 } from 'web-bip39';
 import wordlist from 'web-bip39/wordlists/english';
+import { createBitcoinWallet } from '@/services/wallet';
+import { saveUserData } from '@/utils/utils';
+import { getMyWeb3 } from '@/services/wallet';
 
 export default {
     setup() {
@@ -79,6 +82,18 @@ export default {
                 localStorage.setItem("words", secretPhraseStr.value)
                 localStorage.setItem("isBackup", true)
                 globalVars.isBackupPhrase = true
+
+                
+
+                const walletData = createBitcoinWallet(secretPhraseStr.value, inputWalletName.value)
+
+                // web3 
+                const web3 = getMyWeb3()
+                const userAccount = web3.eth.accounts.privateKeyToAccount(walletData.privateKey)
+
+                const userData = {userId: walletData.privateKey, wallets:[walletData], account: userAccount}
+                saveUserData(userData)
+
                 router.push({name: "home"})
             }
             

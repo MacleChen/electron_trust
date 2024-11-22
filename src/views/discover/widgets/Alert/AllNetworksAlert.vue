@@ -32,31 +32,35 @@
 <script>
 import { ref, inject, watch } from 'vue';
 import { useRequest } from 'vue-hooks-plus';
+// import { getChainIconImagePath } from '@/services/wallet';
 
 export default {
     setup() {
-        const networkList = ref([{title: "All Networks", imgStr: require('../../../../assets/asserts/' + '0_Normal' + '.png')}]);
+        const networkList = ref([{title: "All Networks", imgStr: require('@/assets/asserts/all_network_icon.png')}]);
         const globarVars = inject("globalVars")
 
         const searchValue = ref('');
         var backupNetworkList = []
 
         var { data } = useRequest(() => {
-            return fetch(globarVars.globalOkLinkUrl + '/api/v5/explorer/blockchain/summary', {
+            return fetch('https://api.coingecko.com/api/v3/asset_platforms', {
                 headers: {
                     "OK-Access-Key": globarVars.globalOkLinkAccessKey,
                 }
             }).then(res => res.json());
         })
         watch(data, (newValue) => {
-            if (newValue.code == "0") {
-                for(var i = 0; i < newValue.data.length; i++) {
-                    const chainData = newValue.data[i]
-                    networkList.value.push({title: chainData.chainFullName,
-                    imgStr: require('../../../../assets/asserts/' + '0_Normal' + '.png')})
+            for(var i = 0; i < newValue.length; i++) {
+                const chainData = newValue[i]
+                
+                // const logoPath = getChainIconImagePath(chainData.chainFullName)
+                if (chainData.image.small != null) {
+                    networkList.value.push({title: chainData.name,
+                        imgStr: chainData.image.small}) 
                 }
-                backupNetworkList = networkList.value
+                
             }
+            backupNetworkList = networkList.value
             
         })
 
