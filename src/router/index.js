@@ -94,6 +94,22 @@ const routes = [
     component: () => import('../views/home/HomeWalletOperate/SendCryptoView.vue')
   },
   {
+    path: '/buyCryptoDetailView',
+    name: 'buyCryptoDetailView',
+    meta: {
+      index:3,
+    },
+    component: () => import('../views/home/HomeWalletOperate/BuyCryptoDetail/BuyCryptoDetailView.vue')
+  },
+  {
+    path: '/paymentMethodView',
+    name: 'paymentMethodView',
+    meta: {
+      index:3,
+    },
+    component: () => import('../views/home/HomeWalletOperate/BuyCryptoDetail/PaymentMethodView.vue')
+  },
+  {
     path: '/receiveCryptoView',
     name: 'receiveCryptoView',
     meta: {

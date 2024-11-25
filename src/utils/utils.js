@@ -31,3 +31,13 @@ export function saveUserData(userInfo) {
 export function getUserData() {
   return JSON.parse(localStorage.getItem('userData'))
 }
+
+// 本地存储字典
+export function localStorageSetDict(key, dictInfo) {
+  localStorage.setItem(key, JSON.stringify(dictInfo))
+}
+
+// 获取本地存储的字典
+export function getLocalStorageDict(key) {
+  return JSON.parse(localStorage.getItem(key))
+}

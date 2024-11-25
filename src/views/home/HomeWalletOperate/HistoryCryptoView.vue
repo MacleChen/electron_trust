@@ -117,12 +117,6 @@ export default {
     },
     methods: {
         navBarLeftClick() {
-            this.globarVars.globalBitcoinsList = []
-            for(var i = 0; i < this.cryptoList.length; i++) {
-                const dataModel = this.cryptoList[i]
-                this.globarVars.globalBitcoinsList.push({title: dataModel.title + "USDT", subTitle: dataModel.flag, 
-                imgName: dataModel.imgName, isSel: dataModel.isSelected},)
-            }
 
             this.$router.back()
         },

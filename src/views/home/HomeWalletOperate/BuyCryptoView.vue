@@ -61,10 +61,11 @@
             </div>
 
             <div style="margin-top: 8px;">
-                <div class="content_hleft_vcenter" style="height: 50px;"
-                v-for="item in cryptoList" :key="item.title">
+                <div class="content_hleft_vcenter" style="height: 60px;"
+                v-for="item in cryptoList" :key="item.title"
+                @click="buyCryptoCellClick(item)">
                     <div style="width: 10%; text-align: left;">
-                        <img :src="require('../../../assets/asserts/' + item.imgName + '.png')" width="25px" />
+                        <img :src="item.imgName" width="25px" />
                     </div>
 
                     <div style="width: 75%; text-align: left">
@@ -107,6 +108,7 @@ import { showToast } from 'vant';
 import AllNetworksAlert from '@/views/discover/widgets/Alert/AllNetworksAlert.vue';
 import { useRequest } from 'vue-hooks-plus';
 import ManageCryptoEmpty from '../ManageCrypto/ManageCryptoEmpty.vue';
+import { formatNumber } from '@/utils/utils';
 
 export default {
     setup() {
@@ -120,32 +122,24 @@ export default {
         
         const cryptoList = ref([]);
         var backupCryptoList = ref([])
-        for (let i  = 0; i < globarVars.globalBitcoinsList.length; i++) {
-            const bitcoinModel = globarVars.globalBitcoinsList[i]
-            const myTitle = bitcoinModel.title.replace('USDT', '')
-            cryptoList.value.push({title: myTitle, subTitle: myTitle, 
-                flag: bitcoinModel.subTitle, isSelected: bitcoinModel.isSel, 
-                allMoney: 684830.23, percent: 0.45, rightTopMoney: 0, rightBottomMoney:0.00,
-                imgName: bitcoinModel.imgName},)
-        }
 
         var { data } = useRequest(() => {
-            return fetch(globarVars.globalOkLinkUrl + '/api/v5/explorer/tokenprice/chain-list', {
+            return fetch('https://api.coingecko.com/api/v3/coins/markets?vs_currency=usd', {
                 headers: {
                     "OK-Access-Key": globarVars.globalOkLinkAccessKey,
                 }
             }).then(res => res.json());
         })
         watch(data, (newValue) => {
-            if (newValue.code == "0") {
-                for(var i = 0; i < newValue.data.length; i++) {
-                    const chainData = newValue.data[i]
-                    cryptoList.value.push({title: chainData.chainShortName, subTitle: chainData.chainShortName, 
-                    flag: chainData.chainFullName, isSelected: false, allMoney: 684830.23, percent: 0.45, rightTopMoney: 0, rightBottomMoney:0.00,
-                    imgName: '0_Normal'})
-                }
-                backupCryptoList.value = cryptoList.value
+            for(var i = 0; i < newValue.length; i++) {
+                const chainData = newValue[i]
+                cryptoList.value.push({id: chainData.id, title: chainData.symbol.toUpperCase(), subTitle: chainData.name, 
+                flag: chainData.name, isSelected: false,
+                allMoney: formatNumber(parseFloat(chainData.current_price).toFixed(2)), percent: formatNumber(parseFloat(chainData.price_change_percentage_24h).toFixed(2)), 
+                rightTopMoney: '0', rightBottomMoney:'0.00',
+                imgName: chainData.image})
             }
+            backupCryptoList.value = cryptoList.value
         })
 
         return {
@@ -164,12 +158,6 @@ export default {
     },
     methods: {
         navBarLeftClick() {
-            this.globarVars.globalBitcoinsList = []
-            for(var i = 0; i < this.cryptoList.length; i++) {
-                const dataModel = this.cryptoList[i]
-                this.globarVars.globalBitcoinsList.push({title: dataModel.title + "USDT", subTitle: dataModel.flag, 
-                imgName: dataModel.imgName, isSel: dataModel.isSelected},)
-            }
 
             this.$router.back()
         },
@@ -195,6 +183,9 @@ export default {
         },
         importOrAndNewCryptoClick() {
             this.$router.push({ name: 'importCryptoView' })
+        },
+        buyCryptoCellClick(item) {
+            this.$router.push({name: 'buyCryptoDetailView', query: item})
         }
     }
 }

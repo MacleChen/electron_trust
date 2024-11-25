@@ -19,7 +19,7 @@
         <img  @dragstart.prevent alt="Vue logo" src="../../assets/asserts/tw-badge_Normal@2x.png" height="150">
         <h3>{{ $t("homePage.intro") }}</h3>
         <CreateImportWalletVCard />
-        <BitCoinListView />
+        <BitCoinListView ref="child"/>
         </van-space>
     </div>
     <MainHomeCardView v-else  :isNeedRefresh="isNeedRefresh" ref="child"/>

@@ -62,7 +62,7 @@
                         </div>
 
                         <div class="item_content_cell_style" style="width: 25%; justify-content: flex-end;">
-                            <label style="font-size: 14px; font-weight: bold; color: red;">{{ item.percent }}%</label>
+                            <label style="font-size: 14px; font-weight: bold; color: red;" :style="{color: item.percent > 0 ? 'green' : 'red'}">{{ item.percent }}%</label>
                         </div>
                     </div>
                 </template>
@@ -90,24 +90,21 @@ export default {
     const onLoad = () => {
         
         var { data } = useRequest(() => {
-            return fetch(globarVars.globalOkLinkUrl + '/api/v5/explorer/token/token-list?chainShortName=eth&limit=50', {
+            return fetch('https://api.coingecko.com/api/v3/coins/markets?vs_currency=usd', {
                 headers: {
                     "OK-Access-Key": globarVars.globalOkLinkAccessKey,
                 }
             }).then(res => res.json());
         })
         watch(data, (newValue) => {
-            if (newValue.code == "0") {
-                
-                for(var i = 0; i < newValue.data[0].tokenList.length; i++) {
-                    const chainData = newValue.data[0].tokenList[i]
-                    cryptoList.value.push({title: chainData.token, subTitle: formatNumber(parseFloat(chainData.transactionAmount24h).toFixed(2)), 
-                    price: formatNumber(parseFloat(chainData.price).toFixed(2)), percent: 2.63,
-                    imgName: chainData.logoUrl})
-                }
-                
-                backupCryptoList.value = cryptoList.value
+            for(var i = 0; i < newValue.length; i++) {
+                const chainData = newValue[i]
+                cryptoList.value.push({title: chainData.symbol.toUpperCase(), subTitle: formatNumber(parseFloat(chainData.price_change_24h).toFixed(2)), 
+                price: formatNumber(parseFloat(chainData.current_price).toFixed(2)), percent: formatNumber(parseFloat(chainData.price_change_percentage_24h).toFixed(2)),
+                imgName: chainData.image})
             }
+                
+            backupCryptoList.value = cryptoList.value
 
             loading.value = false
             finished.value = true

@@ -26,7 +26,7 @@
                 <div class="content_hleft_vcenter" style="height: 50px;"
                 v-for="item in cryptoList" :key="item.title">
                     <div style="width: 10%; text-align: left;">
-                        <img :src="require('../../../assets/asserts/' + item.imgName + '.png')" width="25px" />
+                        <img :src="item.imgName" width="25px" />
                     </div>
 
                     <div style="width: 75%; text-align: left">
@@ -75,30 +75,43 @@ export default {
         
         const cryptoList = ref([]);
         var backupCryptoList = ref([])
-        for (let i  = 0; i < globarVars.globalBitcoinsList.length; i++) {
-            const bitcoinModel = globarVars.globalBitcoinsList[i]
-            const myTitle = bitcoinModel.title.replace('USDT', '')
-            cryptoList.value.push({title: myTitle, subTitle: myTitle, 
-                flag: bitcoinModel.subTitle, isSelected: bitcoinModel.isSel, imgName: bitcoinModel.imgName},)
-        }
 
         var { data } = useRequest(() => {
-            return fetch(globarVars.globalOkLinkUrl + '/api/v5/explorer/tokenprice/chain-list', {
+            return fetch('https://api.coingecko.com/api/v3/coins/markets?vs_currency=usd', {
                 headers: {
                     "OK-Access-Key": globarVars.globalOkLinkAccessKey,
                 }
             }).then(res => res.json());
         })
         watch(data, (newValue) => {
-            if (newValue.code == "0") {
-                for(var i = 0; i < newValue.data.length; i++) {
-                    const chainData = newValue.data[i]
-                    cryptoList.value.push({title: chainData.chainShortName, subTitle: chainData.chainShortName, 
-                    flag: chainData.chainFullName, isSelected: false,
-                    imgName: '0_Normal'})
+            const newGlobalBitcoinsList = []
+            for(var i = 0; i < newValue.length; i++) {
+                const chainData = newValue[i]
+                const chainTitle = chainData.symbol.toUpperCase()
+                var haveGolbalBitcion = null
+                
+                for (let j  = 0; j < globarVars.globalBitcoinsList.length; j++) {
+                    const defaultChainModel = globarVars.globalBitcoinsList[j]
+                    
+                    const defaultTitle = defaultChainModel.title.replace('USDT', '')
+                    
+                    if (chainTitle == defaultTitle) {
+                        haveGolbalBitcion = defaultChainModel
+                        break
+                    }
                 }
-                backupCryptoList.value = cryptoList.value
+                
+                if (haveGolbalBitcion != null) {
+                    newGlobalBitcoinsList.push({id: chainData.id, title: chainTitle, subTitle: chainData.name, 
+                        flag: chainData.name, isSelected: haveGolbalBitcion.isSel, imgName: chainData.image},)
+                } else {
+                    cryptoList.value.push({id: chainData.id, title: chainTitle, subTitle: chainData.name, 
+                    flag: chainData.name, isSelected: false,
+                    imgName: chainData.image})
+                }
             }
+            cryptoList.value.splice(0, 0, ...newGlobalBitcoinsList)
+            backupCryptoList.value = cryptoList.value
         })
 
         return {
@@ -120,8 +133,10 @@ export default {
             this.globarVars.globalBitcoinsList = []
             for(var i = 0; i < this.cryptoList.length; i++) {
                 const dataModel = this.cryptoList[i]
-                this.globarVars.globalBitcoinsList.push({title: dataModel.title + "USDT", subTitle: dataModel.flag, 
+                if (dataModel.isSelected) {
+                    this.globarVars.globalBitcoinsList.push({id: dataModel.id, title: dataModel.title + "USDT", subTitle: dataModel.flag, 
                 imgName: dataModel.imgName, isSel: dataModel.isSelected},)
+                }
             }
 
             this.$router.back()
