@@ -290,9 +290,17 @@ const routes = [
     path: '/commonWebView',
     name: 'commonWebView',
     meta: {
-      index:1,
+      index:100,
     },
     component: () => import('../views/others/CommonWebView.vue')
+  },
+  {
+    path: '/payWithTransakWebView',
+    name: 'payWithTransakWebView',
+    meta: {
+      index:100,
+    },
+    component: () => import('../views/others/PayWithTransakWebView.vue')
   },
   {
     path: '/createPasscode',

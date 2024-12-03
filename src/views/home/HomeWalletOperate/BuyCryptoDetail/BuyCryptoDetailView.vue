@@ -76,7 +76,7 @@
             </div>
         </div>
 
-        <div class="global_primary_button_div_style" style="margin-top: 15px;">
+        <div class="global_primary_button_div_style" style="margin-top: 15px;" @click="buyWithCryptoBtnClick">
             <label>Buy with {{ currentPayMethod.title }}</label>
         </div>
 
@@ -156,6 +156,9 @@ export default {
         reconmmendedClick() {
             this.$router.push({name: 'paymentMethodView', query: {currentSelectCountry: this.currentSelectCountry }})
         },
+        buyWithCryptoBtnClick() {
+            this.$router.push({name: 'payWithTransakWebView' })
+        }
     }
 }
 </script>
