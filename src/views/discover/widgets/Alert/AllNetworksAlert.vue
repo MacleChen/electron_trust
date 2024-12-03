@@ -43,7 +43,7 @@ export default {
         var backupNetworkList = []
 
         var { data } = useRequest(() => {
-            return fetch('https://api.coingecko.com/api/v3/asset_platforms', {
+            return fetch('https://api.coingecko.com/api/v3/coins/markets?vs_currency=usd', {
                 headers: {
                     "OK-Access-Key": globarVars.globalOkLinkAccessKey,
                 }
@@ -54,9 +54,20 @@ export default {
                 const chainData = newValue[i]
                 
                 // const logoPath = getChainIconImagePath(chainData.chainFullName)
-                if (chainData.image.small != null) {
-                    networkList.value.push({title: chainData.name,
-                        imgStr: chainData.image.small}) 
+                if (chainData.image != null) {
+                    networkList.value.push({
+                        id: chainData.id,
+                        title: chainData.name,
+                        imgStr: chainData.image,
+                        fromNetworkName: chainData.name,
+                        fromNetworkImage: chainData.image,
+                        fromCryptoName: chainData.symbol.toUpperCase(),
+                        fromCryptoImage: chainData.image,
+                        toNetworkName: chainData.name,
+                        toNetworkImage: chainData.image,
+                        toCryptoName: chainData.symbol.toUpperCase(),
+                        toCryptoImage: chainData.image,
+                    }) 
                 }
                 
             }
