@@ -18,7 +18,7 @@
             <div style="margin-top: 8px;">
                 <div class="content_hleft_vcenter" style="height: 50px;"
                 v-for="item in cryptoList" :key="item.title"
-                @click="assetCellClick(item.webUrl)">
+                @click="assetCellClick(item)">
                     <div style="width: 10%; text-align: left;">
                         <img :src="item.imgName" width="25px" />
                     </div>
@@ -26,7 +26,7 @@
                     <div style="width: 90%; text-align: left">
                         <div class="content_hleft_vcenter">
                             <label class="global_primary_black_text_style">{{ item.title }}</label>
-                            <label class="global_flag_gray_text_style" style="margin-left: 5px;">{{ item.flag }}</label>
+                            <label class="global_flag_gray_text_style" style="margin-left: 5px;">{{ totalChainName }}</label>
                         </div>
                         
                         <div>
@@ -49,9 +49,11 @@
 <script>
 import { ref, inject, watch } from 'vue';
 import { showToast } from 'vant';
+import { useRoute } from 'vue-router';
 import AllNetworksAlert from '@/views/discover/widgets/Alert/AllNetworksAlert.vue';
 import { useRequest } from 'vue-hooks-plus';
 import ManageCryptoEmpty from '../ManageCrypto/ManageCryptoEmpty.vue';
+import { localStorageSetDict } from '@/utils/utils';
 
 export default {
     setup() {
@@ -61,12 +63,15 @@ export default {
 
         const showNetworkTypeStr = ref('All Networks')
         const isShowAllNetwork = ref(false)
+        const route = useRoute()
+        let isFromCrypto = route.query.isFromCrypto
+        const totalChainName = ref('' + route.query.chainName)
+        let netwrokName = totalChainName.value.slice(0, 3).toLowerCase() 
 
-        
         const cryptoList = ref([]);
         var backupCryptoList = ref([])
         var { data } = useRequest(() => {
-            return fetch(globarVars.globalOkLinkUrl + '/api/v5/explorer/token/token-list?chainShortName=eth&limit=50', {
+            return fetch(globarVars.globalOkLinkUrl + '/api/v5/explorer/token/token-list?chainShortName=' + netwrokName + '&limit=50', {
                 headers: {
                     "OK-Access-Key": globarVars.globalOkLinkAccessKey,
                 }
@@ -76,8 +81,10 @@ export default {
             if (newValue.code == "0") {
                 for(var i = 0; i < newValue.data[0].tokenList.length; i++) {
                     const chainData = newValue.data[0].tokenList[i]
-                    cryptoList.value.push({title: chainData.token, subTitle: chainData.token, 
-                    flag: chainData.tokenFullName, webUrl: chainData.website,
+                    cryptoList.value.push({title: chainData.tokenFullName, 
+                        subTitle: chainData.token, 
+                    flag: chainData.tokenFullName,
+                    webUrl: chainData.website,
                     imgName: chainData.logoUrl})
                 }
                 backupCryptoList.value = cryptoList.value
@@ -92,6 +99,8 @@ export default {
         cryptoList,
         backupCryptoList,
         globarVars,
+        totalChainName,
+        isFromCrypto,
         };
     },
     components: {
@@ -127,14 +136,23 @@ export default {
             } else {
                 this.cryptoList = this.backupCryptoList.filter((dataModel) => dataModel.flag.toLowerCase().includes(item.title.toLowerCase()))
             }
-            
         },
         importOrAndNewCryptoClick() {
             this.$router.push({ name: 'importCryptoView' })
         },
-        assetCellClick(webUrl) {
-            if (webUrl != null && webUrl != '') {
-                this.$router.push({ name: 'commonWebView', query: { requestURL: webUrl } })
+        assetCellClick(item) {
+            if (this.totalChainName != null) {
+                if (this.isFromCrypto == true) {
+                    localStorageSetDict("fromCrypto", item)
+                } else {
+                    localStorageSetDict("toCrypto", item)
+                }
+                this.$router.back()
+                return;
+            }
+
+            if (item.webUrl != null && item.webUrl != '') {
+                this.$router.push({ name: 'commonWebView', query: { requestURL: item.webUrl } })
             } else {
                 showToast('Host is empty.')
             }

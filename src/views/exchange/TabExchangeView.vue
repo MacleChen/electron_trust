@@ -26,8 +26,11 @@
                 <input class="sub_title_text_style no-border my_tab_exchange_input" type="number" 
                 ref="input"
                 placeholder="0"
-                style="width: 200px; font-size: 30px; text-align: right; background: transparent" v-model="moneyCount" label="" />
+                style="width: 200px; font-size: 30px; text-align: right; background: transparent; color: black;" v-model="moneyCount" label="" />
             </div>
+        </div>
+        <div style="text-align: right; margin-right: 15px;" v-if="moneyCount != ''">
+            <label class="sub_title_text_style">${{ fromRealMoneyCount }}</label>
         </div>
     </div>
 
@@ -58,8 +61,12 @@
                 <img src="../../assets/asserts/Arrow Right (1)_Normal@3x.png" width="5px" height="10px"/>
             </div>
             <div class="cell_right_title_containter">
-                <label class="sub_title_text_style" style="font-size: 30px;">0</label>
+                <label class="sub_title_text_style" style="font-size: 30px;">{{ moneyCount * ethToUniRate }}</label>
             </div>
+        </div>
+        <div style="text-align: right; margin-right: 15px;" v-if="moneyCount != ''">
+            <label class="sub_title_text_style">${{ toRealMoneyCount }}</label>
+            <label class="sub_title_text_style" style="color: red; margin-left: 5px;">(-2.90%)</label>
         </div>
     </div>
 
@@ -78,8 +85,45 @@
         <img style="margin-left: 5px;" src="../../assets/asserts/convert-horizontal-f_Normal@2x.png" width="15px" height="15px"/>
     </div>
 
-    <van-button color="blue" block round style="margin-top: 20px; font-weight: bold;"
-        type="primary">Continue</van-button>
+        <div class="global_primary_button_div_style" style="margin-top: 20px;" @click="continueBtnClick"
+        :style="{background: moneyCount == '' ? 'lightGray':'blue'}">
+            <label>{{ moneyCount == '' ? 'Continue' : 'Insufficient ' + fromCryptoInfoModel.fromCryptoName + ' balance' }}</label>
+        </div>
+    </div>
+
+    <div style="margin-top: 20px; margin-left: 15px; margin-right: 15px; text-align: left;" v-if="moneyCount != ''">
+        <div class="content_hleft_vcenter" style="height: 30px;">
+            <div style="width: 50%;">
+                <label class="global_desciption_text_style">Provider</label>
+            </div>
+
+            <div style="width: 50%; text-align: right;" class="content_hright_vcenter">
+                <img style="margin-left: 5px;" :src="toCryptoInfoModel.toCryptoImage" width="15px" height="15px"/>
+                <label class="global_desciption_text_style" style="color: black">1 inch Network</label>
+            </div>
+        </div>
+
+        <div class="content_hleft_vcenter" style="height: 30px;">
+            <div style="width: 25%;" class="content_hleft_vcenter">
+                <label class="global_desciption_text_style">Provider Fee</label>
+                <img style="margin-left: 5px;" src="../../assets/asserts/circled-info-f_Normal@2x.png" width="15px" height="15px"/>
+            </div>
+
+            <div style="width: 75%; text-align: right;" class="content_hright_vcenter">
+                <label class="global_desciption_text_style" style="color: black">{{ toRealRateModel == null ? 0 : (toRealRateModel.circulating_supply + ' ' + toCryptoInfoModel.toCryptoName + ' (≈$' + toRealRateModel.circulating_supply * 0.7 + ')') }}</label>
+            </div>
+        </div>
+
+        <div class="content_hleft_vcenter" style="height: 30px;">
+            <div style="width: 50%;">
+                <label class="global_desciption_text_style">Max Slippage</label>
+            </div>
+
+            <div style="width: 50%; text-align: right;" class="content_hright_vcenter">
+                <label class="global_desciption_text_style" style="color: black">1.0%</label>
+                <img style="margin-left: 5px;" src="../../assets/asserts/chevron-right-f_Normal@2x.png" width="15px" height="15px"/>
+            </div>
+        </div>
     </div>
 
     <van-action-sheet v-model:show="isShowAllNetwork" title="Networks">
@@ -88,25 +132,39 @@
 </template>
 
 <script>
-import { ref, inject, watch, onMounted, onBeforeUnmount } from 'vue';
+import { ref, onMounted, onBeforeUnmount } from 'vue';
 import AllNetworksAlert from '../discover/widgets/Alert/AllNetworksAlert.vue';
-import { useRequest } from 'vue-hooks-plus';
 import axios from 'axios';
-import { showToast } from 'vant';
-
-// 启动定时器
-const globarVars = inject("globalVars")
+import { getLocalStorageDict } from '@/utils/utils';
 
 export default {
   setup() {
+    const moneyCount = ref('')
     const isShowAllNetwork = ref(false)
     const isFromCryptoClick = ref(true)
-    const fromCryptoInfoModel = ref({id: "ethereum", fromNetworkName: 'Ethereum', fromNetworkImage: 'https://coin-images.coingecko.com/coins/images/279/large/ethereum.png?1696501628',
-        fromCryptoName: 'ETH', fromCryptoImage: 'https://coin-images.coingecko.com/coins/images/279/large/ethereum.png?1696501628'
+    const fromCryptoInfoModel = ref({id: "ethereum", 
+        fromNetworkName: 'Ethereum', 
+        fromNetworkImage: 'https://coin-images.coingecko.com/coins/images/279/large/ethereum.png?1696501628',
+        fromCryptoName: 'ETH', 
+        fromCryptoImage: 'https://coin-images.coingecko.com/coins/images/279/large/ethereum.png?1696501628',
     })
-    const toCryptoInfoModel = ref({id: "uniswap", toNetworkName: 'Ethereum', toNetworkImage: 'https://coin-images.coingecko.com/coins/images/279/large/ethereum.png?1696501628',
-    toCryptoName: 'UNI', toCryptoImage: 'https://coin-images.coingecko.com/coins/images/12504/large/uniswap-logo.png?1720676669'
+    const localFromCrypto = getLocalStorageDict("fromCrypto")
+    if (localFromCrypto != null) {
+        fromCryptoInfoModel.value.fromCryptoName = localFromCrypto.subTitle
+        fromCryptoInfoModel.value.fromCryptoImage = localFromCrypto.imgName
+    }
+
+    const toCryptoInfoModel = ref({id: "uniswap", 
+        toNetworkName: 'Ethereum', 
+        toNetworkImage: 'https://coin-images.coingecko.com/coins/images/279/large/ethereum.png?1696501628',
+        toCryptoName: 'UNI', 
+        toCryptoImage: 'https://coin-images.coingecko.com/coins/images/12504/large/uniswap-logo.png?1720676669',
     })
+    const localToCrypto = getLocalStorageDict("toCrypto")
+    if (localToCrypto != null) {
+        toCryptoInfoModel.value.toCryptoName = localToCrypto.subTitle
+        toCryptoInfoModel.value.toCryptoImage = localToCrypto.imgName
+    }
 
     // 定义响应式数据
     const ethToUniRate = ref(null); // 存储 ETH 和 UNI 的汇率
@@ -116,6 +174,11 @@ export default {
 
     let intervalId = null; // 汇率查询定时器
     let progressTimer = null; // 进度条更新定时器
+
+    const fromRealRateModel = ref(null)
+    const toRealRateModel = ref(null)
+    const fromRealMoneyCount = ref(0)
+    const toRealMoneyCount = ref(0)
 
     // 查询汇率的函数
     const fetchExchangeRate = async () => {
@@ -130,12 +193,15 @@ export default {
         });
 
         const data = response.data;
-        const ethPrice = data.find(coin => coin.id === 'ethereum').current_price;
-        const uniPrice = data.find(coin => coin.id === 'uniswap').current_price;
+        fromRealRateModel.value = data.find(coin => coin.id === 'ethereum')
+        toRealRateModel.value = data.find(coin => coin.id === 'uniswap')
+        const ethPrice = fromRealRateModel.value.current_price;
+        const uniPrice = toRealRateModel.value.current_price;
 
+        fromRealMoneyCount.value = (ethPrice * moneyCount.value).toFixed(2)
+        toRealMoneyCount.value = fromRealMoneyCount.value - (fromRealMoneyCount.value * 0.029)
         // 计算汇率
-        ethToUniRate.value = (ethPrice / uniPrice).toFixed(10); // 保留两位小数
-        showToast("" + ethToUniRate.value)
+        ethToUniRate.value = (ethPrice / uniPrice).toFixed(10); 
       } catch (err) {
         error.value = 'Failed to fetch exchange rate';
         console.error(err);
@@ -188,6 +254,11 @@ export default {
       progress,
       loading,
       error,
+      fromRealRateModel,
+      toRealRateModel,
+      moneyCount,
+      fromRealMoneyCount,
+      toRealMoneyCount,
     }
   },
   components: {
@@ -217,26 +288,17 @@ export default {
         
     },
     fromCryptoClick() {
-        this.$router.push({name: 'selectAssetView'})
+        this.$router.push({name: 'selectAssetView', query: { isFromCrypto: true, chainName: this.fromCryptoInfoModel.fromNetworkName }})
     },
     toCryptoClick() {
-        this.$router.push({name: 'selectAssetView'})
+        this.$router.push({name: 'selectAssetView', query: { isFromCrypto: false, chainName: this.toCryptoInfoModel.toNetworkName }})
     },
-    updateFromCryptoAndToCryptoExchangeRate() {
-        var { data } = useRequest(() => {
-            return fetch('https://api.coingecko.com/api/v3/coins/markets?vs_currency=usd&ids='+ this.fromCryptoInfoModel.id +',' + this.toCryptoInfoModel.id, {
-                headers: {
-                    "OK-Access-Key": globarVars.globalOkLinkAccessKey,
-                }
-            }).then(res => res.json());
-        })
-        watch(data, (newValue) => {
-            const ethPrice = newValue.find(coin => coin.id === 'ethereum').current_price;
-            const uniPrice = newValue.find(coin => coin.id === 'uniswap').current_price;
-            // 计算 ETH 和 UNI 之间的汇率
-            this.ethToUniRate = ethPrice / uniPrice;
-            alert(this.ethToUniRate)
-        })
+    continueBtnClick() {
+        if (this.moneyCount == '') { return }
+        
+        const cryptoItem = {id: this.fromCryptoInfoModel.id, title: this.fromCryptoInfoModel.fromCryptoName, subTitle: this.fromCryptoInfoModel.fromNetworkName, 
+                flag: this.fromCryptoInfoModel.fromNetworkName, imgName: this.fromCryptoInfoModel.fromCryptoImage}
+        this.$router.push({name: 'buyCryptoDetailView', query: cryptoItem})
     }
   }
 };
