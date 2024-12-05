@@ -374,6 +374,38 @@ const routes = [
     },
     component: () => import('../views/discover/widgets/ConfirmPasscodeAlert.vue')
   },
+  {
+    path: '/nativeStakingDetailView',
+    name: 'nativeStakingDetailView',
+    meta: {
+      index:1,
+    },
+    component: () => import('../views/money/NativeStakingDetail/NativeStakingDetailView.vue')
+  },
+  {
+    path: '/stakeInputAmountView',
+    name: 'stakeInputAmountView',
+    meta: {
+      index:2,
+    },
+    component: () => import('../views/money/NativeStakingDetail/StakeInputAmountView.vue')
+  },
+  {
+    path: '/providersView',
+    name: 'providersView',
+    meta: {
+      index:3,
+    },
+    component: () => import('../views/money/NativeStakingDetail/ProvidersView.vue')
+  },
+  {
+    path: '/rewardsTrackerView',
+    name: 'rewardsTrackerView',
+    meta: {
+      index:1,
+    },
+    component: () => import('../views/money/LaunchPoolDetail/RewardsTrackerView.vue')
+  },
 ]
 
 const router = createRouter({

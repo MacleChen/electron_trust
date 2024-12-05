@@ -7,7 +7,7 @@
                 <div>
                     <label style="font-size: 12px; font-weight: bold; color: black;">Stake Your ETH with Trust</label>
                 </div>
-                <div style="display: flex; justify-content: left; margin-top: 4px; align-items: center;">
+                <div style="display: flex; justify-content: left; margin-top: 4px; align-items: center;" @click="stakeNowOrCellBtnClick(0)">
                     <label style="font-size: 10px; font-weight: bold; color: blue; margin-right: 4px;">Stake now</label>
                     <img src="../../assets/asserts/arrow-right-f_Normal@2x.png" width="20px" height="20px" />
                 </div>
@@ -19,21 +19,21 @@
             finished-text="没有更多了"
             @load="onLoad"
         >
-            <van-cell v-for="item in list" :key="item">
+            <van-cell v-for="(item, index) in cryptoList" :key="item"  @click="stakeNowOrCellBtnClick(index)">
                 <template #default>
                     <div style="width: 100%; height: 50px; display: flex; align-items: center;">
                         <div class="item_content_cell_style" style="width: 50%; justify-content: left;">
-                            <img style="margin-left: 5px;" src="../../assets/asserts/5_Normal.png" width="30px" height="30px"/>
+                            <img style="margin-left: 5px;" :src="item.imgName" width="30px" height="30px"/>
                             <div style="margin-left: 10px; ">
                                 <div>
-                                    <label style="font-size: 14px; font-weight: bold; color: black;">Ethereum(ETH)</label>
+                                    <label style="font-size: 14px; font-weight: bold; color: black;">{{ item.flag }}({{ item.title }})</label>
                                 </div>
                             </div>
                             
                         </div>
 
                         <div class="item_content_cell_style" style="width: 50%; justify-content: flex-end;">
-                            <label style="font-size: 14px; font-weight: bold; color: green;">ARP+1.53%</label>
+                            <label style="font-size: 14px; font-weight: bold; color: green;" :style="{color: item.percent > 0 ? 'green' : 'red'}" >ARP {{ item.percent > 0 ? ('+' + item.percent) : ('' + item.percent) }}%</label>
                         </div>
                     </div>
                 </template>
@@ -44,52 +44,50 @@
 </template>
 
 <script>
-import { ref } from 'vue';
+import { ref, watch, inject } from 'vue';
+import { useRequest } from 'vue-hooks-plus';
 
 export default {
     setup() {
-    const list = ref([]);
+    const globarVars = inject("globalVars")
     const loading = ref(false);
     const finished = ref(false);
     const refreshing = ref(false);
 
-    const onLoad = () => {
-      setTimeout(() => {
-        if (refreshing.value) {
-          list.value = [];
-          refreshing.value = false;
+    const cryptoList = ref([]);
+    var backupCryptoList = ref([])
+
+    var { data } = useRequest(() => {
+        return fetch('https://api.coingecko.com/api/v3/coins/markets?vs_currency=usd', {
+            headers: {
+                "OK-Access-Key": globarVars.globalOkLinkAccessKey,
+            }
+        }).then(res => res.json());
+    })
+    watch(data, (newValue) => {
+        for(var i = 0; i < newValue.length; i++) {
+            const chainData = newValue[i]
+            cryptoList.value.push({id: chainData.id, title: chainData.symbol.toUpperCase(), subTitle: chainData.name, 
+                flag: chainData.name, isSelected: false,
+                percent: chainData.ath_change_percentage,
+                imgName: chainData.image})
         }
-
-        for (let i = 0; i < 10; i++) {
-          list.value.push(list.value.length + 1);
-        }
-        loading.value = false;
-
-        if (list.value.length >= 400) {
-          finished.value = true;
-        }
-      }, 1000);
-    };
-
-    const onRefresh = () => {
-      // 清空列表数据
-      finished.value = false;
-
-      // 重新加载数据
-      // 将 loading 设置为 true，表示处于加载状态
-      loading.value = true;
-      onLoad();
-    };
+        backupCryptoList.value = cryptoList.value
+    })
 
     return {
-      list,
-      onLoad,
       loading,
       finished,
-      onRefresh,
       refreshing,
+      cryptoList,
     };
   },
+  methods: {
+    stakeNowOrCellBtnClick(index) {
+        let item = this.cryptoList[index]
+        this.$router.push({ name: 'nativeStakingDetailView', query: { dataDict: JSON.stringify(item) }})
+    }
+  }
 }
 </script>
 

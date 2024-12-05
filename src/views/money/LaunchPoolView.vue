@@ -1,7 +1,7 @@
 <template>
 <div style="margin: 15px;">
     <van-pull-refresh v-model="refreshing" @refresh="onRefresh">
-      <div class="rewards_cell_container">
+      <div class="rewards_cell_container" @click="rewardsTrackerCellClick">
         <div style="display: flex; justify-content: center; align-items: center; width: 30px; height: 30px; background-color: #dbdbf5; border-radius: 15px; margin-left: 10px;">
             <img src="../../assets/asserts/gift-1c_Normal@2x.png" width="15px" height="15px"/>
         </div>
@@ -256,6 +256,11 @@ export default {
       onRefresh,
     };
   },
+  methods: {
+    rewardsTrackerCellClick() {
+        this.$router.push({name : "rewardsTrackerView"})
+    }
+  }
 }
 </script>
 

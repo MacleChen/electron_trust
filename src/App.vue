@@ -171,6 +171,18 @@ nav a.router-link-exact-active {
   color: #0400f4;
 }
 
+.global_tip_gold_text_style {
+  font-size: 10px;
+  font-weight: 300;
+  color: #d0a137;
+}
+
+.global_input_error_tip_text_style {
+  font-size: 10px;
+  font-weight: 300;
+  color: red;
+}
+
 .global_flag_gray_text_style {
   background-color: #e2e2e2;
   border-radius: 3px;
