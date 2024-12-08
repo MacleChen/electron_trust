@@ -220,6 +220,13 @@ nav a.router-link-exact-active {
   /* 根据需要添加其他样式，比如背景颜色等 */
 }
 
+.wors_last_ellipsis_three_points {
+  text-overflow: ellipsis; 
+  line-clamp: 1; 
+  overflow: hidden;
+  white-space: nowrap;
+}
+
 
 input[type=number]::-webkit-inner-spin-button, 
 input[type=number]::-webkit-outer-spin-button { 

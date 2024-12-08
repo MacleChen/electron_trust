@@ -60,178 +60,94 @@
 
       <div class="ended_container">
         <div style="font-size: 14px; color: gray; font-weight: bold; text-align: left;">Ended</div>
-        <div class="ended_cell_container">
+        <div class="ended_cell_container" v-for="item in endedDataSource" :key="item.title" style="padding-bottom: 10px;">
             <div class="ended_cell_top_container">
-                <div style="width: 70%; height: 100%; justify-content: left;text-align: left; padding: 15px; ">
-                    <div><label style="font-size: 10px; color: gray;">Ended 3 days ago</label></div>
+                <div style="width: 70%; height: 100%; justify-content: left;text-align: left; padding-left: 10px; padding-top: 5px; ">
+                    <div><label style="font-size: 10px; color: gray;">{{ item.createTime }}</label></div>
                     <div><label style="font-size: 14px; font-weight: bold;">
-                        Earn WHY with TWT
+                        {{ item.title }}
                     </label></div>
                     <div style="line-height: 12px;"><label style="font-size: 10px;">
-                        $WHY is a meme token on BNB Chain with large community. Lock TWT to earn $WHY. More info about $WHY:</label></div>
+                        {{ item.subTitle }}</label></div>
                     <div style="display: flex; justify-content: left; align-items: center; margin-top: 5px;">
-                        <label style="font-size: 10px; font-weight: bold; color: blue; margin-right: 4px;">https://www.madphant.com</label>
+                        <label style="font-size: 10px; font-weight: bold; color: blue; margin-right: 4px;" 
+                        @click="endedCellLink(item.link)">{{ item.link }}</label>
                         <img style="float: right; width: 3px; height: 8px;" src="../../assets/asserts/Arrow Right (1)_Normal@3x.png"/>
                     </div>
 
-                    <div style="display: flex; justify-content: center; align-items: center; width: 100px; height: 26px; background-color: black; border-radius: 5px; margin-top: 15px;">
-                        <img style="float: right; width: 15px; height: 15px;" src="../../assets/asserts/gift-1c_Normal@2x.png"/>
+                    <div class="content_hleft_vcenter" style="height: 22px; background-color: black; border-radius: 5px; margin-top: 10px; width: fit-content; padding-left: 5px; padding-right: 5px;">
+                        <img style="float: right; width: 15px; height: 15px;" src="../../assets/asserts/gift-1c_Normal_white2@2x.png"/>
                         <label style="font-size: 8px; color: white; margin-left: 4px;">
-                            Total:2520B WHY</label>
+                            Total:{{ item.giftValue }}</label>
                     </div>
                 </div>
 
                 <div style="width: 30%; height: 100%; display: flex; justify-content: center; align-items: center">
-                    <div style="display: flex; justify-content: center; align-items: center;">
+                    <div style="display: flex; justify-content: center; align-items: center;" @click="endedViewCellClick(item)">
                         <label style="font-size: 12px; font-weight: bold; color: blue; margin-right: 4px;">View</label>
                         <img style="float: right; width: 20px; height: 20px;" src="../../assets/asserts/arrow-right-f_Normal@2x.png"/>
                     </div>
                 </div>
             </div>
 
-            <div class="divider"></div>
-
-            <div class="ended_cell_bottom_container">
-                <div class="ended_cell_bottom_cell_container">
-                    <div style="margin-left: 10px;">Lock</div>
-                    <div style="display: flex; justify-content: center; align-items: center; width: 100%;">
-                        <div style="display: flex; justify-content: left; align-items: center; margin-top: 5px;  width: 45%;">
-                            <div style="display: flex; justify-content: center; align-items: center; ">
-                                <img src="../../assets/asserts/earn-inactive-light_Normal@2x.png" width="20px" height="20px"/>
-                            </div>
-
-                            <div class="ended_cell_bottom_cell_ellipsis" style="margin-left: 10px;">
-                                <div  style="display: flex;">
-                                    <label style="font-size: 12px; font-weight: bold; color: black;">
-                                        Rewards tracker
-                                    </label>
+            <div v-for="(lock, index) in item.Locks" :key="lock.title" style="margin-top: 10px;">
+                <div class="dividerLittle"></div>
+                <div class="ended_cell_bottom_container">
+                    <div class="ended_cell_bottom_cell_container">
+                        <div style="margin-left: 10px;">Lock</div>
+                        <div class="content_hleft_vcenter" style="width: 100%;">
+                            <div class="content_hleft_vcenter" style="margin-top: 5px;  width: 45%;">
+                                <div class="content_hcenter_vcenter" style="width: 20%;">
+                                    <img :src="lock.imageCryptoStr" width="24px" height="24px" style="border-radius: 12px;"/>
+                                    <img :src="lock.imageChainStr" width="10px" height="10px" style="margin-left: -10px; margin-top: 10px;"/>
                                 </div>
-                                <div style="display: flex; justify-content: left; margin-top: 4px; align-items: center;">
-                                    <label style="font-size: 10px; font-weight: bold; color: gray; margin-right: 4px;">
-                                        Track and claim token rewards
-                                    </label>
+
+                                <div class="ended_cell_bottom_cell_ellipsis" style="width: 80%;">
+                                    <div  style="display: flex;">
+                                        <label class="wors_last_ellipsis_three_points" style="font-size: 12px; font-weight: bold; color: black;">
+                                            {{ lock.title }}
+                                        </label>
+                                    </div>
+                                    <div style="display: flex; justify-content: left; margin-top: 4px; align-items: center;">
+                                        <label class="wors_last_ellipsis_three_points" style="font-size: 10px; font-weight: bold; color: gray; margin-right: 4px;">
+                                            {{ lock.subTitle }}
+                                        </label>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="content_hcenter_vcenter" style="width: 10%;">
+                                <img style="float: right; width: 20px; height: 20px;" src="../../assets/asserts/arrow-right-f_Normal@2x.png"/>
+                            </div>
+
+                            <div class="content_hleft_vcenter" style="margin-top: 5px;  width: 45%;">
+                                <div class="content_hcenter_vcenter" style="width: 20%;">
+                                    <img :src="item.earns[index].imageCryptoStr" width="24px" height="24px" style="border-radius: 12px;"/>
+                                    <img :src="item.earns[index].imageChainStr" width="10px" height="10px" style="margin-left: -10px; margin-top: 10px;"/>
+                                </div>
+
+                                <div class="ended_cell_bottom_cell_ellipsis" style="width: 80%;">
+                                    <div  style="display: flex;">
+                                        <label class="wors_last_ellipsis_three_points" style="font-size: 12px; font-weight: bold; color: black;">
+                                            {{ item.earns[index].title }}
+                                        </label>
+                                    </div>
+                                    <div style="display: flex; justify-content: left; margin-top: 4px; align-items: center;">
+                                        <label class="wors_last_ellipsis_three_points" style="font-size: 10px; font-weight: bold; color: gray; margin-right: 4px;">
+                                            {{ item.earns[index].subTitle }}
+                                        </label>
+                                    </div>
                                 </div>
                             </div>
                         </div>
-
-                    <div style="width: 5%;">
-                        <img style="float: right; width: 20px; height: 20px;" src="../../assets/asserts/arrow-right-f_Normal@2x.png"/>
-                    </div>
-
-                    <div style="display: flex; justify-content: left; align-items: center; margin-top: 5px; width: 45%;">
-                        <div style="display: flex; justify-content: center; align-items: center;">
-                            <img src="../../assets/asserts/earn-inactive-light_Normal@2x.png" width="20px" height="20px"/>
-                        </div>
-
-                        <div class="ended_cell_bottom_cell_ellipsis" style="margin-left: 10px; ">
-                            <div style="display: flex;">
-                                <label style="font-size: 12px; font-weight: bold; color: black;">
-                                    Rewards tracker
-                                </label>
-                            </div>
-                            <div style="display: flex; justify-content: left; margin-top: 4px; align-items: center;">
-                                <label style="font-size: 10px; font-weight: bold; color: gray; margin-right: 4px; text-overflow: ellipsis; line-clamp: 1; overflow: hidden;white-space: nowrap;">
-                                    Track and claim token rewards
-                                </label>
-                            </div>
+                        <div class="global_flag_gray_text_style" v-if="item.pools.length > 0" style="width: fit-content; margin-left: 10px; margin-top: 5px;">
+                            {{ item.pools[index].title }}:{{ item.pools[index].percent + " " }}{{ item.pools[index].unit }}
                         </div>
                     </div>
-                    </div>
-                    
                 </div>
             </div>
         </div>
       </div>
-
-
-
-
-
-      <div class="ended_container" style="margin-top: 15px;">
-        <div style="font-size: 14px; color: gray; font-weight: bold; text-align: left;">Ended</div>
-        <div class="ended_cell_container">
-            <div class="ended_cell_top_container">
-                <div style="width: 70%; height: 100%; justify-content: left;text-align: left; padding: 15px; ">
-                    <div><label style="font-size: 10px; color: gray;">Ended 3 days ago</label></div>
-                    <div><label style="font-size: 14px; font-weight: bold;">
-                        Earn WHY with TWT
-                    </label></div>
-                    <div style="line-height: 12px;"><label style="font-size: 10px;">
-                        $WHY is a meme token on BNB Chain with large community. Lock TWT to earn $WHY. More info about $WHY:</label></div>
-                    <div style="display: flex; justify-content: left; align-items: center; margin-top: 5px;">
-                        <label style="font-size: 10px; font-weight: bold; color: blue; margin-right: 4px;">https://www.madphant.com</label>
-                        <img style="float: right; width: 3px; height: 8px;" src="../../assets/asserts/Arrow Right (1)_Normal@3x.png"/>
-                    </div>
-
-                    <div style="display: flex; justify-content: center; align-items: center; width: 100px; height: 26px; background-color: black; border-radius: 5px; margin-top: 15px;">
-                        <img style="float: right; width: 15px; height: 15px;" src="../../assets/asserts/gift-1c_Normal@2x.png"/>
-                        <label style="font-size: 8px; color: white; margin-left: 4px;">
-                            Total:2520B WHY</label>
-                    </div>
-                </div>
-
-                <div style="width: 30%; height: 100%; display: flex; justify-content: center; align-items: center">
-                    <div style="display: flex; justify-content: center; align-items: center;">
-                        <label style="font-size: 12px; font-weight: bold; color: blue; margin-right: 4px;">View</label>
-                        <img style="float: right; width: 20px; height: 20px;" src="../../assets/asserts/arrow-right-f_Normal@2x.png"/>
-                    </div>
-                </div>
-            </div>
-
-            <div class="divider"></div>
-
-            <div class="ended_cell_bottom_container">
-                <div class="ended_cell_bottom_cell_container">
-                    <div style="margin-left: 10px;">Lock</div>
-                    <div style="display: flex; justify-content: center; align-items: center; width: 100%;">
-                        <div style="display: flex; justify-content: left; align-items: center; margin-top: 5px;  width: 45%;">
-                            <div style="display: flex; justify-content: center; align-items: center;">
-                                <img src="../../assets/asserts/earn-inactive-light_Normal@2x.png" width="20px" height="20px"/>
-                            </div>
-
-                            <div class="ended_cell_bottom_cell_ellipsis" style="margin-left: 10px;">
-                                <div  style="display: flex;">
-                                    <label style="font-size: 12px; font-weight: bold; color: black;">
-                                        Rewards tracker
-                                    </label>
-                                </div>
-                                <div style="display: flex; justify-content: left; margin-top: 4px; align-items: center;">
-                                    <label style="font-size: 10px; font-weight: bold; color: gray; margin-right: 4px;">
-                                        Track and claim token rewards
-                                    </label>
-                                </div>
-                            </div>
-                        </div>
-
-                    <div style="width: 5%;">
-                        <img style="float: right; width: 20px; height: 20px;" src="../../assets/asserts/arrow-right-f_Normal@2x.png"/>
-                    </div>
-
-                    <div style="display: flex; justify-content: left; align-items: center; margin-top: 5px; width: 45%;">
-                        <div style="display: flex; justify-content: center; align-items: center;">
-                            <img src="../../assets/asserts/earn-inactive-light_Normal@2x.png" width="20px" height="20px"/>
-                        </div>
-
-                        <div class="ended_cell_bottom_cell_ellipsis" style="margin-left: 10px; ">
-                            <div style="display: flex;">
-                                <label style="font-size: 12px; font-weight: bold; color: black;">
-                                    Rewards tracker
-                                </label>
-                            </div>
-                            <div style="display: flex; justify-content: left; margin-top: 4px; align-items: center;">
-                                <label style="font-size: 10px; font-weight: bold; color: gray; margin-right: 4px; text-overflow: ellipsis; line-clamp: 1; overflow: hidden;white-space: nowrap;">
-                                    Track and claim token rewards
-                                </label>
-                            </div>
-                        </div>
-                    </div>
-                    </div>
-                    
-                </div>
-            </div>
-        </div>
-      </div>
-
     </van-pull-refresh>
     </div>
 </template>
@@ -243,6 +159,48 @@ export default {
   setup() {
     const count = ref(0);
     const loading = ref(false);
+
+    const endedDataSource = ref([])
+    endedDataSource.value.push({title: "Earn WHY with TWT",
+        subTitle: "$WHY is a meme token on BNB Chain with large community. Lock TWT to earn $WHY. More info about $WHY:",
+        link: "https://www.madphant.com",
+        giftValue: "4200B WHY",
+        createTime: "Ended 47 days ago",
+        Locks: [{title: "TWT(Trust wall Your Dapp)", subTitle: "on BNB Smart Chain",  imageCryptoStr: require('../../assets/asserts/trust_icon_Normal@2x_1.png'), imageChainStr: require('../../assets/asserts/smartchain_Normal.png')}, 
+            {title: "slisBNB(Staked Your Dapp)", subTitle: "on BNB Smart Chain",  imageCryptoStr: require('../../assets/asserts/trust_icon_Normal@2x_1.png'), imageChainStr: require('../../assets/asserts/smartchain_Normal.png')}
+        ],
+        earns: [{title: "WHY (why)", subTitle: "on BNB Smart Chain",  imageCryptoStr: require('../../assets/asserts/trust_icon_Normal@2x_1.png'), imageChainStr: require('../../assets/asserts/smartchain_Normal.png')}, 
+            {title: "WHY (why)", subTitle: "on BNB Smart Chain",  imageCryptoStr: require('../../assets/asserts/trust_icon_Normal@2x_1.png'), imageChainStr: require('../../assets/asserts/smartchain_Normal.png')}
+        ],
+        pools: [{title: "pool 1", percent: "40%", unit: "rewards"},
+            {title: "pool 1", percent: "40%", unit: "rewards"},
+        ],
+    })
+
+    endedDataSource.value.push({title: "Earn bscSUNDOG with TWT",
+        subTitle: "$SUNDOG is a meme token on Tron Chain. Earn $bscSUNDOG on BSC first and get $SUNDOG airdrop on TRON. More info:",
+        link: "https://www.sundog.meme",
+        giftValue: "14.000002M bascSUNDOG",
+        createTime: "Ended 24 days ago",
+        Locks: [{title: "TWT(Trust wall You Dapp)", subTitle: "on BNB Smart Chain", imageCryptoStr: require('../../assets/asserts/trust_icon_Normal@2x_1.png'), imageChainStr: require('../../assets/asserts/smartchain_Normal.png')}, 
+        ],
+        earns: [{title: "bscSUNDOG (bscSUNOG)", subTitle: "on BNB Smart Chain", imageCryptoStr: require('../../assets/asserts/kusama_Normal.png'), imageChainStr: require('../../assets/asserts/smartchain_Normal.png')}, 
+        ],
+        pools: [],
+    })
+
+    endedDataSource.value.push({title: "Earn WOD with TWT",
+        subTitle: "More info: World of Dypians is an MMORPG on BNB Chain, seamlessly blending Web2 gaming with Web3 to redefine gaming, DeFi, NFTs, and AI.",
+        link: "https://www.worldofdypains.com",
+        giftValue: "10M WoD",
+        createTime: "Ended 4 days ago",
+        Locks: [{title: "TWT(Trust wall You Dapp)", subTitle: "on BNB Smart Chain", imageCryptoStr: require('../../assets/asserts/trust_icon_Normal@2x_1.png'), imageChainStr: require('../../assets/asserts/smartchain_Normal.png')},
+        ],
+        earns: [{title: "Wod (world of Your New Dapp)", subTitle: "on BNB Smart Chain", imageCryptoStr: require('../../assets/asserts/trust_icon_Normal@2x_1.png'), imageChainStr: require('../../assets/asserts/smartchain_Normal.png')}
+        ],
+        pools: [],
+    })
+
     const onRefresh = () => {
       setTimeout(() => {
         // showToast('刷新成功');
@@ -254,12 +212,19 @@ export default {
       count,
       loading,
       onRefresh,
+      endedDataSource,
     };
   },
   methods: {
     rewardsTrackerCellClick() {
         this.$router.push({name : "rewardsTrackerView"})
-    }
+    },
+    endedCellLink(link) {
+        this.$router.push({ name: 'commonWebView', query: { requestURL: link } })
+    },
+    endedViewCellClick(item) {
+        console.log(item.title)
+    } 
   }
 }
 </script>
@@ -300,13 +265,11 @@ export default {
     margin-top: 10px;
     background-color: #f4f4f6;
     width: 100%;
-    height: 220px;
     border-radius: 10px;
 }
 
 .ended_cell_top_container {
     width: 100%;
-    height: 150px;
     display: flex;
     justify-content: left;
     align-items: center;
@@ -314,12 +277,10 @@ export default {
 
 .ended_cell_bottom_container {
     width: 100%;
-    height: 70px;
 }
 
 .ended_cell_bottom_cell_container {
     width: 100%;
-    margin-top: 10px;
     text-align: left;
     font-size: 10px;
     color: gray;
