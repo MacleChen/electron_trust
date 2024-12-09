@@ -163,6 +163,7 @@ export default {
     const endedDataSource = ref([])
     endedDataSource.value.push({title: "Earn WHY with TWT",
         subTitle: "$WHY is a meme token on BNB Chain with large community. Lock TWT to earn $WHY. More info about $WHY:",
+        symbol: 'WHY',
         link: "https://www.madphant.com",
         giftValue: "4200B WHY",
         createTime: "Ended 47 days ago",
@@ -179,6 +180,7 @@ export default {
 
     endedDataSource.value.push({title: "Earn bscSUNDOG with TWT",
         subTitle: "$SUNDOG is a meme token on Tron Chain. Earn $bscSUNDOG on BSC first and get $SUNDOG airdrop on TRON. More info:",
+        symbol: 'SUNDOG',
         link: "https://www.sundog.meme",
         giftValue: "14.000002M bascSUNDOG",
         createTime: "Ended 24 days ago",
@@ -191,6 +193,7 @@ export default {
 
     endedDataSource.value.push({title: "Earn WOD with TWT",
         subTitle: "More info: World of Dypians is an MMORPG on BNB Chain, seamlessly blending Web2 gaming with Web3 to redefine gaming, DeFi, NFTs, and AI.",
+        symbol: 'WoD',
         link: "https://www.worldofdypains.com",
         giftValue: "10M WoD",
         createTime: "Ended 4 days ago",
@@ -224,6 +227,7 @@ export default {
     },
     endedViewCellClick(item) {
         console.log(item.title)
+        this.$router.push({name: 'launchPoolEndedDetailView', query: { item: JSON.stringify(item)}})
     } 
   }
 }

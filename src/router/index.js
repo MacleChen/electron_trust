@@ -406,6 +406,14 @@ const routes = [
     },
     component: () => import('../views/money/LaunchPoolDetail/RewardsTrackerView.vue')
   },
+  {
+    path: '/launchPoolEndedDetailView',
+    name: 'launchPoolEndedDetailView',
+    meta: {
+      index:1,
+    },
+    component: () => import('../views/money/LaunchPoolDetail/LaunchPoolEndedDetailView.vue')
+  },
 ]
 
 const router = createRouter({
