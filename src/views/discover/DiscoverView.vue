@@ -22,14 +22,9 @@
 
 
 <van-swipe class="my-swipe" :loop="false" :width="300" :show-indicators="false">
-  <van-swipe-item @click="launchPoolCardClick">
-    <div class="discover_scroll_top_content">
-      <DiscoverTopScrollCard />
-    </div>
-  </van-swipe-item>
-  <van-swipe-item @click="inAppQuestEarnCardClick">
-    <div class="discover_scroll_top_content" style="margin-right: 10px;">
-      <DiscoverTopScrollCard />
+  <van-swipe-item v-for="(item, index) in topScrollData" :key="item.title" @click="topScrollCardCellClick(item)">
+    <div class="discover_scroll_top_content" :style="{marginRight: index == topScrollData.length - 1 ? '10px': '0px'}">
+      <DiscoverTopScrollCard :scrollData="JSON.stringify(item)"/>
     </div>
   </van-swipe-item>
 </van-swipe>
@@ -38,17 +33,12 @@
 <DappHeaderView header-title="Discover dApp" />
 <DappContentView @valueChanged="dappHandleValueChange"/>
 
-<DappHeaderView header-title="Top dApp tokens" />
+<DappHeaderView header-title="Top dApp tokens" @click="topdAppTokenHeaderClick" />
 
 <van-swipe class="my-swipe" :loop="false" :width="300" :show-indicators="false">
-  <van-swipe-item @click="launchPoolCardClick">
-    <div class="discover_scroll_bottom_content">
-      <DiscoverBottomScrollToken />
-    </div>
-  </van-swipe-item>
-  <van-swipe-item @click="inAppQuestEarnCardClick">
-    <div class="discover_scroll_bottom_content" style="margin-right: 10px;">
-      <DiscoverBottomScrollToken />
+  <van-swipe-item  v-for="(item, index) in showBottomScrollData" :key="item.title" @click="bottomScrollCardCellClick(item)">
+    <div class="discover_scroll_bottom_content"  :style="{marginRight: index == showBottomScrollData.length - 1 ? '10px': '0px'}">
+      <DiscoverBottomScrollToken :scrollData="JSON.stringify(item)"/>
     </div>
   </van-swipe-item>
 </van-swipe>
@@ -68,8 +58,10 @@
 </template>
 
 <script>
-import { ref, inject } from 'vue';
+import { ref, inject, watch } from 'vue';
 import { showToast } from 'vant';
+import { useRequest } from 'vue-hooks-plus';
+import { formatNumber } from '@/utils/utils';
 import DiscoverTopScrollCard from './widgets/DiscoverTopScrollCard.vue';
 import DappHeaderView from './widgets/DappHeaderView.vue';
 import DappContentView from './widgets/DappContentView.vue';
@@ -81,6 +73,37 @@ export default {
     const count = ref(0);
     const loading = ref(false);
     const refreshing = ref(false);
+
+    const globalVars = inject("globalVars")
+    const isHasPhrase = globalVars.secretPhraseStr == null ? ref(false) : ref(globalVars.secretPhraseStr.split(' ').length == 12)
+
+    const topScrollData = ref([
+      {title: 'Launchpool', subTitle: 'Launchpool: Lock TWT to earn rewards.', imageStr: require('../../assets/asserts/launchpool _ lm_Normal@2x.png'), flag: 'Token rewards', link: 'launchpool'},
+      {title: 'In-app quest', subTitle: 'Earn Trust Points and unlock future rewards', imageStr: require('../../assets/asserts/tw-savings-light_Normal@2x.png'), flag: 'Up to 210 Trust Points daily', link: 'launchpool'},
+    ])
+
+    const bottomScrollData = ref([])
+    const showBottomScrollData = ref([])
+
+    // 请求币的市场列表
+    var { data } = useRequest(() => {
+        return fetch('https://api.coingecko.com/api/v3/coins/markets?vs_currency=usd&order=market_cap_desc&per_page=10&page=1').then(res => res.json());
+    })
+    watch(data, (newValue) => {
+        for(var i = 0; i < newValue.length; i++) {
+            const symbolData = newValue[i]
+            const newSymbolData = {title: symbolData.symbol.toUpperCase(), subtitle: symbolData.name, 
+            totalMoney: formatNumber(parseFloat(symbolData.current_price).toFixed(2)), 
+            percent: parseFloat(symbolData.price_change_percentage_24h).toFixed(2),
+            imgStr: symbolData.image}
+            bottomScrollData.value.push(newSymbolData)
+            if (i < 3) {
+              showBottomScrollData.value.push(newSymbolData)
+            }
+        }
+    })
+
+
     const onRefresh = () => {
       setTimeout(() => {
         // showToast('刷新成功');
@@ -103,8 +126,6 @@ export default {
     };
 
     const onCancel = () => showToast('取消');
-
-    const globalVars = inject('globalVars')
     return {
       count,
       loading,
@@ -115,6 +136,10 @@ export default {
       onSelect,
       refreshing,
       globalVars,
+      topScrollData,
+      bottomScrollData,
+      showBottomScrollData,
+      isHasPhrase,
     };
   },
   components: {
@@ -131,17 +156,27 @@ export default {
     navBarActionSheetClick() {
       this.$show.value = true
     },
-    launchPoolCardClick() {
-      this.globalVars.isShowCreateImportWalletAlert = true;
-      //showToast(this.globalVars.isShowCreateImportWalletAlert)
+    topScrollCardCellClick(item) {
+      if (this.isHasPhrase == false) {
+        this.globalVars.isShowCreateImportWalletAlert = true;
+        return
+      }
+
+      if (item.title == 'Launchpool') {
+        this.$router.push({name: 'launchPoolListView'})
+      } else {
+        console.log(item.subTitle)
+      }
     },
-    inAppQuestEarnCardClick() {
-      //showToast('inAppQuestEarnCardClick');
-      this.globalVars.isShowCreateImportWalletAlert = false;
+   bottomScrollCardCellClick(item) {
+      this.$router.push({name: 'cryptoDetailView', query: { dataItem: JSON.stringify(item)}})
     },
     dappHandleValueChange(section, rowIndex) {
       console.log("" + section + '-' + rowIndex)
       this.$router.push({ name: 'dappWebView', query: { requestURL: 'https://sunpump.meme/?utm_source=Trust_iOS_Browser' } })
+    },
+    topdAppTokenHeaderClick() {
+      this.$router.push({name: 'topdAppTokenListView', query: { dataList: JSON.stringify(this.bottomScrollData) }})
     }
       
   }

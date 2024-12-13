@@ -414,6 +414,22 @@ const routes = [
     },
     component: () => import('../views/money/LaunchPoolDetail/LaunchPoolEndedDetailView.vue')
   },
+  {
+    path: '/topdAppTokenListView',
+    name: 'topdAppTokenListView',
+    meta: {
+      index:1,
+    },
+    component: () => import('../views/discover/TopdAppTokenList/TopdAppTokenListView.vue')
+  },
+  {
+    path: '/launchPoolListView',
+    name: 'launchPoolListView',
+    meta: {
+      index:1,
+    },
+    component: () => import('../views/discover/LaunchPoosList/LaunchPoolListView.vue')
+  },
 ]
 
 const router = createRouter({

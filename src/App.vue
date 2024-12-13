@@ -122,10 +122,22 @@ nav a.router-link-exact-active {
     align-items: flex-start; 
 }
 
+.content_hright_vtop {
+    display: flex;
+    justify-content: right;
+    align-items: flex-start; 
+}
+
 .content_hcenter_vbottom {
     display: flex;
     justify-content: center;
     align-items: flex-end; 
+}
+
+.content_hspacebwn_vcenter {
+    display: flex;
+    justify-content: space-between;
+    align-items: center; 
 }
 
 .global_main_blue_text_color {
@@ -149,6 +161,12 @@ nav a.router-link-exact-active {
 
 .global_primary_black_text_style {
   font-size: 14px;
+  font-weight: bold;
+  color: #21262f;
+}
+
+.global_primary_black_small_text_style {
+  font-size: 12px;
   font-weight: bold;
   color: #21262f;
 }
@@ -193,6 +211,11 @@ nav a.router-link-exact-active {
   font-size: 9px;
   font-weight: bolder;
   color: #868d9a;
+}
+
+.golbal_warning_tip_frame_style {
+  background-color: #fbf7ec;
+  border-radius: 6px;
 }
 
 .global_primary_button_div_style {

@@ -1,36 +1,52 @@
 <template>
 <div class="discover_scroll_top_container">
     <div style="width: 20%; padding-top: 10px;margin-right: 5px;">
-        <img style="float: right; width: 35px; height: 35px;" src="../../../assets/asserts/launchpool _ dm_Normal@2x.png"/>
+        <img style="float: right; width: 35px; height: 35px;" :src="scrollDataDict.imageStr"/>
     </div>
 
-    <div style="width: 50%; text-align: left;">
+    <div style="width: 80%; text-align: left;">
         <div class="left_title_style" style="margin-top: 5px; height: 20px;" >
             <label style="font-size: 10px; color: gray; font-weight: bold;">
-                Launchpoll
+                {{ scrollDataDict.title }}
             </label></div>
-        <div class="left_title_style">
+        <div class="left_title_style" style="margin-right: 40px;">
             <label style="font-size: 12px; font-weight: bold; color: black;line-height: 18px;">
-            Lauchpool: Lock TWT to earn rewards.
+            {{ scrollDataDict.subTitle }}
         </label></div>
 
-        <div style="display: inline-flex; padding-left: 5px; padding-right: 10px;  justify-content: center; align-items: center; height: 26px; background-color: black; border-radius: 5px; margin-top: 5px;">
-            <img style="float: right; width: 15px; height: 15px;" src="../../../assets/asserts/gift-1c_Normal@2x.png"/>
-            <label style="font-size: 8px; color: white; margin-left: 4px;">
-                Token rwards</label>
+        <div class="content_hspacebwn_vcenter" style="margin-right: 15px; margin-top: 8px;">
+            <div class="content_hcenter_vcenter" style="padding-left: 5px; padding-right: 10px; height: 20px; background-color: black; border-radius: 5px;">
+                <img style="float: right; width: 15px; height: 15px;" src="../../../assets/asserts/gift-1c_Normal_white@2x.png"/>
+                <label style="font-size: 8px; color: white; margin-left: 4px;">
+                    {{ scrollDataDict.flag }}</label>
+            </div>
+
+            <div class="content_hright_vcenter" style="width: 70px;">
+                <label style="font-size: 12px; font-weight: bold; color: blue; margin-right: 4px;">Start</label>
+                <img style="float: right; width: 20px; height: 20px;" src="../../../assets/asserts/arrow-right-f_Normal@2x.png"/>
+            </div>
+            
         </div>
     </div>
 
-    <div style="width: 30%; height: 100%; display: flex; justify-content: center; align-items: center">
-        <div style="display: flex; justify-content: center; align-items: center; margin-top: 60px;">
-            <label style="font-size: 12px; font-weight: bold; color: blue; margin-right: 4px;">Start</label>
-            <img style="float: right; width: 20px; height: 20px;" src="../../../assets/asserts/arrow-right-f_Normal@2x.png"/>
-        </div>
-    </div>
+   
 </div> 
 </template>
 
 <script>
+import { ref } from 'vue';
+export default {
+    props: {
+        scrollData: {type: String}
+    },
+    setup(props) {
+        const scrollDataDict = ref(JSON.parse(props.scrollData))
+
+        return {
+            scrollDataDict,
+        }
+    }
+}
 </script>
 
 <style>
