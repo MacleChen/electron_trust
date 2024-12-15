@@ -250,6 +250,11 @@ nav a.router-link-exact-active {
   white-space: nowrap;
 }
 
+.break-text {
+  white-space: normal; /* 允许文字正常换行 */
+  display: inline-block; /* 使 label 保持块状，支持换行 */
+}
+
 
 input[type=number]::-webkit-inner-spin-button, 
 input[type=number]::-webkit-outer-spin-button { 

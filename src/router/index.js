@@ -430,6 +430,14 @@ const routes = [
     },
     component: () => import('../views/discover/LaunchPoosList/LaunchPoolListView.vue')
   },
+  {
+    path: '/latestListView',
+    name: 'latestListView',
+    meta: {
+      index:1,
+    },
+    component: () => import('../views/discover/Latest/LatestListView.vue')
+  },
 ]
 
 const router = createRouter({

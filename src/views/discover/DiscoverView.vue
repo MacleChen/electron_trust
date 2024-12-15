@@ -29,6 +29,10 @@
   </van-swipe-item>
 </van-swipe>
 
+<div v-if="isHasPhrase">
+  <DappHeaderView header-title="Latest" @click="latestListHeaderClick" />
+  <LatestListContent @valueChanged="latestCellValueChange" :isLimitShow="true"/>
+</div>
 
 <DappHeaderView header-title="Discover dApp" />
 <DappContentView @valueChanged="dappHandleValueChange"/>
@@ -67,6 +71,7 @@ import DappHeaderView from './widgets/DappHeaderView.vue';
 import DappContentView from './widgets/DappContentView.vue';
 import DiscoverBottomScrollToken from './widgets/DiscoverBottomScrollToken.vue';
 import DiscoverFeedback from './widgets/DiscoverFeedback.vue';
+import LatestListContent from './Latest/LatestListContent.vue';
 
 export default {
   setup() {
@@ -148,6 +153,7 @@ export default {
     DappContentView,
     DiscoverBottomScrollToken,
     DiscoverFeedback,
+    LatestListContent,
   },
   methods: {
     navBarTabsClick() {
@@ -177,6 +183,12 @@ export default {
     },
     topdAppTokenHeaderClick() {
       this.$router.push({name: 'topdAppTokenListView', query: { dataList: JSON.stringify(this.bottomScrollData) }})
+    },
+    latestListHeaderClick() {
+      this.$router.push({name: 'latestListView'})
+    },
+    latestCellValueChange(item) {
+      this.$router.push({ name: 'dappWebView', query: { requestURL: item.link } })
     }
       
   }
