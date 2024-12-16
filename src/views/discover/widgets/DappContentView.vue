@@ -1,10 +1,10 @@
 <template>
-    <van-tabs v-model:active="active">
-  <van-tab v-for="(item, section) in tabsList" :title="item.title" :key="item.title">
-    <ul v-for="(mydata, row) in dataSourceList" :key="mydata.title">
-        <div class="mydata_cell_containter" @click="cellContentClick(section, row)">
+    <van-tabs v-model:active="active" @click-tab="onClickTab">
+  <van-tab v-for="item in tabsList" :title="item.title" :key="item.title">
+    <ul v-for="mydata in dataSourceList" :key="mydata.title">
+        <div class="mydata_cell_containter" @click="cellContentClick(mydata)">
             <div style="width: 35px; height: 35px;">
-                <img @dragstart.prevent :src="mydata.imgStr" width="100%" />
+                <img @dragstart.prevent :src="mydata.imgStr" width="100%" style="border-radius: 15px; object-fit: cover;"/>
             </div> 
             <div style="flex-grow: 1; margin-left: 10px;">
                 <div style="display: flex;">
@@ -19,44 +19,91 @@
   </van-tab>
 </van-tabs>
 
-
+<GlobalLoading  v-if="isShowLoading"/>
 </template>
 
 <script>
-import { ref } from 'vue';
-
-const tabsList = ref([
-    {title: 'Feature', value: "abc"},
-    {title: 'DEX', value: "abc"},
-    {title: 'Lending', value: "abc"},
-    {title: 'Yield', value: "abc"},
-    {title: 'BSC', value: "abc"},
-    {title: 'Solana', value: "abc"},
-    {title: 'Liquid Staking', value: "abc"},
-    {title: 'Marketplaces', value: "abc"},
-    {title: 'Social', value: "abc"},
-    {title: 'Games', value: "abc"},
-]);
-
-const dataSourceList = ref([
-    {title: 'Four', subtitle: 'Four.meme is a go-to platform for easily launching meme teach me again', imgStr: require('../../../assets/asserts/logo_Normal.png')},
-    {title: 'Four', subtitle: 'Four.meme is a go-to platform for easily launching meme teach me again', imgStr: require('../../../assets/asserts/logo_Normal.png')},
-    {title: 'Four', subtitle: 'Four.meme is a go-to platform for easily launching meme teach me again', imgStr: require('../../../assets/asserts/logo_Normal.png')},
-    {title: 'Four', subtitle: 'Four.meme is a go-to platform for easily launching meme teach me again', imgStr: require('../../../assets/asserts/logo_Normal.png')},
-    {title: 'Four', subtitle: 'Four.meme is a go-to platform for easily launching meme teach me again', imgStr: require('../../../assets/asserts/logo_Normal.png')},
-]);
+import { ref, watch } from 'vue';
+import { useRequest } from 'vue-hooks-plus';
+import GlobalLoading from './GlobalLoading.vue';
 
 export default {
-  setup() {
+    props: {
+        isLimitShow: {type: Boolean}
+    },
+  setup(props) {
     const active = ref(0);
+
+    const tabsList = ref([
+        {title: 'Feature', value: "solana"},
+        {title: 'DEX', value: "starknet"},
+        {title: 'Lending', value: "telos"},
+        {title: 'Yield', value: "theta"},
+        {title: 'BSC', value: "algorand"},
+        {title: 'Solana', value: "aptos"},
+        {title: 'Liquid Staking', value: "celo"},
+        {title: 'Marketplaces', value: "core"},
+        {title: 'Social', value: "fio"},
+        {title: 'Games', value: "lisk"},
+    ]);
+
+    const isMyLimitShow = ref(props.isLimitShow)
+    const dataSourceList = ref([]);
+
+    const isShowLoading = ref(false)
+    const onClickTab = ({ title }) => {
+        console.log(title)
+
+        isShowLoading.value = true
+        const tabValue = tabsList.value[active.value]
+        const requestUrl = active.value == 0 ? 'https://apis.dappradar.com/v2/dapps' : 'https://apis.dappradar.com/v2/dapps?chain=' + tabValue.value
+        var { data } = useRequest(() => {
+            return fetch(requestUrl, {
+                headers: {
+                    "x-api-key": "o2YQJOObtg9fezOjwKG6B2T5YIyEjBix4TIY5X07",
+                }
+            }).then(res => res.json())
+            .catch(error => {
+                alert("3323" + error)
+                isShowLoading.value = false
+                console.error('Fetch error:', error); // 捕获 fetch 本身的错误（如网络问题、请求失败等）
+            });
+        })
+        watch(data, (newValue) => {
+            isShowLoading.value = false
+            dataSourceList.value.length = 0
+            for(var i = 0; i < newValue.results.length; i++) {
+                const dAppData = newValue.results[i]
+                if (dAppData.logo != null) {
+                    dataSourceList.value.push({
+                        id: dAppData.dappId,
+                        title: dAppData.name,
+                        subtitle: dAppData.description,
+                        imgStr: dAppData.logo,
+                        link: dAppData.link,
+                    }) 
+                    if (isMyLimitShow.value && dataSourceList.value.length > 3) {
+                        break
+                    }
+                }
+            }
+        })
+    };
+
+    onClickTab("")
     return { active,
         tabsList,
         dataSourceList,
+        onClickTab,
+        isShowLoading,
      };
   },
+  components: {
+    GlobalLoading,
+  },
   methods: {
-    cellContentClick(section, row) {
-        this.$emit('valueChanged', section, row)
+    cellContentClick(item) {
+        this.$emit('valueChanged', item)
     }
   }
 };

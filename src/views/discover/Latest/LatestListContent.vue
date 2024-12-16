@@ -38,6 +38,7 @@ export default {
         return fetch('https://newsapi.org/v2/everything?q=tesla&from=2024-11-15&sortBy=publishedAt&apiKey=0009fdd26240443b8a1d570ed85df799').then(res => res.json());
     })
     watch(data, (newValue) => {
+        if (newValue.status == 'error') { return }
         for(var i = 0; i < newValue.articles.length; i++) {
             const newsDict = newValue.articles[i]
             dataSourceList.value.push({title: newsDict.title, 
@@ -45,7 +46,7 @@ export default {
                 link: newsDict.url,
                 imgStr: newsDict.urlToImage
             })
-            if (isMyLimitShow.value && i > 3) {
+            if (isMyLimitShow.value && dataSourceList.value.length > 3) {
               break
             }
         }

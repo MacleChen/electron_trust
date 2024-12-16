@@ -1,10 +1,11 @@
 'use strict'
 
-import { app, protocol, BrowserWindow  } from 'electron'
+import { app, protocol, BrowserWindow, ipcMain  } from 'electron'
 import { createProtocol } from 'vue-cli-plugin-electron-builder/lib'
 import installExtension, { VUEJS3_DEVTOOLS } from 'electron-devtools-installer'
 const isDevelopment = process.env.NODE_ENV !== 'production'
 const path = require('path');
+const fs = require('fs');
 
 // Scheme must be registered before the app is ready
 protocol.registerSchemesAsPrivileged([
@@ -30,7 +31,8 @@ async function createWindow() {
       // contextIsolation: true, // 必须启用 contextIsolation
       // nodeIntegration: false, // 禁用 Node.js 集成
       preload: path.join(__dirname, 'preload.js'), // 开发模式下路径
-      
+      webSecurity: false,
+      webviewTag: true,
     },
     icon: './public/app.ico'
   })
@@ -62,6 +64,22 @@ async function createWindow() {
     // Load the index.html when not in development
     win.loadURL('app://./index.html')
   }
+
+  // 接收渲染进程传来的截图保存请求
+  ipcMain.handle('save-screenshot', async (event, imageBuffer) => {
+    // 获取当前项目的路径
+    const projectPath = __dirname; // 获取 Electron 项目根目录路径
+    const screenshotsDir = path.join(projectPath, 'screenshots'); // 在项目根目录下创建 'screenshots' 文件夹
+    const screenshotFilePath = path.join(screenshotsDir, 'screenshot.png');
+
+    try {
+      fs.writeFileSync(screenshotFilePath, imageBuffer); // 保存文件
+      return screenshotFilePath; // 返回文件路径
+    } catch (err) {
+      console.error('保存截图失败:', err);
+      throw new Error('保存截图失败');
+    }
+  });
 }
 
 // Quit when all windows are closed.

@@ -1,6 +1,17 @@
 const { defineConfig } = require('@vue/cli-service')
 const path = require('path');
 module.exports = defineConfig({
+  chainWebpack: (config) => {
+    config.module
+      .rule('vue')
+      .use('vue-loader')
+      .loader('vue-loader')
+      .options({
+        compilerOptions: {
+          isCustomElement: (tag) => tag === 'webview', // 这里是你配置的逻辑
+        },
+      });
+  },
   configureWebpack: {
     resolve: {
       fallback: {

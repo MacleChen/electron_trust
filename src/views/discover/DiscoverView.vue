@@ -34,8 +34,8 @@
   <LatestListContent @valueChanged="latestCellValueChange" :isLimitShow="true"/>
 </div>
 
-<DappHeaderView header-title="Discover dApp" />
-<DappContentView @valueChanged="dappHandleValueChange"/>
+<DappHeaderView header-title="Discover dApp" @click="dAppHeaderViewClick" />
+<DappContentView @valueChanged="dappHandleValueChange" :isLimitShow="true" />
 
 <DappHeaderView header-title="Top dApp tokens" @click="topdAppTokenHeaderClick" />
 
@@ -177,9 +177,12 @@ export default {
    bottomScrollCardCellClick(item) {
       this.$router.push({name: 'cryptoDetailView', query: { dataItem: JSON.stringify(item)}})
     },
-    dappHandleValueChange(section, rowIndex) {
-      console.log("" + section + '-' + rowIndex)
-      this.$router.push({ name: 'dappWebView', query: { requestURL: 'https://sunpump.meme/?utm_source=Trust_iOS_Browser' } })
+    dAppHeaderViewClick() {
+      // this.$router.push({name: 'dappContentListView'})
+      this.$router.push({name: 'myTestWebview'})
+    },
+    dappHandleValueChange(item) {
+      this.$router.push({ name: 'dappWebView', query: { requestURL: item.link } })
     },
     topdAppTokenHeaderClick() {
       this.$router.push({name: 'topdAppTokenListView', query: { dataList: JSON.stringify(this.bottomScrollData) }})
@@ -189,7 +192,7 @@ export default {
     },
     latestCellValueChange(item) {
       this.$router.push({ name: 'dappWebView', query: { requestURL: item.link } })
-    }
+    },
       
   }
 }

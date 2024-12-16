@@ -6,14 +6,19 @@
   </van-nav-bar>
   
   <div> 
-    <iframe ref="myIframe" style="width: 100%; height: 800px;" :src="requestURL" frameborder="0"></iframe>
+    <webview
+        ref="myWebview"
+        :src="requestURL"
+        style="width: 100%; height: 800px; display: inline-flex;"
+        @dom-ready="onWebviewReady"
+      ></webview>
   </div>
 
   <GlobalLoading  v-if="isShowLoading"/>
 </template>
 
 <script>
-import { ref, onMounted, computed } from 'vue'
+import { ref, computed } from 'vue'
 import { useRoute } from 'vue-router';
 import GlobalLoading from '../discover/widgets/GlobalLoading.vue';
 
@@ -26,23 +31,16 @@ export default {
         const newRequestURL = new URL(requestURL)
         const naviTitle = computed(() => newRequestURL.hostname)
 
-        const myIframe = ref(null)
-
         const isShowLoading = ref(true)
-        onMounted(() => {
-            myIframe.value.addEventListener("load", () => {
-                console.log('loading success')
-                isShowLoading.value = false
-            })
-        })
-        // onUnmounted(() => {
-        //     myIframe.value.removeEventListener("load")
-        // })
+        const onWebviewReady = () => {
+            console.log('Webview is ready');
+            isShowLoading.value = false
+        };
         return {
             requestURL,
-            myIframe,
             naviTitle,
             isShowLoading,
+            onWebviewReady,
         }
     },
     components: {

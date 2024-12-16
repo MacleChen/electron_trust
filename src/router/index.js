@@ -438,6 +438,22 @@ const routes = [
     },
     component: () => import('../views/discover/Latest/LatestListView.vue')
   },
+  {
+    path: '/dappContentListView',
+    name: 'dappContentListView',
+    meta: {
+      index:1,
+    },
+    component: () => import('../views/discover/DappContentListView.vue')
+  },
+  {
+    path: '/myTestWebview',
+    name: 'myTestWebview',
+    meta: {
+      index:1,
+    },
+    component: () => import('../views/others/MyTestWebview.vue')
+  },
 ]
 
 const router = createRouter({
