@@ -21,12 +21,13 @@
 import { ref, computed } from 'vue';
 export default {
     props: {
-        dataDict: {type: String}
+        dataDict: {type: String},
+        indexDex: {type: Number}
     },
     setup(props) {
         const myDataDict = ref(JSON.parse(props.dataDict))
-        const hostUrlStr = myDataDict.value.title
-
+        const hostUrlStr = myDataDict.value.link
+        const myIndex = ref(props.indexDex)
         const newRequestURL = new URL(hostUrlStr)
         const tabTitle = computed(() => newRequestURL.hostname)
 
@@ -34,14 +35,15 @@ export default {
             myDataDict,
             hostUrlStr,
             tabTitle,
+            myIndex,
         }
     },
     methods: {
         tabCellCloseImgClick() {
-            this.$emit("valueDeleteChanged", this.myDataDict)
+            this.$emit("valueDeleteChanged", this.myDataDict, this.myIndex)
         },
         tabCellClick() {
-            this.$emit("valueCellChanged", this.myDataDict)
+            this.$emit("valueCellChanged", this.myDataDict, this.myIndex)
         }
     }
 }

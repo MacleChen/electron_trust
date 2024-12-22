@@ -60,7 +60,7 @@ export default {
         var { data } = useRequest(() => {
             return fetch(requestUrl, {
                 headers: {
-                    "x-api-key": "o2YQJOObtg9fezOjwKG6B2T5YIyEjBix4TIY5X07",
+                    "x-api-key": "8tEEK2fQEz9UIfeU4Ev3f7mccbsQlaX2UeKWDCL5",
                 }
             }).then(res => res.json())
             .catch(error => {
@@ -71,6 +71,10 @@ export default {
         })
         watch(data, (newValue) => {
             isShowLoading.value = false
+            if (newValue.success == false) {
+                return 
+            }
+            
             dataSourceList.value.length = 0
             for(var i = 0; i < newValue.results.length; i++) {
                 const dAppData = newValue.results[i]

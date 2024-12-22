@@ -10,8 +10,8 @@
     </van-nav-bar> 
     
     <van-grid :border="false" :column-num="2">
-    <van-grid-item v-for="item in urlHistroyList" :key="item.link">
-        <DiscoverTabCard  :dataDict="JSON.stringify(item)" @valueDeleteChanged="discoverTabCardDeleteClick" @valueCellChanged="discoverTabCardCellClick"/>
+    <van-grid-item v-for="(item, index) in urlHistroyList" :key="item.id">
+        <DiscoverTabCard  :dataDict="JSON.stringify(item)" :indexDex="index" @valueDeleteChanged="discoverTabCardDeleteClick" @valueCellChanged="discoverTabCardCellClick"/>
     </van-grid-item>
 
     <van-grid-item>
@@ -79,21 +79,15 @@ export default {
                 localStorageSetDict("urlList", this.urlHistroyList)
             }
         },
-        discoverTabCardDeleteClick(item) {
-            console.log(item.title)
-            
-            for (let index = 0; index < this.urlHistroyList.length; index++) {
-                const history = this.urlHistroyList[index]
-                if (history.id == item.id) {
-                    this.urlHistroyList.splice(index, 1)
-                    localStorageSetDict("urlList", this.urlHistroyList)
-                    break
-                }
-            }
+        discoverTabCardDeleteClick(item, index) {
+            console.log(item.title + index)
+            this.urlHistroyList.splice(index, 1)
+            localStorageSetDict("urlList", this.urlHistroyList)
         },
-        discoverTabCardCellClick(item) {
-            console.log(item.title)
-            alert("002")
+        discoverTabCardCellClick(item, index) {
+            console.log(item.title + index)
+            // 重新查看网页
+            this.$router.push({ name: 'dappWebView', query: { requestURL: item.link, imgStr: item.logo } })
         }
     }
  }

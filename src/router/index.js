@@ -454,6 +454,22 @@ const routes = [
     },
     component: () => import('../views/others/MyTestWebview.vue')
   },
+  {
+    path: '/historyView',
+    name: 'historyView',
+    meta: {
+      index:1,
+    },
+    component: () => import('../views/discover/more/HistoryView.vue')
+  },
+  {
+    path: '/favoriteView',
+    name: 'favoriteView',
+    meta: {
+      index:1,
+    },
+    component: () => import('../views/discover/more/FavoriteView.vue')
+  },
 ]
 
 const router = createRouter({

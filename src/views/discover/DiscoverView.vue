@@ -73,9 +73,12 @@ import DiscoverBottomScrollToken from './widgets/DiscoverBottomScrollToken.vue';
 import DiscoverFeedback from './widgets/DiscoverFeedback.vue';
 import LatestListContent from './Latest/LatestListContent.vue';
 import { getLocalStorageDict } from '@/utils/utils';
+import { useRouter } from 'vue-router';
 
 export default {
   setup() {
+    const router = useRouter(); // 获取 router 实例
+
     const urlHistroyList = ref(getLocalStorageDict("urlList"))
     if (urlHistroyList.value == null) { urlHistroyList.value = [] }
 
@@ -131,7 +134,11 @@ export default {
       // 默认情况下点击选项时不会自动收起
       // 可以通过 close-on-click-action 属性开启自动收起
       show.value = false;
-      showToast(item.name);
+      if (item.name == 'History') {
+        router.push({name: 'historyView'})
+      } else {
+        router.push({name: 'favoriteView'})
+      }
     };
 
     const onCancel = () => showToast('取消');
