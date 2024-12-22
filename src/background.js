@@ -70,7 +70,8 @@ async function createWindow() {
     // 获取当前项目的路径
     const projectPath = __dirname; // 获取 Electron 项目根目录路径
     const screenshotsDir = path.join(projectPath, 'screenshots'); // 在项目根目录下创建 'screenshots' 文件夹
-    const screenshotFilePath = path.join(screenshotsDir, 'screenshot.png');
+    const currentTimestamp = Date.now();
+    const screenshotFilePath = path.join(screenshotsDir, currentTimestamp + 'screenshot.png');
 
     try {
       fs.writeFileSync(screenshotFilePath, imageBuffer); // 保存文件

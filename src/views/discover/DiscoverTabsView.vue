@@ -1,6 +1,6 @@
 <template>
     <div>
-        <van-nav-bar title="3 tabs" @click-left="navBarLeftClick" >
+        <van-nav-bar :title="urlHistroyList.length + ' tabs'" @click-left="navBarLeftClick" @click-right="navBarRightClick">
         <template #left>
             <img src="../../assets/asserts/close-f_Normal@2x.png" style="height: 24px; width: 24px;" />
         </template>
@@ -10,12 +10,8 @@
     </van-nav-bar> 
     
     <van-grid :border="false" :column-num="2">
-    <van-grid-item>
-        <DiscoverTabCard />
-    </van-grid-item>
-
-    <van-grid-item>
-        <DiscoverTabCard />
+    <van-grid-item v-for="item in urlHistroyList" :key="item.link">
+        <DiscoverTabCard  :dataDict="JSON.stringify(item)" @valueDeleteChanged="discoverTabCardDeleteClick" @valueCellChanged="discoverTabCardCellClick"/>
     </van-grid-item>
 
     <van-grid-item>
@@ -25,43 +21,80 @@
 
     </div>
     
+    <van-action-sheet v-model:show="isShowDeleteAlert" title=" ">
+        <CommonAlertView :data="alertData" @valueChanged="alertBtnClick" />
+    </van-action-sheet>
+    
 </template>
 
 <script>
 import { ref } from 'vue';
 import DiscoverTabCard from './DiscoverTabCard.vue';
 import DiscoverAddTabCard from './DiscoverAddTabCard.vue';
+import { getLocalStorageDict, localStorageSetDict } from '@/utils/utils';
+import CommonAlertView from '../others/CommonAlertView.vue';
 
-const settingList = ref([
-    {title: 'Preferences', imgStr: require('../../assets/asserts/icon-settings-cog_Normal@2x.png')},
-    {title: 'Help Center', imgStr: require('../../assets/asserts/icon-settings-cog_Normal@2x.png')},
-    {title: 'Support', imgStr: require('../../assets/asserts/icon-settings-cog_Normal@2x.png')},
-    {title: 'About', imgStr: require('../../assets/asserts/icon-settings-cog_Normal@2x.png')},
-    {title: 'X(formerly Twitter)', imgStr: require('../../assets/asserts/icon-settings-cog_Normal@2x.png')},
-    {title: 'Telegram', imgStr: require('../../assets/asserts/icon-settings-cog_Normal@2x.png')},
-    {title: 'Facebook', imgStr: require('../../assets/asserts/icon-settings-cog_Normal@2x.png')},
-    {title: 'Reddit', imgStr: require('../../assets/asserts/icon-settings-cog_Normal@2x.png')},
-    {title: 'YouTube', imgStr: require('../../assets/asserts/icon-settings-cog_Normal@2x.png')},
-    {title: 'Instagram', imgStr: require('../../assets/asserts/icon-settings-cog_Normal@2x.png')},
-]);
 
 export default {
     setup() {
-        return { settingList }
+
+        const urlHistroyList = ref(getLocalStorageDict("urlList"))
+        if (urlHistroyList.value == null) { urlHistroyList.value = [] }
+
+        const isShowDeleteAlert = ref(false)
+        const alertData = JSON.stringify({title: "Clear all tabs?", subTitle: "This will close all opened dApps, but you can find them again under History.",
+            imgStr: require('@/assets/asserts/tw-warning-2-dark_Normal@2x.png'),
+            cancel: "Cancel", sure: "Clear all"
+        })
+
+        return {
+            urlHistroyList,
+            isShowDeleteAlert,
+            alertData,
+         }
     },
     components: {
         DiscoverTabCard,
         DiscoverAddTabCard,
+        CommonAlertView,
     },
     methods: {
         navBarLeftClick() {
             this.$router.back();
-    },
-    settingCellClick(index) {
-        if (index == 0 ) {
-            this.$router.push({ name: 'preferences' });
+        },
+        navBarRightClick() {
+            this.isShowDeleteAlert = true
+        },
+        settingCellClick(index) {
+            if (index == 0 ) {
+                this.$router.push({ name: 'preferences' });
+            }
+        },
+        alertBtnClick(index) {
+            console.log(index + '')
+            this.isShowDeleteAlert = false
+            if (index == 1) {
+                // 删除所有tabs
+                this.urlHistroyList = []
+                localStorageSetDict("urlList", this.urlHistroyList)
+            }
+        },
+        discoverTabCardDeleteClick(item) {
+            console.log(item.title)
+            
+            for (let index = 0; index < this.urlHistroyList.length; index++) {
+                const history = this.urlHistroyList[index]
+                if (history.id == item.id) {
+                    this.urlHistroyList.splice(index, 1)
+                    localStorageSetDict("urlList", this.urlHistroyList)
+                    break
+                }
+            }
+        },
+        discoverTabCardCellClick(item) {
+            console.log(item.title)
+            alert("002")
         }
-    }
     }
  }
 </script>

@@ -8,7 +8,7 @@
         <div style="display: flex; justify-content: center; align-items: center;">
             <div @click="navBarTabsClick"
             style="border: 1px solid blue; border-radius: 3px; width: 20px; height: 20px; display: flex; justify-content: center; align-items: center; margin-right: 15px;">
-            <label style="color: blue;">3</label>
+            <label style="color: blue;">{{ urlHistroyList.length }}</label>
             </div>
             <img @click="show = true" @dragstart.prevent src="../../assets/asserts/menu-dots-f_Normal@2x.png" style="height: 24px; width: 24px;"/>
         </div>
@@ -51,6 +51,7 @@ export default {
 
         const route = useRoute()
         let requestURL = route.query.requestURL;
+        let webLogoImgStr = route.query.imgStr;
         console.log("myURL:" + requestURL);
         const show = ref(false);
         const actions = [
@@ -66,7 +67,6 @@ export default {
             console.log('Webview is ready');
             isShowLoading.value = false
         };
-
         return {
             show,
             actions,
@@ -75,6 +75,7 @@ export default {
             isShowLoading,
             urlHistroyList,
             onWebviewReady,
+            webLogoImgStr,
         }
     },
     components: {
@@ -102,7 +103,8 @@ export default {
                 ipcRenderer.invoke('save-screenshot', image.toPNG()).then((filePath) => {
                     console.log('截图已保存到:', filePath);
                     const newPath = `file://${filePath}`; // 将本地路径赋值给 img
-                    this.urlHistroyList.push({title: this.requestURL, imgPath: newPath})
+                    const currentTimestamp = Date.now();
+                    this.urlHistroyList.unshift({id: "history" + currentTimestamp, title: this.requestURL, imgPath: newPath, logo: this.webLogoImgStr})
                     localStorageSetDict("urlList", this.urlHistroyList)
                     // alert("保存成功" + newPath)
                 }).catch((err) => {

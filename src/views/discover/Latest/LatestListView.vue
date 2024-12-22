@@ -21,7 +21,7 @@ export default {
             this.$router.back()
         }, 
         latestCellValueChange(item) {
-            this.$router.push({ name: 'commonWebView', query: { requestURL: item.link } })
+            this.$router.push({ name: 'dappWebView', query: { requestURL: item.link, imgStr: item.imgStr } })
         }
     }
 }

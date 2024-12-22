@@ -4,7 +4,7 @@
       <div style="display: flex; justify-content: center; align-items: center;">
         <div @click="navBarTabsClick"
         style="border: 1px solid blue; border-radius: 3px; width: 20px; height: 20px; display: flex; justify-content: center; align-items: center; margin-right: 15px;">
-          <label style="color: blue;">3</label>
+          <label style="color: blue;">{{ urlHistroyList.length }}</label>
         </div>
         <img @click="show = true" @dragstart.prevent src="../../assets/asserts/menu-dots-f_Normal@2x.png" style="height: 24px; width: 24px;"/>
       </div>
@@ -72,9 +72,13 @@ import DappContentView from './widgets/DappContentView.vue';
 import DiscoverBottomScrollToken from './widgets/DiscoverBottomScrollToken.vue';
 import DiscoverFeedback from './widgets/DiscoverFeedback.vue';
 import LatestListContent from './Latest/LatestListContent.vue';
+import { getLocalStorageDict } from '@/utils/utils';
 
 export default {
   setup() {
+    const urlHistroyList = ref(getLocalStorageDict("urlList"))
+    if (urlHistroyList.value == null) { urlHistroyList.value = [] }
+
     const count = ref(0);
     const loading = ref(false);
     const refreshing = ref(false);
@@ -145,6 +149,7 @@ export default {
       bottomScrollData,
       showBottomScrollData,
       isHasPhrase,
+      urlHistroyList,
     };
   },
   components: {
@@ -178,11 +183,10 @@ export default {
       this.$router.push({name: 'cryptoDetailView', query: { dataItem: JSON.stringify(item)}})
     },
     dAppHeaderViewClick() {
-      // this.$router.push({name: 'dappContentListView'})
-      this.$router.push({name: 'myTestWebview'})
+      this.$router.push({name: 'dappContentListView'})
     },
     dappHandleValueChange(item) {
-      this.$router.push({ name: 'dappWebView', query: { requestURL: item.link } })
+      this.$router.push({ name: 'dappWebView', query: { requestURL: item.link, imgStr: item.imgStr } })
     },
     topdAppTokenHeaderClick() {
       this.$router.push({name: 'topdAppTokenListView', query: { dataList: JSON.stringify(this.bottomScrollData) }})
@@ -191,7 +195,7 @@ export default {
       this.$router.push({name: 'latestListView'})
     },
     latestCellValueChange(item) {
-      this.$router.push({ name: 'dappWebView', query: { requestURL: item.link } })
+      this.$router.push({ name: 'dappWebView', query: { requestURL: item.link, imgStr: item.imgStr } })
     },
       
   }
