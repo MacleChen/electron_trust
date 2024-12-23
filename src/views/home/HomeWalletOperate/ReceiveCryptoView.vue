@@ -24,7 +24,8 @@
 
             <div style="margin-top: 8px;">
                 <div class="content_hleft_vcenter" style="height: 50px;"
-                v-for="item in cryptoList" :key="item.title">
+                v-for="item in cryptoList" :key="item.title"
+                @click="cryptoCellClick(item)">
                     <div style="width: 10%; text-align: left;">
                         <img :src="item.imgName" width="25px" />
                     </div>
@@ -145,6 +146,9 @@ export default {
         },
         importOrAndNewCryptoClick() {
             this.$router.push({ name: 'importCryptoView' })
+        },
+        cryptoCellClick(item) {
+            this.$router.push({ name: 'receiveCryptoDetailView', query: {itemData: JSON.stringify(item) } })
         }
     }
 }

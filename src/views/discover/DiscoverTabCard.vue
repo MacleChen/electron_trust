@@ -26,7 +26,8 @@ export default {
     },
     setup(props) {
         const myDataDict = ref(JSON.parse(props.dataDict))
-        const hostUrlStr = myDataDict.value.link
+        var hostUrlStr = myDataDict.value.link
+        if (hostUrlStr == null) { hostUrlStr = "https://www.baidu.com" }
         const myIndex = ref(props.indexDex)
         const newRequestURL = new URL(hostUrlStr)
         const tabTitle = computed(() => newRequestURL.hostname)

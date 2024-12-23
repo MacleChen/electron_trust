@@ -1,59 +1,47 @@
 <template>
-    <van-nav-bar title="Swap settings" @click-left="navBarLeftClick" >
+    <van-nav-bar title="Swap settings" @click-left="navBarLeftClick" :fixed="true" :border="false" >
         <template #left>
             <img src="../../assets/asserts/arrow-left-f_Normal@2x.png" style="height: 24px; width: 24px;" />
         </template>
     </van-nav-bar> 
-    <div style="margin-left: 15px; margin-right: 15px">
-        <div class="swap_setting_cell_containter">
-            <div class="swap_setting_cell_containter" style="width: 50%;">
-                <img @dragstart.prevent src="../../assets/asserts/payment-f_Normal@2x.png" width="30px" height="30px" />
-                <div style="display: flex; justify-content: center; align-items: center;">
-                    <label style="font-weight: bold; text-align: left; margin-left: 10px;"> Mev protection</label> 
-                    <img style="width: 25px; height: 25px;" src="../../assets/asserts/info_Normal@3x.png"/>
+    <div style="margin-left: 15px; margin-right: 15px; margin-top: 50px">
+        <div class="swap_setting_cell_containter" v-for="(item, index) in dataSource" :key="item.title" >
+            <div class="swap_setting_cell_containter" style="width: 85%;">
+                <div class="content_hcenter_vcenter" style="width: 26px; height: 26px; background-color: #f4f4f6; border-radius: 13px" >
+                    <img @dragstart.prevent :src="item.imgStr" width="13px" height="13px" />
                 </div>
-            </div>
-            <div style="display: flex; justify-content: flex-end; width: 50%;">
-                <van-switch v-model="checked"  />
-            </div>
-        </div>
-
-        <div class="swap_setting_cell_containter">
-            <div class="swap_setting_cell_containter" style="width: 50%;">
-                <img @dragstart.prevent src="../../assets/asserts/payment-f_Normal@2x.png" width="30px" height="30px" />
-                <div style="display: flex; justify-content: center; align-items: center;">
-                    <label style="font-weight: bold; text-align: left; margin-left: 10px;"> Mev protection</label> 
-                </div>
-            </div>
-            <div style="display: flex; justify-content: flex-end; width: 50%;">
-                <van-switch v-model="checked"  />
-            </div>
-        </div>
-
-        <div class="swap_setting_cell_containter">
-            <div class="swap_setting_cell_containter" style="width: 50%;">
-                <img @dragstart.prevent src="../../assets/asserts/payment-f_Normal@2x.png" width="30px" height="30px" />
-                <div style="display: block;">
-                    <div style="display: flex; justify-content: left;">
-                        <label style="font-weight: bold; margin-left: 10px;">Mev protection</label> 
+                <div style="margin-left: 10px; text-align: left; width: 250px; line-height: 14px;">
+                    <div class="content_hleft_vcenter">
+                        <label class="global_primary_black_text_style" >{{ item.title }}</label> 
+                        <img v-if="index == 0" style="width: 25px; height: 25px;" src="../../assets/asserts/info_Normal@3x.png"/>
                     </div>
-                    <div style="line-height: 10px; ">
-                        <label style="margin-left: 10px; font-size: 8px;"> Gives better quote, but takes longer to process the swap.</label> 
+                    <div >
+                        <label class="global_desciption_text_style">{{ item.subTitle }}</label> 
                     </div>
-                    
-                    
                 </div>
+
             </div>
-            <div style="display: flex; justify-content: flex-end; width: 50%;">
-                <van-switch v-model="checked"  />
+            <div style="display: flex; justify-content: flex-end; width: 15%;">
+                <van-switch v-model="item.iselected" size="20px" active-color="#0400f4" />
             </div>
         </div>
     </div>
 </template>
 
 <script>
-
+import { ref } from 'vue';
 export default {
+    setup() {
+        const dataSource = ref([
+            {title: "MEV protection", imgStr: require('../../assets/asserts/bab-token-f_Normal@2x.png'),subTitle: "", iselected: true},
+            {title: "Unlimited allowance", imgStr: require('../../assets/asserts/payment-f_Normal@2x.png'),subTitle: "", iselected: true},
+            {title: "MEV protection", imgStr: require('../../assets/asserts/recurring-buy-f_Normal@2x.png'),subTitle: "Gives better quote, but takes longer to process the swap.", iselected: true},
+        ])
+
+        return {
+            dataSource,
+        }
+    },
     methods: {
         navBarLeftClick() {
             this.$router.back();
