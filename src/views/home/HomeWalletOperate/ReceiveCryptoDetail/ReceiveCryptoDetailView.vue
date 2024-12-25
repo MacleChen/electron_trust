@@ -1,5 +1,5 @@
 <template>
-    <van-nav-bar title="Favorite" @click-left="navBarLeftClick" @click-right="navBarRightClick" :fixed="true" :border="false">
+    <van-nav-bar title="Receive" @click-left="navBarLeftClick" @click-right="navBarRightClick" :fixed="true" :border="false">
         <template #left>
             <img src="@/assets/asserts/arrow-left-f_Normal@2x.png" style="height: 24px; width: 24px;" />
         </template>
@@ -26,20 +26,37 @@
             <label class="global_primary_black_text_style" style="margin-left: 5px;"  >{{ itemData.title }}</label>
             <label class="global_flag_gray_text_style" style="margin-left: 5px;">{{ itemData.flag }}</label>
         </div>
+
+        <div class="shadow-for-div" style="margin-left: 78px; margin-right: 78px; margin-top: 15px; line-height: 14px; border-radius: 10px;">
+            <div>
+                <GeneratorQRCode :linkText="showUrlStr" />
+            </div>
+            <div style="margin-top: 10px;">
+                <label class="break-text global_primary_black_small_text_style" style="width: 100%;">0xehiee903004707o2krh2fwfwfwwwwwwwggggeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee</label>
+            </div>
+        </div>
+        
     </div>
 </template>
 
 <script>
 import { ref } from 'vue';
 import { useRoute } from 'vue-router';
+import GeneratorQRCode from './GeneratorQRCode.vue';
+
 export default {
     setup() {
         const route = useRoute()
         const itemData = ref(JSON.parse(route.query.itemData))
+        const showUrlStr = "https://www.baidu.com"
 
         return {
             itemData,
+            showUrlStr,
         }
+    },
+    components: {
+        GeneratorQRCode,
     },
     methods: {
         navBarLeftClick() {

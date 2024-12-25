@@ -253,8 +253,13 @@ nav a.router-link-exact-active {
 .break-text {
   white-space: normal; /* 允许文字正常换行 */
   display: inline-block; /* 使 label 保持块状，支持换行 */
+  white-space: pre-wrap; 
+  word-wrap: break-word;
 }
 
+.shadow-for-div {
+  box-shadow: 0px 0px 15px rgba(0, 0, 0, 0.3); /* 设置阴影 */
+}
 
 input[type=number]::-webkit-inner-spin-button, 
 input[type=number]::-webkit-outer-spin-button { 
