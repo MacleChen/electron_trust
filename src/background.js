@@ -26,13 +26,14 @@ async function createWindow() {
     webPreferences: {
       // Use pluginOptions.nodeIntegration, leave this alone
       // See nklayman.github.io/vue-cli-plugin-electron-builder/guide/security.html#node-integration for more info
-      nodeIntegration: process.env.ELECTRON_NODE_INTEGRATION,
-      contextIsolation: !process.env.ELECTRON_NODE_INTEGRATION,
-      // contextIsolation: true, // 必须启用 contextIsolation
-      // nodeIntegration: false, // 禁用 Node.js 集成
-      preload: path.join(__dirname, 'preload.js'), // 开发模式下路径
+      // nodeIntegration: process.env.ELECTRON_NODE_INTEGRATION,
+      // contextIsolation: !process.env.ELECTRON_NODE_INTEGRATION,
+      contextIsolation: false, // 必须启用 contextIsolation
+      nodeIntegration: true, // 禁用 Node.js 集成
+      // preload: path.join(__dirname, 'preload.js'), // 开发模式下路径
       webSecurity: false,
       webviewTag: true,
+      sandbox: false  // 禁用沙盒模式
     },
     icon: './public/app.ico'
   })
@@ -62,7 +63,10 @@ async function createWindow() {
   } else {
     createProtocol('app')
     // Load the index.html when not in development
-    win.loadURL('app://./index.html')
+    // win.loadURL('app://./index.html')
+    win.webContents.openDevTools()
+    // win.loadFile(path.join(__dirname, '', 'bundled', 'index.html'));
+    win.loadFile(path.join(__dirname, 'bundled', 'index.html')); // 或者根据实际目录路径调整
   }
 
   // 接收渲染进程传来的截图保存请求
