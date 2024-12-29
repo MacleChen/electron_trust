@@ -89,6 +89,7 @@ module.exports = defineConfig({
           ]
         }
       },
+      externals: ['clipboard'],     // 解决白页问题，或找不到clipborad的问题
       nodeIntegration: true
     },
   }

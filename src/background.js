@@ -26,14 +26,11 @@ async function createWindow() {
     webPreferences: {
       // Use pluginOptions.nodeIntegration, leave this alone
       // See nklayman.github.io/vue-cli-plugin-electron-builder/guide/security.html#node-integration for more info
-      // nodeIntegration: process.env.ELECTRON_NODE_INTEGRATION,
-      // contextIsolation: !process.env.ELECTRON_NODE_INTEGRATION,
-      contextIsolation: false, // 必须启用 contextIsolation
-      nodeIntegration: true, // 禁用 Node.js 集成
+      nodeIntegration: process.env.ELECTRON_NODE_INTEGRATION,
+      contextIsolation: !process.env.ELECTRON_NODE_INTEGRATION,
       // preload: path.join(__dirname, 'preload.js'), // 开发模式下路径
       webSecurity: false,
       webviewTag: true,
-      sandbox: false  // 禁用沙盒模式
     },
     icon: './public/app.ico'
   })
@@ -55,7 +52,8 @@ async function createWindow() {
   // };
   // win.setPosition(winPosition.x, winPosition.y);
   //win.setBounds({ x: 100, y: 100, width: 800, height: 600 });
- 
+  win.webContents.openDevTools()
+  console.log(process.env.NODE_ENV);
   if (process.env.WEBPACK_DEV_SERVER_URL) {
     // Load the url of the dev server if in development mode
     await win.loadURL(process.env.WEBPACK_DEV_SERVER_URL)
@@ -63,10 +61,8 @@ async function createWindow() {
   } else {
     createProtocol('app')
     // Load the index.html when not in development
-    // win.loadURL('app://./index.html')
-    win.webContents.openDevTools()
-    // win.loadFile(path.join(__dirname, '', 'bundled', 'index.html'));
-    win.loadFile(path.join(__dirname, 'bundled', 'index.html')); // 或者根据实际目录路径调整
+    win.loadURL('app://./index.html')
+    // win.webContents.openDevTools()
   }
 
   // 接收渲染进程传来的截图保存请求
