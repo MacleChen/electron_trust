@@ -57,6 +57,7 @@ module.exports = defineConfig({
           ]
         },
         "dmg": {
+          sign: true, // 确保 dmg 也被签名
           "contents": [
             {
               "x": 410,
@@ -83,13 +84,22 @@ module.exports = defineConfig({
               "target": "dmg", //利用dmg制作安装程序
               "arch": [
                 "arm64",    //m芯片
-                // "x64",    // intel芯片
+                "x64",    // intel芯片
               ]
             }
           ]
-        }
+        },
+        // afterSign: async (context) => {
+        //   const { notarize } = require("electron-notarize");
+        //   await notarize({
+        //     appBundleId: "com.yishuihuayuan.trust", // 替换为您的应用 ID
+        //     appPath: `${context.appOutDir}/Trust.app`,
+        //     appleId: "yishuihuayuan@126.com", // 替换为您的 Apple ID
+        //     appleIdPassword: "euvl-ebze-ndhe-aczz", // 替换为应用专用密码
+        //   });
+        // },
       },
-      externals: ['clipboard'],     // 解决白页问题，或找不到clipborad的问题
+      externals: ['clipboard'],     // 解决白页问题，或找不到clipboard
       nodeIntegration: true
     },
   }

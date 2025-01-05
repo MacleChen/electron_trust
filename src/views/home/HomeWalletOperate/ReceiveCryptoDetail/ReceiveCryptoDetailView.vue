@@ -36,8 +36,15 @@
             </div>
         </div>
 
+        <div v-if="isShowCustomMountDiv" class="content_hcenter_vcenter" style="margin-top: 20px;">
+            <label class="global_primary_black_text_style">{{ amountInputText + " " }} {{ itemData.title }}</label>
+            <label class="global_desciption_text_style"> &nbsp;≈&nbsp; </label>
+            <label class="global_primary_gray_text_style">$10,281.54</label>
+            <img src="../../../../assets/asserts/circled-close-f_Normal@2x.png" style="height: 15px; width: 15px; margin-left: 5px;" @click="amountClearBtnClick"/>
+        </div>
+
         <div class="content_hcenter_vcenter" style="margin-top: 20px;">
-            <div style="margin-right: 40px;">
+            <div style="margin-right: 40px;" @click="copyBtnClick">
                 <div class="content_hcenter_vcenter" style="width: 40px; height: 40px; background-color: #f4f4f6; border-radius: 20px;">
                     <img src="../../../../assets/asserts/icon-copy_Normal_dark@2x.png" style="height: 20px; width: 20px;" />
                 </div>
@@ -46,7 +53,7 @@
                 </div>
             </div>
 
-            <div>
+            <div @click="setAmountBtnClick">
                 <div class="content_hcenter_vcenter">
                     <div class="content_hcenter_vcenter" style="width: 40px; height: 40px; background-color: #f4f4f6; border-radius: 20px;">
                         <img src="../../../../assets/asserts/number-f_Normal_black@2x.png" style="height: 20px; width: 20px;" />
@@ -57,7 +64,7 @@
                 </div>
             </div>
 
-            <div style="margin-left: 40px;">
+            <div style="margin-left: 40px;" @click="shareBtnClick">
                 <div class="content_hcenter_vcenter" style="width: 40px; height: 40px; background-color: #f4f4f6; border-radius: 20px;">
                     <img src="../../../../assets/asserts/share-f_Normal_black@2x.png" style="height: 20px; width: 20px;" />
                 </div>
@@ -85,6 +92,23 @@
             </div>
         </div>
     </div>
+
+    <van-dialog
+        use-slot
+        title="Enter Amount"
+        :show="isShowAmountInputAlert"
+        show-cancel-button
+        overlay
+        cancel-button-text="Cancel"
+        confirm-button-text="Confirm"
+        @cancel="amountAlertCloseBtn"
+        @confirm="amountAlertConfirmBtnClick"
+        >
+        <div class="content_hleft_vcenter" style="border: #d9d9d9 solid 1px; border-radius: 6px; height: 30px; margin: 15px 15px 15px 15px;">
+            <input class="global_primary_black_text_style no-border" type="number"
+            style="margin-left: 10px; width: 90%;" v-model="amountInputText" label="" placeholder=""/>
+        </div>
+    </van-dialog>
 </template>
 
 <script>
@@ -92,6 +116,8 @@ import { ref } from 'vue';
 import { useRoute } from 'vue-router';
 import GeneratorQRCode from './GeneratorQRCode.vue';
 import { getUserData } from '@/utils/utils';
+import useClipboard from 'vue-clipboard3';
+import { showToast } from 'vant';
 
 export default {
     setup() {
@@ -102,10 +128,17 @@ export default {
         const userData = getUserData()
         const address = ref(userData.account.address)
 
+        const isShowAmountInputAlert = ref(false)
+        const isShowCustomMountDiv = ref(false)
+        const amountInputText = ref('')
+
         return {
             itemData,
             showUrlStr,
             address,
+            isShowAmountInputAlert,
+            isShowCustomMountDiv,
+            amountInputText
         }
     },
     components: {
@@ -116,7 +149,42 @@ export default {
             this.$router.back()
         },
         navBarRightClick() {
+            this.$router.push({ name: 'commonWebView', query: { requestURL: 'https://trustwallet.com/blog/how-to-receive-crypto-using-trust-wallet' } })
+        },
+        copyBtnClick() {
+            showToast({message: 'Address copied:' + this.address, position: 'bottom'})
+            this.isShowYourAddress = false
 
+            const { toClipboard } = useClipboard()
+            const copy = async (text) => {
+                try {
+                    await toClipboard(text)
+                } catch (e) {
+                    console.error(e)
+                }
+            }
+            copy(this.address)
+        },
+        setAmountBtnClick() {
+            this.isShowAmountInputAlert = true
+        },
+        amountAlertCloseBtn() {
+            this.isShowAmountInputAlert = false
+        },
+        amountAlertConfirmBtnClick() {
+            this.isShowAmountInputAlert = false
+            if (this.amountInputText != "") {
+                this.isShowCustomMountDiv = true
+            } else {
+                this.isShowCustomMountDiv = false
+            }
+        },
+        shareBtnClick() {
+
+        },
+        amountClearBtnClick() {
+            this.amountInputText = ""
+            this.isShowCustomMountDiv = false
         }
     }
 }
