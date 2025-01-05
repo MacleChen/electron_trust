@@ -170,7 +170,7 @@ export default {
         },
         amountAlertCloseBtn() {
             this.isShowAmountInputAlert = false
-        },
+        }, 
         amountAlertConfirmBtnClick() {
             this.isShowAmountInputAlert = false
             if (this.amountInputText != "") {
