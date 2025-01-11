@@ -12,7 +12,8 @@
         @click="stepOneDivClick">
             <div class="content_hleft_vtop" style="width: 8%;">
                 <!-- 1 -->
-                <img src="../../../assets/asserts/circled-checkmark-f_Normal@2x.png" width="20px" height="20px" />
+                <img v-if="stepOneOpacity == 1" src="@/assets/asserts/circled-checkmark-f_Normal_black@2x.png" width="20px" height="20px" />
+                <img v-else src="@/assets/asserts/circled-checkmark-f_Normal@2x.png" width="20px" height="20px" />
             </div>
             <div style="width: 92%; text-align: left;">
                 <label style="color: #21262f; font-size: 12px; font-weight: bolder;">
@@ -26,7 +27,8 @@
         @click="stepTwoDivClick">
             <div class="content_hleft_vtop" style="width: 8%;">
                 <!-- 2 -->
-                <img src="../../../assets/asserts/circled-checkmark-f_Normal@2x.png" width="20px" height="20px" />
+                <img v-if="stepTwoOpacity == 1" src="@/assets/asserts/circled-checkmark-f_Normal_black@2x.png" width="20px" height="20px" />
+                <img v-else src="@/assets/asserts/circled-checkmark-f_Normal@2x.png" width="20px" height="20px" />
             </div>
             <div style="width: 92%; text-align: left;">
                 <label style="color: #21262f; font-size: 12px; font-weight: bolder;">
@@ -42,7 +44,8 @@
         @click="stepThreeDivClick">
             <div class="content_hleft_vtop" style="width: 8%;">
                 <!-- 3 -->
-                <img src="../../../assets/asserts/circled-checkmark-f_Normal@2x.png" width="20px" height="20px" />
+                <img v-if="stepThreeOpacity == 1" src="@/assets/asserts/circled-checkmark-f_Normal_black@2x.png" width="20px" height="20px" />
+                <img v-else src="@/assets/asserts/circled-checkmark-f_Normal@2x.png" width="20px" height="20px" />
             </div>
             <div style="width: 92%; text-align: left;">
                 <label style="color: #21262f; font-size: 12px; font-weight: bolder;">

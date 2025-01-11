@@ -21,7 +21,8 @@ async function createWindow() {
     minHeight:844,
     maxWidth:390,
     maxHeight:844,
-    frame:false,
+    frame:true,       // 显示窗口的三个按钮   
+    resizable: false, // 禁止调整窗口大小
     useContentSize: true,
     webPreferences: {
       // Use pluginOptions.nodeIntegration, leave this alone
@@ -35,11 +36,6 @@ async function createWindow() {
     icon: './public/app.ico'
   })
 
-  // 监听渲染进程请求生成助记词
-  // ipcMain.handle('generate-mnemonic', async () => {
-  //   return bip39.generateMnemonic();  // 返回生成的助记词
-  // });
-
   // 隐藏顶部菜单栏
   win.setMenu(null);
   // 当主窗口准备就绪时，关闭检查窗口
@@ -52,8 +48,6 @@ async function createWindow() {
   // };
   // win.setPosition(winPosition.x, winPosition.y);
   //win.setBounds({ x: 100, y: 100, width: 800, height: 600 });
-  win.webContents.openDevTools()
-  console.log(process.env.NODE_ENV);
   if (process.env.WEBPACK_DEV_SERVER_URL) {
     // Load the url of the dev server if in development mode
     await win.loadURL(process.env.WEBPACK_DEV_SERVER_URL)
@@ -62,7 +56,6 @@ async function createWindow() {
     createProtocol('app')
     // Load the index.html when not in development
     win.loadURL('app://./index.html')
-    // win.webContents.openDevTools()
   }
 
   // 接收渲染进程传来的截图保存请求

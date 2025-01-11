@@ -17,9 +17,9 @@
                 </div>
                 <div style="display: flex;">
                     <label class="cell_left_title_containter">{{ item.subtitle }}</label>
-                    <label v-if="item.percent > 0"  class="cell_right_title_containter" style="color: red;">{{ item.percent }}%</label>
+                    <label v-if="item.percent > 0"  class="cell_right_title_containter" style="color: green;">{{ item.percent }}%</label>
                     <label v-if="item.percent == 0"  class="cell_right_title_containter" style="color: black;">{{ item.percent }}%</label>
-                    <label v-if="item.percent < 0"  class="cell_right_title_containter" style="color: green;">{{ item.percent }}%</label>
+                    <label v-if="item.percent < 0"  class="cell_right_title_containter" style="color: red;">{{ item.percent }}%</label>
                 </div>
             </div>
         </div>

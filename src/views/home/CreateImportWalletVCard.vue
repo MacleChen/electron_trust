@@ -4,7 +4,7 @@
           <van-image style="transform: translateY(-2000px); filter: drop-shadow(blue 0 2000px);" :src="require('../../assets/asserts/arrow-down-f_Normal@2x.png')" width="20px" />
         </div>
         <van-space direction="vertical" fill :size="5" style="margin-left: 10px; margin-top: 15px;">
-          <div class="home_cell1_title">{{ $t("homePage.createWallet") }}<label class="home_cell_flag">{{ $t("homePage.earnPoints") }}</label></div>
+          <div class="home_cell1_title">{{ $t("homePage.createWallet") }}<label class="global_flag_gray_text_style" style="margin-left: 5px;">{{ $t("homePage.earnPoints") }}</label></div>
           <label class="home_cell1_sutitle">{{ $t("homePage.createSub") }}</label>
           <!-- <div style="display: flex;background-color: blue; justify-content: center; margin-left: 10px;margin-top: 15px;"></div>
           <div style="background-color: aquamarine;"></div> -->
@@ -16,7 +16,7 @@
           <van-image style="transform: translateY(-2000px); filter: drop-shadow(blue 0 2000px);" :src="require('../../assets/asserts/arrow-down-f_Normal@2x.png')" width="20px" />
         </div>
         <van-space direction="vertical" fill :size="5" style="margin-left: 10px; margin-top: 15px;">
-          <div class="home_cell1_title">{{ $t("homePage.existingWallet") }}<label class="home_cell_flag">{{ $t("homePage.earnPoints") }}</label></div>
+          <div class="home_cell1_title">{{ $t("homePage.existingWallet") }}<label class="global_flag_gray_text_style" style="margin-left: 5px;">{{ $t("homePage.earnPoints") }}</label></div>
           <label class="home_cell1_sutitle">{{ $t("homePage.existingSub") }}</label>
           <!-- <div style="display: flex;background-color: blue; justify-content: center; margin-left: 10px;margin-top: 15px;"></div>
           <div style="background-color: aquamarine;"></div> -->

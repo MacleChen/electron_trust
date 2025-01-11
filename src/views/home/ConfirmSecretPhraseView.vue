@@ -171,6 +171,7 @@ export default {
             fourWordUserSelectedIndex,
             isActionContinue,
             secretPhraseList,
+            globalVars,
         }
     },
     methods: {
@@ -185,8 +186,7 @@ export default {
                 this.secretPhraseList[this.fourWordRandomIndex] == this.fourWordsArray[this.fourWordUserSelectedIndex]
             ) {
                     showToast("验证成功.")
-                    const globalVars = inject("globalVars")
-                    globalVars.isBackupPhrase = true
+                    this.globalVars.isBackupPhrase = true
                     localStorage.setItem("isBackup", true)
                     this.$router.push({name: "home"})
                 } else {
