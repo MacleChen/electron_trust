@@ -146,7 +146,7 @@ export default {
 
         },
         naviRightInfoClick() {
-
+            this.$router.push({name: "cryptoDetailMoreView", query: {}})
         }
 
     }

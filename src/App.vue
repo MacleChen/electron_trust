@@ -153,6 +153,12 @@ nav a.router-link-exact-active {
 }
 
 /* 全局的字体样式 */
+.global_super_big_primary_black_text_style {
+  font-size: 20px;
+  font-weight: bolder;
+  color: #21262f;
+}
+
 .global_big_primary_black_text_style {
   font-size: 16px;
   font-weight: bold;

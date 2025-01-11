@@ -478,6 +478,14 @@ const routes = [
     },
     component: () => import('../views/home/HomeWalletOperate/ReceiveCryptoDetail/ReceiveCryptoDetailView.vue')
   },
+  {
+    path: '/CryptoDetailMoreView',
+    name: 'cryptoDetailMoreView',
+    meta: {
+      index:3,
+    },
+    component: () => import('../views/home/MainHomeSubview/CryptoDetailMoreView.vue')
+  },
 ]
 
 const router = createRouter({
