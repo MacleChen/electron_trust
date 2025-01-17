@@ -1,6 +1,6 @@
 <template>
     <div class="content_hleft_vcenter" style="width: 100%; height: 60px; text-align: left;"
-    v-for="item in cyptoCoinList" :key="item.title" @click="homeCryptoCellClick">
+    v-for="item in cyptoCoinList" :key="item.title" @click="homeCryptoCellClick(item)">
         <div style="width: 15%;">
             <img :src="item.imgStr" width="35px"/>
         </div>
@@ -62,7 +62,7 @@ export default {
         watch(data, (newValue) => {
             for(var i = 0; i < newValue.length; i++) {
                 const symbolData = newValue[i]
-                cyptoCoinList.value.push({title: symbolData.symbol.toUpperCase(), subtitle: symbolData.name, 
+                cyptoCoinList.value.push({id: symbolData.id, title: symbolData.symbol.toUpperCase(), subtitle: symbolData.name, 
                 leftAllMoney: formatNumber(parseFloat(symbolData.current_price).toFixed(2)), percent: parseFloat(symbolData.price_change_percentage_24h).toFixed(2), rightTopMoney: '0', 
                 rightBottomMoney:'0.00', imgStr: symbolData.image},)
             }
@@ -77,7 +77,7 @@ export default {
                 cyptoCoinList.value = []
                 for(var i = 0; i < newValue.length; i++) {
                     const symbolData = newValue[i]
-                    cyptoCoinList.value.push({title: symbolData.symbol.toUpperCase(), subtitle: symbolData.name, 
+                    cyptoCoinList.value.push({id: symbolData.id, title: symbolData.symbol.toUpperCase(), subtitle: symbolData.name, 
                     leftAllMoney: formatNumber(parseFloat(symbolData.current_price).toFixed(2)), percent: parseFloat(symbolData.price_change_percentage_24h).toFixed(2), rightTopMoney: '0', 
                     rightBottomMoney:'0.00', imgStr: symbolData.image},)
                 }
@@ -94,8 +94,8 @@ export default {
         }
     },
     methods:{
-        homeCryptoCellClick() {
-            this.$router.push({name: 'cryptoDetailView'})
+        homeCryptoCellClick(item) {
+            this.$router.push({name: 'cryptoDetailView', query: {cyptoData: JSON.stringify(item)}})
         }
     }
 }

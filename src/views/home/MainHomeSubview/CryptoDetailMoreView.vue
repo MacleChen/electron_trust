@@ -30,7 +30,7 @@
         </div>
 
         <div style="width: 100%; height: 280px;">
-            <CryptoChartLine />
+            <CryptoChartLine :cryptoId="cryptoData.id"/>
         </div>
 
         <div>
@@ -111,15 +111,18 @@
 <script>
 import { ref } from 'vue';
 import CryptoChartLine from './CryptoChartLine.vue';
+import { useRoute } from 'vue-router';
 
 export default {
     setup() {
         const isTurnOpenNotification = ref(false)
         const isReadMore = ref(false)
+        const cryptoData = ref(JSON.parse(useRoute().query.cyptoData))
 
         return {
             isTurnOpenNotification,
             isReadMore,
+            cryptoData,
         }
     },
     components: {

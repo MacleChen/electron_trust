@@ -1,15 +1,6 @@
 <template>
     <div class="chart-container">
       <canvas ref="bitcoinChart"></canvas>
-      <!-- 时间范围按钮 -->
-      <div class="button-container">
-        <button @click="fetchAndRenderChart('1h')" :style="{backgroundColor: currentIndex == 0 ? '#eeeeef':'transparent'}">1H</button>
-        <button @click="fetchAndRenderChart('1d')" :style="{backgroundColor: currentIndex == 1 ? '#eeeeef':'transparent'}">1D</button>
-        <button @click="fetchAndRenderChart('1w')" :style="{backgroundColor: currentIndex == 2 ? '#eeeeef':'transparent'}">1W</button>
-        <button @click="fetchAndRenderChart('1m')" :style="{backgroundColor: currentIndex == 3 ? '#eeeeef':'transparent'}">1M</button>
-        <button @click="fetchAndRenderChart('1y')" :style="{backgroundColor: currentIndex == 4 ? '#eeeeef':'transparent'}">1Y</button>
-        <button @click="fetchAndRenderChart('all')" :style="{backgroundColor: currentIndex == 5 ? '#eeeeef':'transparent'}">All</button>
-      </div>
     </div>
   </template>
   
@@ -37,13 +28,13 @@
     },
     mounted() {
       this.$nextTick(() => {
-        this.fetchAndRenderChart('1d');  // 默认加载1天的数据
+        this.fetchAndRenderChart();
       });
     },
     methods: {
       // 根据时间范围获取并渲染图表
-      async fetchAndRenderChart(range) {
-        const data = await this.getBitcoinData(range);
+      async fetchAndRenderChart() {
+        const data = await this.getBitcoinData();
         if (data) {
           const timestamps = data.prices.map(item => item[0]);  // 时间戳
           const prices = data.prices.map(item => item[1]);  // 价格
@@ -56,28 +47,8 @@
       },
   
       // 根据时间范围请求比特币价格数据
-      async getBitcoinData(range) {
+      async getBitcoinData() {
         let url = `https://api.coingecko.com/api/v3/coins/`+ this.mycryptoId +`/market_chart?vs_currency=usd&days=1`; // 默认获取1天的数据
-  
-        if (range === '1h') {
-            this.currentIndex = 0
-          url = `https://api.coingecko.com/api/v3/coins/`+ this.mycryptoId +`/market_chart?vs_currency=usd&days=1`;
-        } else if (range === '1d') {
-            this.currentIndex = 1
-          url = `https://api.coingecko.com/api/v3/coins/`+ this.mycryptoId +`/market_chart?vs_currency=usd&days=1`;
-        } else if (range === '1w') {
-            this.currentIndex = 2
-          url = `https://api.coingecko.com/api/v3/coins/`+ this.mycryptoId +`/market_chart?vs_currency=usd&days=7`;
-        } else if (range === '1m') {
-            this.currentIndex = 3
-          url = `https://api.coingecko.com/api/v3/coins/`+ this.mycryptoId +`/market_chart?vs_currency=usd&days=30`;
-        } else if (range === '1y') {
-            this.currentIndex = 4
-          url = `https://api.coingecko.com/api/v3/coins/`+ this.mycryptoId +`/market_chart?vs_currency=usd&days=365`;
-        } else if (range === 'all') {
-            this.currentIndex = 5
-          url = `https://api.coingecko.com/api/v3/coins/`+ this.mycryptoId +`/market_chart?vs_currency=usd&days=max`;
-        }
   
         try {
           const response = await axios.get(url);
@@ -205,7 +176,7 @@
   /* 图表容器 */
   .chart-container {
     width: 100%;
-    height: 200px; /* 设置固定的高度 */
+    height: 30px; /* 设置固定的高度 */
   }
   
   /* canvas 样式 */

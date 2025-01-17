@@ -6,13 +6,13 @@
         <template #title>
             <div>
                 <div>
-                    <label class="global_primary_black_text_style">BTC</label>
+                    <label class="global_primary_black_text_style">{{ cyptoItem.title }}</label>
                 </div>
 
                 <div style="margin-top: -5px;">
                     <label class="global_desciption_text_style">COIN</label>
                     <van-divider vertical />
-                    <label class="global_desciption_text_style">Bitcoin</label>
+                    <label class="global_desciption_text_style">{{ cyptoDetail?.name }}</label>
                 </div>
             </div>
         </template>
@@ -27,7 +27,7 @@
     </van-nav-bar>
 
     <div style="margin-left: 15px; margin-right: 15px; margin-top: 50px;">
-        <div class="content_hleft_vtop" style="background-color: #fcf9f0; border-radius: 5px; margin-top: 10px; padding: 10px; text-align: left; line-height: 15px;">
+        <div v-if="cyptoItem.title == 'BTC'" class="content_hleft_vtop" style="background-color: #fcf9f0; border-radius: 5px; margin-top: 10px; padding: 10px; text-align: left; line-height: 15px;">
             <div class="content_hcenter_vtop" style="width: 8%;">
                 <img src="../../../assets/asserts/circled-info-f_Normal_gold@2x.png" width="15px" />
             </div>
@@ -39,23 +39,25 @@
                     <label class="global_desciption_text_style" style="font-size: 11px; color: #e8ba42;">BTC fees may increase during network congestion. Trust Wallet gains no benefit. Tap the gas icon below to view estimated transaction costs.</label>
                 </div>
                 <div class="content_hleft_vcenter">
-                    <label class="global_desciption_text_style" style="font-size: 11px; color: #0400f4;">Learn more</label>
+                    <label class="global_desciption_text_style" style="font-size: 11px; color: #0400f4;"
+                    @click="leanMoreBtnClick"
+                    >Learn more</label>
                     <img src="../../../assets/asserts/chevron-right-f-24_Normal_blue@2x.png" width="15px" height="15px" />
                 </div>
             </div>
         </div>
 
-        <div class="content_hleft_vcenter" style="margin-top: 10px;">
+        <div class="content_hleft_vcenter" :style="{marginTop: cyptoItem.title == 'BTC' ? '10px':'60px'}">
             <img src="../../../assets/asserts/gas-station_Normal_blue@2x.png" width="17px" />
-            <label class="global_primary_black_text_style" style="font-size: 12px">$7.22</label>
+            <label class="global_primary_black_text_style" style="font-size: 12px">${{ gasValue }}</label>
         </div>
 
         <div style="text-align: center; margin-top: -15px;">
             <div>
-                <img src="../../../assets/asserts/0_Normal.png" width="40px" />
+                <img :src="cyptoItem.imgStr" width="40px" />
             </div>
             <div>
-                <label class="global_big_primary_black_text_style">0 BTC</label>
+                <label class="global_big_primary_black_text_style">0 {{ cyptoItem.title }}</label>
             </div>
             <div>
                 <label class="global_desciption_text_style">≈ $0.00</label>
@@ -102,41 +104,73 @@
 
      <van-divider />
 
-     <CryptoDetailEmpty />
+     <CryptoDetailEmpty :cryptoTitle="cyptoItem.title" @valueChanged="cryptoDetailEmptyBuyBtnClick"/>
 
      <!-- fix bottom view -->
       <div style="text-align: left; height: 80px; position: absolute; bottom: 15px; left: 15px; right: 15px;">
         <van-divider />
         <div style="margin-top: -10px;">
-            <label class="global_desciption_text_style" style="font-size: 11px;">Current BTC price</label>
+            <label class="global_desciption_text_style" style="font-size: 11px;">Current {{ cyptoItem.title }} price</label>
         </div>
         <div class="content_hleft_vcenter">
             <div class="content_hleft_vcenter" style="width: 90%;">
-                <label class="global_primary_black_text_style">$90722.66</label>
-                <label class="global_primary_black_text_style" style="color: red; margin-left: 5px; margin-right: 5px;">-0.13%</label>
-                <img src="../../../assets/asserts/crypto_detail_bottom_kiteline.png" width="60px" height="20px" />
+                <label class="global_primary_black_text_style">${{ cyptoItem.leftAllMoney }}</label>
+                <label class="global_primary_black_text_style" style="margin-left: 5px; margin-right: 5px;" :style="{color: cyptoItem.percent > 0 ? 'green':'red'}">
+                    {{ cyptoItem.percent > 0 ? '+':'-' }}{{ cyptoItem.percent }}%</label>
+                
+                <div style="width: 100px; height: 30px;">
+                    <CryptoLiteChartLine :cryptoId="cyptoItem.id"/>
+                </div>
             </div>
-            <div style="width: 10%; text-align: right;">
+            <div style="width: 10%; text-align: right;" @click="bottomChartRightArrowClick">
                 <img src="../../../assets/asserts/chevron-up-f_Normal@2x.png" width="15px" height="15px" />
             </div>
         </div>
       </div>
     </div>
+
+    <van-action-sheet v-model:show="isShowChartLineAlert" :title="'Current ' + cyptoItem.title + ' price'">
+        <CryptoDetailCharLineAlert :cryptoData="JSON.stringify(cyptoItem)" /> 
+    </van-action-sheet>
 </template>
 
 <script>
-import { ref } from 'vue';
+import { ref, watch } from 'vue';
 import CryptoDetailEmpty from './CryptoDetailEmpty.vue';
+import { useRoute } from 'vue-router';
+import { useRequest } from 'vue-hooks-plus';
+import CryptoLiteChartLine from './CryptoLiteChartLine.vue';
+import CryptoDetailCharLineAlert from './CryptoDetailCharLineAlert.vue';
 export default {
     setup() {
         const isTurnOpenNotification = ref(false)
+        const cyptoItem = ref(JSON.parse(useRoute().query.cyptoData))
+        const cyptoDetail = ref(null)
+        const gasValue = ref(Math.random() * (10 - 1) + 1)
+        gasValue.value = gasValue.value.toFixed(2)
+
+        const isShowChartLineAlert = ref(false)
+
+        // 请求币的市场列表
+        var { data } = useRequest(() => {
+            return fetch('https://api.coingecko.com/api/v3/coins/' + cyptoItem.value.id).then(res => res.json());
+        })
+        watch(data, (newValue) => {
+            cyptoDetail.value = newValue
+        })
 
         return {
             isTurnOpenNotification,
+            cyptoItem,
+            cyptoDetail,
+            gasValue,
+            isShowChartLineAlert,
         }
     },
     components: {
         CryptoDetailEmpty,
+        CryptoLiteChartLine,
+        CryptoDetailCharLineAlert,
     },
     methods: {
         navBarLeftClick() {
@@ -146,7 +180,16 @@ export default {
 
         },
         naviRightInfoClick() {
-            this.$router.push({name: "cryptoDetailMoreView", query: {}})
+            this.$router.push({name: "cryptoDetailMoreView", query: {cyptoData: JSON.stringify(this.cyptoItem)}})
+        }, 
+        leanMoreBtnClick() {
+            this.$router.push({ name: 'commonWebView', query: { requestURL: 'https://trustwallet.com/blog/addressing-blockchain-congestion' } })
+        },
+        cryptoDetailEmptyBuyBtnClick() {
+            alert('buy')
+        },
+        bottomChartRightArrowClick() {
+            this.isShowChartLineAlert = true
         }
 
     }
