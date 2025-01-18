@@ -15,15 +15,15 @@
   export default {
     name: 'BitcoinChart',
     props: {
-        cryptoId: {type: String}
+        cryptoData: {type: String}
     },
     setup(props) {
         const currentIndex = ref(0)
-        const mycryptoId = ref(props.cryptoId)
+        const myCryptoDict = ref(JSON.parse(props.cryptoData))
 
         return {
             currentIndex,
-            mycryptoId,
+            myCryptoDict,
         }
     },
     mounted() {
@@ -48,7 +48,7 @@
   
       // 根据时间范围请求比特币价格数据
       async getBitcoinData() {
-        let url = `https://api.coingecko.com/api/v3/coins/`+ this.mycryptoId +`/market_chart?vs_currency=usd&days=1`; // 默认获取1天的数据
+        let url = `https://api.coingecko.com/api/v3/coins/`+ this.myCryptoDict.id +`/market_chart?vs_currency=usd&days=1`; // 默认获取1天的数据
   
         try {
           const response = await axios.get(url);
@@ -76,7 +76,7 @@
               datasets: [{
                 label: 'Bitcoin Price (USD)',
                 data: data.prices,
-                borderColor: '#5eba89',  // 设置折线颜色
+                borderColor: this.myCryptoDict.percent >= 0 ? '#5eba89' : 'red',  // 设置折线颜色
                 fill: false,  // 不填充折线下方区域
                 tension: 0.8,  // 设置线条的平滑度，0 为直线，1 为最大平滑度
                 pointBackgroundColor: 'rgb(75, 192, 192)',  // 设置点的背景颜色

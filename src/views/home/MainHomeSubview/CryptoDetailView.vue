@@ -115,11 +115,11 @@
         <div class="content_hleft_vcenter">
             <div class="content_hleft_vcenter" style="width: 90%;">
                 <label class="global_primary_black_text_style">${{ cyptoItem.leftAllMoney }}</label>
-                <label class="global_primary_black_text_style" style="margin-left: 5px; margin-right: 5px;" :style="{color: cyptoItem.percent > 0 ? 'green':'red'}">
-                    {{ cyptoItem.percent > 0 ? '+':'-' }}{{ cyptoItem.percent }}%</label>
+                <label class="global_primary_black_text_style" style="margin-left: 5px; margin-right: -30px;" :style="{color: cyptoItem.percent > 0 ? 'green':'red'}">
+                    {{ cyptoItem.percent > 0 ? '+':'' }}{{ cyptoItem.percent }}%</label>
                 
                 <div style="width: 100px; height: 30px;">
-                    <CryptoLiteChartLine :cryptoId="cyptoItem.id"/>
+                    <CryptoLiteChartLine :cryptoData="JSON.stringify(cyptoItem)"/>
                 </div>
             </div>
             <div style="width: 10%; text-align: right;" @click="bottomChartRightArrowClick">
@@ -180,7 +180,7 @@ export default {
 
         },
         naviRightInfoClick() {
-            this.$router.push({name: "cryptoDetailMoreView", query: {cyptoData: JSON.stringify(this.cyptoItem)}})
+            this.$router.push({name: "cryptoDetailMoreView", query: {cyptoData: JSON.stringify(this.cyptoItem), cyptoDetail: JSON.stringify(this.cyptoDetail)}})
         }, 
         leanMoreBtnClick() {
             this.$router.push({ name: 'commonWebView', query: { requestURL: 'https://trustwallet.com/blog/addressing-blockchain-congestion' } })

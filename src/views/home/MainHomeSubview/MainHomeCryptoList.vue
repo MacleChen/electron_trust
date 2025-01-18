@@ -64,7 +64,12 @@ export default {
                 const symbolData = newValue[i]
                 cyptoCoinList.value.push({id: symbolData.id, title: symbolData.symbol.toUpperCase(), subtitle: symbolData.name, 
                 leftAllMoney: formatNumber(parseFloat(symbolData.current_price).toFixed(2)), percent: parseFloat(symbolData.price_change_percentage_24h).toFixed(2), rightTopMoney: '0', 
-                rightBottomMoney:'0.00', imgStr: symbolData.image},)
+                rightBottomMoney:'0.00', imgStr: symbolData.image,
+                marketCap: formatNumber(parseFloat(symbolData.market_cap).toFixed(2)),
+                circulatingSupply: formatNumber(parseFloat(symbolData.circulating_supply).toFixed(2)),
+                totalSupply: formatNumber(parseFloat(symbolData.total_supply).toFixed(2)),
+                volume24H: formatNumber(parseFloat(symbolData.atl).toFixed(2)),
+                },)
             }
         })
 
@@ -79,7 +84,12 @@ export default {
                     const symbolData = newValue[i]
                     cyptoCoinList.value.push({id: symbolData.id, title: symbolData.symbol.toUpperCase(), subtitle: symbolData.name, 
                     leftAllMoney: formatNumber(parseFloat(symbolData.current_price).toFixed(2)), percent: parseFloat(symbolData.price_change_percentage_24h).toFixed(2), rightTopMoney: '0', 
-                    rightBottomMoney:'0.00', imgStr: symbolData.image},)
+                    rightBottomMoney:'0.00', imgStr: symbolData.image,
+                    marketCap: formatNumber(parseFloat(symbolData.market_cap).toFixed(2)),
+                    circulatingSupply: formatNumber(parseFloat(symbolData.circulating_supply).toFixed(2)),
+                    totalSupply: formatNumber(parseFloat(symbolData.total_supply).toFixed(2)),
+                    volume24H: formatNumber(parseFloat(symbolData.atl).toFixed(2)),
+                },)
                 }
             })
         }

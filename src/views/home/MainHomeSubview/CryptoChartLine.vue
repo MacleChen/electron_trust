@@ -24,15 +24,15 @@
   export default {
     name: 'BitcoinChart',
     props: {
-        cryptoId: {type: String}
+        cryptoData: {type: String}
     },
     setup(props) {
         const currentIndex = ref(0)
-        const mycryptoId = ref(props.cryptoId)
+        const mycryptoDict = ref(JSON.parse(props.cryptoData))
 
         return {
             currentIndex,
-            mycryptoId,
+            mycryptoDict,
         }
     },
     mounted() {
@@ -57,26 +57,26 @@
   
       // 根据时间范围请求比特币价格数据
       async getBitcoinData(range) {
-        let url = `https://api.coingecko.com/api/v3/coins/`+ this.mycryptoId +`/market_chart?vs_currency=usd&days=1`; // 默认获取1天的数据
+        let url = `https://api.coingecko.com/api/v3/coins/`+ this.mycryptoDict.id +`/market_chart?vs_currency=usd&days=1`; // 默认获取1天的数据
   
         if (range === '1h') {
             this.currentIndex = 0
-          url = `https://api.coingecko.com/api/v3/coins/`+ this.mycryptoId +`/market_chart?vs_currency=usd&days=1`;
+          url = `https://api.coingecko.com/api/v3/coins/`+ this.mycryptoDict.id +`/market_chart?vs_currency=usd&days=1`;
         } else if (range === '1d') {
             this.currentIndex = 1
-          url = `https://api.coingecko.com/api/v3/coins/`+ this.mycryptoId +`/market_chart?vs_currency=usd&days=1`;
+          url = `https://api.coingecko.com/api/v3/coins/`+ this.mycryptoDict.id +`/market_chart?vs_currency=usd&days=1`;
         } else if (range === '1w') {
             this.currentIndex = 2
-          url = `https://api.coingecko.com/api/v3/coins/`+ this.mycryptoId +`/market_chart?vs_currency=usd&days=7`;
+          url = `https://api.coingecko.com/api/v3/coins/`+ this.mycryptoDict.id +`/market_chart?vs_currency=usd&days=7`;
         } else if (range === '1m') {
             this.currentIndex = 3
-          url = `https://api.coingecko.com/api/v3/coins/`+ this.mycryptoId +`/market_chart?vs_currency=usd&days=30`;
+          url = `https://api.coingecko.com/api/v3/coins/`+ this.mycryptoDict.id +`/market_chart?vs_currency=usd&days=30`;
         } else if (range === '1y') {
             this.currentIndex = 4
-          url = `https://api.coingecko.com/api/v3/coins/`+ this.mycryptoId +`/market_chart?vs_currency=usd&days=365`;
+          url = `https://api.coingecko.com/api/v3/coins/`+ this.mycryptoDict.id +`/market_chart?vs_currency=usd&days=365`;
         } else if (range === 'all') {
             this.currentIndex = 5
-          url = `https://api.coingecko.com/api/v3/coins/`+ this.mycryptoId +`/market_chart?vs_currency=usd&days=max`;
+          url = `https://api.coingecko.com/api/v3/coins/`+ this.mycryptoDict.id +`/market_chart?vs_currency=usd&days=max`;
         }
   
         try {
@@ -96,7 +96,6 @@
           if (this.chart) {
             this.chart.destroy();
           }
-  
           const ctx = canvas.getContext('2d');  // 获取上下文
           this.chart = new Chart(ctx, {
             type: 'line',  // 使用折线图
@@ -105,7 +104,7 @@
               datasets: [{
                 label: 'Bitcoin Price (USD)',
                 data: data.prices,
-                borderColor: '#5eba89',  // 设置折线颜色
+                borderColor: this.mycryptoDict.percent >= 0 ? '#5eba89' : 'red',  // 设置折线颜色
                 fill: false,  // 不填充折线下方区域
                 tension: 0.8,  // 设置线条的平滑度，0 为直线，1 为最大平滑度
                 pointBackgroundColor: 'rgb(75, 192, 192)',  // 设置点的背景颜色

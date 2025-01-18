@@ -5,10 +5,10 @@
         </div>
         <div>
             <label class="global_primary_black_small_text_style" :style="{color: cryptoDict.percent > 0 ? 'green':'red'}">
-                {{ cryptoDict.percent > 0 ? '+':'-' }}{{ cryptoDict.percent }}%</label>
+                {{ cryptoDict.percent > 0 ? '+':'' }}{{ cryptoDict.percent }}%</label>
         </div>
         <div style="width: 100%; height: 280px;">
-            <CryptoChartLine :cryptoId="cryptoDict.id"/>
+            <CryptoChartLine :cryptoData="JSON.stringify(cryptoDict)"/>
         </div>
     </div>
 </template>

@@ -6,13 +6,13 @@
         <template #title>
             <div>
                 <div>
-                    <label class="global_primary_black_text_style">BTC</label>
+                    <label class="global_primary_black_text_style">{{ cryptoData.title }}</label>
                 </div>
 
                 <div style="margin-top: -5px;">
                     <label class="global_desciption_text_style">COIN</label>
                     <van-divider vertical />
-                    <label class="global_desciption_text_style">Bitcoin</label>
+                    <label class="global_desciption_text_style">{{ cyptoDetail.name }}</label>
                 </div>
             </div>
         </template>
@@ -20,25 +20,26 @@
      
     <div style="margin-top: 60px; margin-left: 15px; margin-right: 15px; text-align: left;">
         <div class="content_hleft_vcenter" >
-            <img src="../../../assets/asserts/0_Normal.png" width="24px" height="24px" style="border: #f4f4f6 solid 1px; border-radius: 13px;"/>
-            <label class="global_super_big_primary_black_text_style" style="margin-left: 5px;">Dogecoin</label>
+            <img :src="cryptoData.imgStr" width="24px" height="24px" style="border: #f4f4f6 solid 1px; border-radius: 13px;"/>
+            <label class="global_super_big_primary_black_text_style" style="margin-left: 5px;">{{ cyptoDetail.name }}</label>
         </div>
 
         <div style="margin-top: 1px;">
-            <label class="global_desciption_text_style" style="font-weight: bold;">$0.3325</label>
-            <label class="global_desciption_text_style" style="font-weight: bold; margin-left: 5px; color: #5eba89;">+1.95%</label>
+            <label class="global_desciption_text_style" style="font-weight: bold;">${{ cryptoData.leftAllMoney }}</label>
+            <label class="global_desciption_text_style" style="font-weight: bold; margin-left: 5px;" :style="{color: cryptoData.percent > 0 ? '#5eba89':'red'}">
+                {{ cryptoData.percent > 0 ? '+':'' }}{{ cryptoData.percent }}%</label>
         </div>
 
         <div style="width: 100%; height: 280px;">
-            <CryptoChartLine :cryptoId="cryptoData.id"/>
+            <CryptoChartLine :cryptoData="JSON.stringify(cryptoData)"/>
         </div>
 
         <div>
-            <label class="global_primary_black_text_style">About DOGE</label>
+            <label class="global_primary_black_text_style">About {{ cryptoData.title }}</label>
         </div>
         <div style="margin-top: 15px;">
-            <label class="global_desciption_text_style" :class="isReadMore ? 'multi-line-label':'single-line-label'">
-                Dogecoin is an open source peer-to-peer digital currency, favored by Shiba Inus worldwide. Introduced as a joke currency on 6 December 2013, Dogecoin quickly developed its own online community.</label>
+            <label class="global_desciption_text_style" :class="isReadMore ? 'multi-line-label':'single-line-label'" v-html="cyptoDetail.description.en" @click="handleLinkClick"> 
+            </label>
         </div>
         <div>
             <label class="global_primary_blue_text_style" style="font-size: 12px;" @click="readMoreClick">{{ isReadMore ? 'Read less':'Read more' }}</label>
@@ -55,7 +56,7 @@
                         <label class="global_desciption_text_style">Market Cap</label>
                     </div>
                     <div style="width: 60%; text-align: right;">
-                        <label class="global_primary_black_small_text_style">$688,3202,34837,3822.60</label>
+                        <label class="global_primary_black_small_text_style">${{ cryptoData.marketCap }}</label>
                     </div>
                 </div>
 
@@ -64,7 +65,7 @@
                         <label class="global_desciption_text_style">Circulating Supply</label>
                     </div>
                     <div style="width: 60%; text-align: right;">
-                        <label class="global_primary_black_small_text_style">34837,3822.60 DOGE</label>
+                        <label class="global_primary_black_small_text_style">{{ cryptoData.circulatingSupply }} {{ " " + cryptoData.title }}</label>
                     </div>
                 </div>
 
@@ -73,7 +74,7 @@
                         <label class="global_desciption_text_style">Total Supply</label>
                     </div>
                     <div style="width: 60%; text-align: right;">
-                        <label class="global_primary_black_small_text_style">34837,3822.60 DOGE</label>
+                        <label class="global_primary_black_small_text_style">{{ cryptoData.totalSupply }} {{ " " + cryptoData.title }}</label>
                     </div>
                 </div>
 
@@ -82,7 +83,7 @@
                         <label class="global_desciption_text_style">Volume(24h)</label>
                     </div>
                     <div style="width: 60%; text-align: right;">
-                        <label class="global_primary_black_small_text_style">$3.07B</label>
+                        <label class="global_primary_black_small_text_style">${{ cryptoData.volume24H }}B</label>
                     </div>
                 </div>
             </div>
@@ -94,16 +95,16 @@
          </div>
 
          <div class="content_hleft_vcenter" style="margin-top: 10px;">
-            <label class="global_flag_blue_text_style">Official Website</label>
-            <label class="global_flag_blue_text_style">Explorer</label>
-            <label class="global_flag_blue_text_style">Coinmarketcap</label>
+            <label class="global_flag_blue_text_style" @click="linkBtnsClick(0)">Official Website</label>
+            <label class="global_flag_blue_text_style" @click="linkBtnsClick(1)">Explorer</label>
+            <label class="global_flag_blue_text_style" @click="linkBtnsClick(2)">Coinmarketcap</label>
          </div>
 
-         <div class="content_hleft_vcenter" style="margin-top: 10px;">
-            <label class="global_flag_blue_text_style">Github</label>
-            <label class="global_flag_blue_text_style">Twitter</label>
-            <label class="global_flag_blue_text_style">Reddit</label>
-            <label class="global_flag_blue_text_style">Whitepaper</label>
+         <div class="content_hleft_vcenter" style="margin-top: 10px; margin-bottom: 15px;">
+            <label class="global_flag_blue_text_style" @click="linkBtnsClick(3)">Github</label>
+            <label class="global_flag_blue_text_style" @click="linkBtnsClick(4)">X(Twitter)</label>
+            <label class="global_flag_blue_text_style" @click="linkBtnsClick(5)">Reddit</label>
+            <label class="global_flag_blue_text_style" @click="linkBtnsClick(6)">Whitepaper</label>
          </div>
     </div>
 </template>
@@ -118,11 +119,13 @@ export default {
         const isTurnOpenNotification = ref(false)
         const isReadMore = ref(false)
         const cryptoData = ref(JSON.parse(useRoute().query.cyptoData))
+        const cyptoDetail = ref(JSON.parse(useRoute().query.cyptoDetail))
 
         return {
             isTurnOpenNotification,
             isReadMore,
             cryptoData,
+            cyptoDetail,
         }
     },
     components: {
@@ -134,6 +137,45 @@ export default {
         },
         readMoreClick() {
             this.isReadMore = !this.isReadMore
+        },
+        handleLinkClick(event) {
+            // 检查点击的是否是链接
+            const target = event.target;
+            if (target.tagName === 'A' && target.href) {
+                event.preventDefault(); // 防止默认行为]
+                this.$router.push({ name: 'commonWebView', query: { requestURL: target.href } })
+            }
+        },
+        linkBtnsClick(index) {
+            var linkUrl = ""
+            switch (index) {
+                case 0:
+                    linkUrl = this.cyptoDetail.links.homepage[0]
+                    break;
+                case 1:
+                    linkUrl = this.cyptoDetail.links.blockchain_site[1]
+                    break;
+                case 2:
+                    linkUrl = this.cyptoDetail.links.official_forum_url[0]
+                    break;
+                case 3:
+                    linkUrl = this.cyptoDetail.links.repos_url.github[0]
+                    break;
+                case 4:
+                    linkUrl = this.cyptoDetail.links.blockchain_site[2]
+                    break;
+                case 5:
+                    linkUrl = this.cyptoDetail.links.subreddit_url
+                    break;
+                case 6:
+                    linkUrl = this.cyptoDetail.links.whitepaper
+                    break;
+                default:
+                    linkUrl = this.cyptoDetail.links.homepage
+                    break;
+            }
+
+            this.$router.push({ name: 'commonWebView', query: { requestURL: linkUrl } })
         }
     }
 }
