@@ -13,6 +13,13 @@ import 'vant/lib/index.css';
 // 引入动画
 import 'animate.css';
 
+// Polyfill Node.js 核心模块
+import { Buffer } from 'buffer';
+global.Buffer = Buffer;
+
+import process from 'process';
+global.process = process;
+
 // 网络请求框架
 import { useRequest } from 'vue-hooks-plus';
 

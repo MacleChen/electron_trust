@@ -201,7 +201,7 @@ export default {
         console.log(userData)
 
         const myWeb3 = getMyWeb3()
-        const walletName = ref(userData != null ? userData.wallets[0].walletName : "")
+        const walletName = ref(userData != null ? userData.mainWallet.walletName : "")
         const myBalance = ref(0)
 
         const getBalance = async () => {

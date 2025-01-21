@@ -19,7 +19,7 @@
 
         <div class="content_hcenter_vcenter" style="margin-top: 10px;">
             <img src="../../assets/asserts/icon-copy_Normal@2x.png" style="height: 15px; width: 15px; margin-right: 5px; transform: translateY(-2000px); filter: drop-shadow(blue 0 2000px);" />
-            <label style="font-size: 10px; font-weight: bold; color: blue;">Copy to Clipboard</label>
+            <label style="font-size: 10px; font-weight: bold; color: blue;" @click="copyToClipboardBtnClick">Copy to Clipboard</label>
         </div>
 
         <div class="content_hcenter_vbottom" style="width: 100%; height: 450px;">
@@ -50,6 +50,9 @@ import { saveUserData } from '@/utils/utils';
 import ShowWarningGoldMessageTip from '../discover/widgets/ShowWarningGoldMessageTip.vue';
 import BackupWalletManuallyAlert from '../discover/widgets/BackupWalletManuallyAlert.vue';
 import { getMyWeb3 } from '@/services/wallet';
+import { MultiWalletManager } from '@/services/MultiWalletManager';
+import { showToast } from 'vant';
+import useClipboard from 'vue-clipboard3';
 
 
 export default {
@@ -58,6 +61,7 @@ export default {
 
         const isWalletManuallyAlertShow = ref(false)
         const secretPhraseList = ref([])
+        const secretPhraseStr = ref('')
         
         async function loadWords() {
             const myWords = bip39.generateMnemonic()
@@ -65,19 +69,25 @@ export default {
             localStorage.setItem("words", myWords)
             secretPhraseList.value = myWords.split(' ')
 
-            const walletData = createBitcoinWallet(myWords)
+            // 创建多币钱包
+            const walletData = createBitcoinWallet(myWords)     // 创建bitcoin
+            const walletManager = new MultiWalletManager();     // 创建 其他多币钱包
+            walletManager.createWallets(myWords);
+            const result = walletManager.getWallets();
+            secretPhraseStr.value = result.mnemonic
 
             // web3 
             const web3 = getMyWeb3()
             const userAccount = web3.eth.accounts.privateKeyToAccount(walletData.privateKey)
 
-            const userData = {userId: walletData.privateKey, wallets:[walletData], account: userAccount}
+            const userData = {userId: walletData.privateKey, mainWallet: walletData, wallets: result.wallets, account: userAccount, mnemonic: result.mnemonic}
             saveUserData(userData)
         }
         loadWords()
         return {
             secretPhraseList,
             isWalletManuallyAlertShow,
+            secretPhraseStr,
         }
     },
     components: {
@@ -99,6 +109,18 @@ export default {
         },
         secretPhraseContinueClick() {
             this.$router.push( {name: "confirmSecretPhraseView" })
+        }, 
+        copyToClipboardBtnClick() {
+            const { toClipboard } = useClipboard()
+            const copy = async (text) => {
+                try {
+                    await toClipboard(text)
+                } catch (e) {
+                    console.error(e)
+                }
+            }
+            copy(this.secretPhraseStr)
+            showToast("Already copied")
         }
     }
 }

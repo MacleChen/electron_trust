@@ -16,7 +16,7 @@
                     <img src="@/assets/asserts/circled-info-f_Normal_gold@2x.png" style="height: 12px; width: 12px; margin-top: 2px; margin-right: 5px;" />
                 </div>
                 <div style="width: 92%; text-align: left;">
-                    <label class="global_tip_gold_text_style" >Only send Fantom (FTM)assets to this address. Other assets will be lost forever.</label>
+                    <label class="global_tip_gold_text_style" >Only send Fantom ({{ itemData.title }})assets to this address. Other assets will be lost forever.</label>
                 </div>
             </div>
         </div>
@@ -126,7 +126,7 @@ export default {
         const showUrlStr = "https://www.baidu.com"
 
         const userData = getUserData()
-        const address = ref(userData.account.address)
+        const address = ref(userData.wallets.DOGE.address)
 
         const isShowAmountInputAlert = ref(false)
         const isShowCustomMountDiv = ref(false)

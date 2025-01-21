@@ -57,6 +57,7 @@ export default {
         count.value++;
       }, 1000);
     };
+
     return {
       count,
       loading,

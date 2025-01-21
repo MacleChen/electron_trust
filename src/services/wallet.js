@@ -1,7 +1,28 @@
 const bip39 = require("bip39");
+// const bip32 = require('bip32');
+// const dogecoin = require('dogecoinjs-lib');
+const bitcoin = require('bitcoinjs-lib');
 const hdkey = require('ethereumjs-wallet').hdkey
 const util = require('ethereumjs-util')
 import Web3 from "web3";
+const solanaWeb3 = require('@solana/web3.js');
+const ethers = require('ethers');
+import { Buffer } from 'buffer';
+
+// 确保 Buffer 在浏览器中可用
+global.Buffer = Buffer;
+
+// Dogecoin 网络配置
+const dogecoinNetwork = {
+  messagePrefix: '\x18Dogecoin Signed Message:\n',
+  bip32: {
+    public: 0x02fac398,
+    private: 0x02fac398
+  },
+  pubKeyHash: 0x1e, // Dogecoin的公钥哈希前缀
+  scriptHash: 0x16, // Dogecoin的脚本哈希前缀
+  wif: 0x9e // WIF格式私钥前缀
+};
 
 export function createBitcoinWallet(mnemonic, walletName = 'Main Wallet') {
   // 1.生成助记词
@@ -39,6 +60,83 @@ export function createBitcoinWallet(mnemonic, walletName = 'Main Wallet') {
     mnemonic,
   };
 }
+
+// 生成Btc钱包
+export function createBTCWalletFromRoot(root) {
+  const btcPath = "m/44'/0'/0'/0";
+  const btcNode = root.derivePath(btcPath);
+  const btcPrivateKey = btcNode.toWIF();
+  const btcAddress = bitcoin.payments.p2pkh({ pubkey: btcNode.publicKey }).address; 
+
+  return {
+    address: btcAddress,
+    privateKey: btcPrivateKey,
+  };
+}
+
+// 生成doge钱包
+export function createDogecoinWalletFromRoot(root) {
+  const dogePath = "m/44'/3'/0'/0";
+  const dogeNode = root.derivePath(dogePath);
+  const dogePrivateKey = dogeNode.toWIF();
+
+  // 使用 bitcoinjs-lib 来生成 Dogecoin 地址
+  const dogeAddress = bitcoin.payments.p2pkh({ pubkey: dogeNode.publicKey, network: dogecoinNetwork }).address;
+
+  return {
+    address: dogeAddress,
+    privateKey: dogePrivateKey,
+  };
+}
+
+// 生成ETH钱包
+export function createETHWalletFromRoot(root) {
+  const ethPath = "m/44'/60'/0'/0";
+  const ethNode = root.derivePath(ethPath);
+
+  if (!ethNode.privateKey || ethNode.privateKey.length !== 32) {
+    throw new Error('Invalid private key length for Ethereum.');
+  }
+
+  const ethPrivateKey = ethNode.privateKey.toString('hex');
+  const ethWallet = new ethers.Wallet(ethNode.privateKey);
+
+  return {
+    address: ethWallet.address,
+    privateKey: ethPrivateKey,
+  };
+}
+
+// 生成BNB钱包
+export function createBNBWalletFromRoot(root) {
+  const ethPath = "m/44'/60'/0'/0";
+  const ethNode = root.derivePath(ethPath);
+  const ethPrivateKey = ethNode.privateKey.toString('hex');
+  const ethWallet = new ethers.Wallet(ethNode.privateKey);
+  const bnbPrivateKey = ethPrivateKey; // BNB 与 ETH 地址相同
+  return {
+    address: ethWallet.address,
+    privateKey: bnbPrivateKey,
+  };
+}
+
+// 生成SOL钱包
+export function createSOLWalletFromRoot(root) {
+  const solPath = "m/44'/501'/0'/0";
+  const solNode = root.derivePath(solPath);
+  if (!solNode.privateKey || solNode.privateKey.length < 32) {
+    throw new Error('Invalid private key length for Solana.');
+  }
+  const solanaKeypair = solanaWeb3.Keypair.fromSeed(solNode.privateKey.slice(0, 32));
+  const solanaPrivateKey = solanaKeypair.secretKey.toString('hex');
+  const solanaAddress = solanaKeypair.publicKey.toBase58();
+
+  return {
+    address: solanaAddress,
+    privateKey: solanaPrivateKey,
+  };
+}
+
 
 export async function initWeb3Account() {
     if (window.ethereum) {

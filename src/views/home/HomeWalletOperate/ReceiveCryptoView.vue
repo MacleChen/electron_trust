@@ -81,12 +81,6 @@ export default {
         
         const cryptoList = ref([]);
         var backupCryptoList = ref([])
-        for (let i  = 0; i < globarVars.globalBitcoinsList.length; i++) {
-            const bitcoinModel = globarVars.globalBitcoinsList[i]
-            const myTitle = bitcoinModel.title.replace('USDT', '')
-            cryptoList.value.push({title: myTitle, subTitle: myTitle, 
-                flag: bitcoinModel.subTitle, isSelected: bitcoinModel.isSel, imgName: bitcoinModel.imgName},)
-        }
 
         var { data } = useRequest(() => {
             return fetch('https://api.coingecko.com/api/v3/coins/markets?vs_currency=usd', {
