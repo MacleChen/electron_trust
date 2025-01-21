@@ -93,3 +93,12 @@ phone glow wool speed local shock frequent bring hair sunny fire moon
 
 ### 网络请求框架
 https://inhiblabcore.github.io/docs/hooks/guide/#%E2%9C%A8-%E7%89%B9%E6%80%A7
+
+### 打包遇到python识别不到的问题  Exit code: ENOENT. spawn /usr/bin/python
+which python
+sudo vim ./node_modules/dmg-builder/out/dmg.js
+搜索： python,的执行路径
+替换成which python搜多到的路径
+
+### push 或clone项目拉取或上推出错的问题 fatal: Could not read from remote repository.
+
