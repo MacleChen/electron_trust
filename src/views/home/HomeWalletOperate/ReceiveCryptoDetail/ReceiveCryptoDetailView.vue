@@ -27,11 +27,11 @@
             <label class="global_flag_gray_text_style" style="margin-left: 5px;">{{ itemData.flag }}</label>
         </div>
 
-        <div class="shadow-for-div" style="margin-left: 78px; margin-right: 78px; margin-top: 15px; line-height: 14px; border-radius: 10px;">
+        <div class="shadow-for-div" style="margin-left: 65px; margin-right: 65px; margin-top: 15px; padding-top: 10px; line-height: 14px; border-radius: 10px;">
             <div>
                 <GeneratorQRCode :linkText="showUrlStr" />
             </div>
-            <div style="margin-top: 10px; margin-left: 10px; margin-right: 10px; padding-bottom: 10px;">
+            <div style="margin-top: 20px; margin-left: 10px; margin-right: 10px; padding-bottom: 10px;">
                 <label class="break-text global_primary_black_small_text_style" style="width: 100%;">{{ address }}</label>
             </div>
         </div>
@@ -39,7 +39,7 @@
         <div v-if="isShowCustomMountDiv" class="content_hcenter_vcenter" style="margin-top: 20px;">
             <label class="global_primary_black_text_style">{{ amountInputText + " " }} {{ itemData.title }}</label>
             <label class="global_desciption_text_style"> &nbsp;≈&nbsp; </label>
-            <label class="global_primary_gray_text_style">$10,281.54</label>
+            <label class="global_primary_gray_text_style">${{ showCryptoToDollars.toFixed(2) }}</label>
             <img src="../../../../assets/asserts/circled-close-f_Normal@2x.png" style="height: 15px; width: 15px; margin-left: 5px;" @click="amountClearBtnClick"/>
         </div>
 
@@ -123,14 +123,15 @@ export default {
     setup() {
         const route = useRoute()
         const itemData = ref(JSON.parse(route.query.itemData))
-        const showUrlStr = "https://www.baidu.com"
-
+        
         const userData = getUserData()
         const address = ref(userData.wallets.DOGE.address)
+        const showUrlStr = address.value
 
         const isShowAmountInputAlert = ref(false)
         const isShowCustomMountDiv = ref(false)
         const amountInputText = ref('')
+        const showCryptoToDollars = ref(0.0)
 
         return {
             itemData,
@@ -138,7 +139,8 @@ export default {
             address,
             isShowAmountInputAlert,
             isShowCustomMountDiv,
-            amountInputText
+            amountInputText,
+            showCryptoToDollars,
         }
     },
     components: {
@@ -175,6 +177,7 @@ export default {
             this.isShowAmountInputAlert = false
             if (this.amountInputText != "") {
                 this.isShowCustomMountDiv = true
+                this.showCryptoToDollars = parseFloat(this.amountInputText) * this.itemData.price
             } else {
                 this.isShowCustomMountDiv = false
             }

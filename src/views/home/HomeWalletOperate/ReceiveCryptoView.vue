@@ -94,7 +94,7 @@ export default {
                 const chainData = newValue[i]
                 cryptoList.value.push({id: chainData.id, title: chainData.symbol.toUpperCase(), subTitle: chainData.name, 
                 flag: chainData.name, isSelected: false,
-                imgName: chainData.image})
+                imgName: chainData.image, price: chainData.current_price})
             }
             backupCryptoList.value = cryptoList.value
         })

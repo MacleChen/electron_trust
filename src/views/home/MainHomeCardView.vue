@@ -147,7 +147,7 @@
 </template>
 
 <script>
-import { ref, defineExpose } from 'vue';
+import { ref, defineExpose, watch } from 'vue';
 import MainHomeCryptoList from './MainHomeSubview/MainHomeCryptoList.vue';
 import MainHomeNFTsDefault from './MainHomeSubview/MainHomeNFTsDefault.vue';
 import HomeSearchOverLay from '../discover/widgets/OverLay/HomeSearchOverLay.vue';
@@ -160,7 +160,7 @@ import jsQR from 'jsqr';
 import { getUserData } from '@/utils/utils';
 // import { Transaction } from 'bitcoinjs-lib';
 import { getMyWeb3 } from '@/services/wallet';
-
+import { useRequest } from 'vue-hooks-plus';
 
 const cardInfoList = ref([
     {title: 'Launchpool is Live! Simply Lock and Earn FREE Rewards!', 
@@ -205,9 +205,24 @@ export default {
         const myBalance = ref(0)
 
         const getBalance = async () => {
-            myBalance.value = await myWeb3.eth.getBalance(userData.account.address);
+            const web3Balance = await myWeb3.eth.getBalance(userData.account.address);
+            myBalance.value += parseFloat(web3Balance);
         }
         getBalance()
+
+        // 获取dogeCoin的余额
+        const address = ref(userData.wallets.DOGE.address)
+        const dogeAddressInfo = ref(null)
+        var { data } = useRequest(() => {
+            return fetch('https://api.blockchair.com/dogecoin/dashboards/address/' + address.value).then(res => res.json());
+        })
+        watch(data, (newValue) => {
+            dogeAddressInfo.value = newValue.data[address.value].address;
+            const balanceCount = dogeAddressInfo.value.balance / 100000000; // Satoshis
+            const balacneUSD = dogeAddressInfo.value.balance_usd
+            console.log(`钱包余额: ${balanceCount} DOGE, usd: ${balacneUSD}`);
+            myBalance.value += parseFloat(balacneUSD)
+        })
 
         const child = ref()
 
@@ -230,6 +245,7 @@ export default {
             isShowLoading,
             walletName,
             myBalance,
+            dogeAddressInfo,
         }
     },
     components: {

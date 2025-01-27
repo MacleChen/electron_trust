@@ -38,6 +38,7 @@ import disDrag from '../../utils/disDrag.js'
 import CreateImportWalletVCard from './CreateImportWalletVCard.vue';
 import BitCoinListView from './BitCoinListView.vue';
 import MainHomeCardView from './MainHomeCardView.vue';
+import { showToast } from 'vant';
 
 export default {
   setup() {
@@ -50,7 +51,7 @@ export default {
     const isNeedRefresh = ref(false)
     const onRefresh = () => {
       setTimeout(() => {
-        // showToast('刷新成功');
+        showToast('刷新成功');
         isNeedRefresh.value = true
         loading.value = false;
         child.value.reloadCryptoListData()
