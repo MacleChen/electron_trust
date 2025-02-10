@@ -147,7 +147,7 @@
 </template>
 
 <script>
-import { ref, defineExpose, watch } from 'vue';
+import { ref, defineExpose, defineComponent } from 'vue';
 import MainHomeCryptoList from './MainHomeSubview/MainHomeCryptoList.vue';
 import MainHomeNFTsDefault from './MainHomeSubview/MainHomeNFTsDefault.vue';
 import HomeSearchOverLay from '../discover/widgets/OverLay/HomeSearchOverLay.vue';
@@ -160,7 +160,10 @@ import jsQR from 'jsqr';
 import { getUserData } from '@/utils/utils';
 // import { Transaction } from 'bitcoinjs-lib';
 import { getMyWeb3 } from '@/services/wallet';
-import { useRequest } from 'vue-hooks-plus';
+// import { useRequest } from 'vue-hooks-plus';
+import axios from "axios";
+import { ethers } from "ethers";
+import { Connection, PublicKey } from "@solana/web3.js";
 
 const cardInfoList = ref([
     {title: 'Launchpool is Live! Simply Lock and Earn FREE Rewards!', 
@@ -185,7 +188,7 @@ const cardInfoList = ref([
     imgStr: require('../../assets/asserts/NFTS_Normal@2x.png'), pushName: 'NFT', nextBtnName: "Let's go"},
 ]);
 
-export default {
+export default defineComponent ({
     props: {
         isNeedRefresh: { type: Boolean } 
     },
@@ -211,18 +214,20 @@ export default {
         getBalance()
 
         // 获取dogeCoin的余额
-        const address = ref(userData.wallets.DOGE.address)
+        const walletAddress = ref(userData.wallets.DOGE.address)
+        const walletData = ref('')
+        const totalUSDT = ref(0)
         const dogeAddressInfo = ref(null)
-        var { data } = useRequest(() => {
-            return fetch('https://api.blockchair.com/dogecoin/dashboards/address/' + address.value).then(res => res.json());
-        })
-        watch(data, (newValue) => {
-            dogeAddressInfo.value = newValue.data[address.value].address;
-            const balanceCount = dogeAddressInfo.value.balance / 100000000; // Satoshis
-            const balacneUSD = dogeAddressInfo.value.balance_usd
-            console.log(`钱包余额: ${balanceCount} DOGE, usd: ${balacneUSD}`);
-            myBalance.value += parseFloat(balacneUSD)
-        })
+        // var { data } = useRequest(() => {
+        //     return fetch('https://api.blockchair.com/dogecoin/dashboards/address/' + walletAddress.value).then(res => res.json());
+        // })
+        // watch(data, (newValue) => {
+        //     dogeAddressInfo.value = newValue.data[walletAddress.value].address;
+        //     const balanceCount = dogeAddressInfo.value.balance / 100000000; // Satoshis
+        //     const balacneUSD = dogeAddressInfo.value.balance_usd
+        //     console.log(`钱包余额: ${balanceCount} DOGE, usd: ${balacneUSD}`);
+        //     myBalance.value += parseFloat(balacneUSD)
+        // })
 
         const child = ref()
 
@@ -246,6 +251,9 @@ export default {
             walletName,
             myBalance,
             dogeAddressInfo,
+            walletAddress,
+            walletData,
+            totalUSDT,
         }
     },
     components: {
@@ -254,6 +262,15 @@ export default {
         HomeSearchOverLay,
         YourAddressesAlert,
         GlobalLoading,
+    },
+    mounted() {
+        // 获取本地总余额
+        const localTotal = localStorage.getItem('total')
+        if (localTotal == 0 || localTotal == null) {
+            this.fetchWalletData()
+        } else {
+            this.myBalance = localTotal
+        }
     },
     methods:{
         mainHomeSearchBarClick() {
@@ -369,8 +386,108 @@ export default {
                 this.$router.push({name: pushName})
             }
         },
+        // 获取钱包余额
+        async fetchWalletData() {
+            const prices = await this.getCryptoPrices();
+            const balances = await this.getAllBalances();
+
+            let total = 0;
+            const walletData = {};
+
+            for (const coin in balances) {
+                const balance = balances[coin] || 0;
+                const price = prices[coin] || 0;
+                const valueInUSDT = balance * price;
+                // alert('count:' + balance + ', price:' + price)
+                walletData[coin] = { balance, price, valueInUSDT };
+                total += valueInUSDT;
+            }
+            const localTotal = localStorage.getItem('total')
+            if (total != 0) {
+                localStorage.setItem('total', total)
+            } else {
+                total = localTotal
+            }
+            this.walletData = walletData;
+            this.totalUSDT = total;
+            this.myBalance = total;
+            alert("001")
+        },
+
+        // 获取币种的 USDT 价格
+        async getCryptoPrices() {
+            try {
+                const url = "https://api.coingecko.com/api/v3/simple/price?ids=ethereum,ethereum-classic,binancecoin,dogecoin,solana&vs_currencies=usd";
+                const { data } = await axios.get(url);
+
+                return {
+                ETH: data.ethereum.usdt,
+                ETC: data["ethereum-classic"].usd,
+                BNB: data.binancecoin.usd,
+                DOGE: data.dogecoin.usd,
+                SOL: data.solana.usd,
+                };
+            } catch (error) {
+                console.error("查询汇率失败:", error);
+                return {};
+            }
+        },
+
+        // 获取所有币种余额
+        async getAllBalances() {
+            return {
+                ETH: await this.getEVMChainBalance("ETH"),
+                ETC: await this.getEVMChainBalance("ETC"),
+                BNB: await this.getEVMChainBalance("BNB"),
+                DOGE: await this.getDogeBalance(),
+                SOL: await this.getSolBalance(),
+            };
+        },
+
+        // 查询 EVM 兼容币种 (ETH, ETC, BNB)
+        async getEVMChainBalance(chain) {
+            const rpcUrls = {
+                ETH: "https://rpc.ankr.com/eth",
+                ETC: "https://www.ethercluster.com/etc",
+                BNB: "https://bsc-dataseed.binance.org/",
+            };
+
+            try {
+                const provider = new ethers.JsonRpcProvider(rpcUrls[chain]);
+                const balance = await provider.getBalance(this.walletAddress);
+                return parseFloat(ethers.formatEther(balance));
+            } catch (error) {
+                console.error(`查询 ${chain} 余额失败:`, error);
+                return 0;
+            }
+        },
+
+        // 查询 DOGE 余额
+        async getDogeBalance() {
+            try {
+                const url = `https://api.blockcypher.com/v1/doge/main/addrs/${this.walletAddress}/balance`;
+                const { data } = await axios.get(url);
+                const dogeBalance = data.balance / 1e8;
+                return dogeBalance; // 转换为 DOGE 单位
+            } catch (error) {
+                console.error("查询 DOGE 余额失败:", error);
+                return 0;
+            }
+        },
+
+        // 查询 SOL 余额
+        async getSolBalance() {
+            try {
+                const connection = new Connection("https://api.mainnet-beta.solana.com");
+                const balance = await connection.getBalance(new PublicKey(this.walletAddress));
+                return balance / 1e9; // 转换为 SOL 单位
+            } catch (error) {
+                console.error("查询 SOL 余额失败:", error);
+                return 0;
+            }
+        },
     },
-}
+})
 </script>
 
 <style>
