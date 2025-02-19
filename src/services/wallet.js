@@ -6,7 +6,8 @@ const hdkey = require('ethereumjs-wallet').hdkey
 const util = require('ethereumjs-util')
 import Web3 from "web3";
 const solanaWeb3 = require('@solana/web3.js');
-const ethers = require('ethers');
+// const ethers = require('ethers');
+import { ethers } from 'ethers';
 import { Buffer } from 'buffer';
 
 // 确保 Buffer 在浏览器中可用
@@ -90,20 +91,12 @@ export function createDogecoinWalletFromRoot(root) {
 }
 
 // 生成ETH钱包
-export function createETHWalletFromRoot(root) {
-  const ethPath = "m/44'/60'/0'/0";
-  const ethNode = root.derivePath(ethPath);
-
-  if (!ethNode.privateKey || ethNode.privateKey.length !== 32) {
-    throw new Error('Invalid private key length for Ethereum.');
-  }
-
-  const ethPrivateKey = ethNode.privateKey.toString('hex');
-  const ethWallet = new ethers.Wallet(ethNode.privateKey);
+export function createETHWalletFromRoot(mnemonic) {
+  const wallet = ethers.Wallet.fromPhrase(mnemonic);
 
   return {
-    address: ethWallet.address,
-    privateKey: ethPrivateKey,
+    address: wallet.address,
+    privateKey: wallet.privateKey,
   };
 }
 
