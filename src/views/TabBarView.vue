@@ -69,12 +69,20 @@
 <script>
 import { inject, } from 'vue';
 import CreateImportWalletAlert from './discover/widgets/CreateImportWalletAlert.vue';
+import { getUserData } from '@/utils/utils';
+
 export default {
     setup() {
         const globalVars = inject("globalVars")
-        globalVars.userSetPassword = localStorage.getItem("pwd")
-        globalVars.secretPhraseStr = localStorage.getItem("words")
-        globalVars.isBackupPhrase = localStorage.getItem("isBackup")
+        const userData = getUserData()
+        if (userData == null) {
+            // 用户数据为空，需重新导入用户信息
+        } else {
+            globalVars.userSetPassword = localStorage.getItem("pwd")
+            globalVars.secretPhraseStr = localStorage.getItem("words")
+            globalVars.isBackupPhrase = localStorage.getItem("isBackup")
+        }
+        
         // // alert 
         // watch(() => globalVars.isShowCreateImportWalletAlert, (newValue) => {
         //     // isCreateImportShow.value = newValue == '1' ? true : false

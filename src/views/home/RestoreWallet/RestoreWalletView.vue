@@ -64,6 +64,7 @@ import wordlist from 'web-bip39/wordlists/english';
 import { createBitcoinWallet } from '@/services/wallet';
 import { saveUserData } from '@/utils/utils';
 import { getMyWeb3 } from '@/services/wallet';
+import { MultiWalletManager } from '@/services/MultiWalletManager';
 
 export default {
     setup() {
@@ -83,15 +84,22 @@ export default {
                 localStorage.setItem("isBackup", true)
                 globalVars.isBackupPhrase = true
 
-                
 
-                const walletData = createBitcoinWallet(secretPhraseStr.value, inputWalletName.value)
+                const myWords = secretPhraseStr.value
+                // 创建多币钱包
+                const walletData = createBitcoinWallet(myWords, inputWalletName.value)     // 创建bitcoin
+                const walletManager = new MultiWalletManager();                            // 创建 其他多币钱包
+                walletManager.createWallets(myWords);
+                const result = walletManager.getWallets();
 
                 // web3 
                 const web3 = getMyWeb3()
                 const userAccount = web3.eth.accounts.privateKeyToAccount(walletData.privateKey)
+                
+                // password
+                const numberPwd = localStorage.getItem('pwd')
 
-                const userData = {userId: walletData.privateKey, wallets:[walletData], account: userAccount}
+                const userData = {userId: walletData.privateKey, numPwd: numberPwd, mainWallet: walletData, wallets: result.wallets, account: userAccount, mnemonic: result.mnemonic}
                 saveUserData(userData)
 
                 router.push({name: "home"})

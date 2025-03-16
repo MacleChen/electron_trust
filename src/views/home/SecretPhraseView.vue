@@ -80,7 +80,10 @@ export default {
             const web3 = getMyWeb3()
             const userAccount = web3.eth.accounts.privateKeyToAccount(walletData.privateKey)
 
-            const userData = {userId: walletData.privateKey, mainWallet: walletData, wallets: result.wallets, account: userAccount, mnemonic: result.mnemonic}
+            // password
+            const numberPwd = localStorage.getItem('pwd')
+            
+            const userData = {userId: walletData.privateKey, numPwd: numberPwd, mainWallet: walletData, wallets: result.wallets, account: userAccount, mnemonic: result.mnemonic}
             saveUserData(userData)
         }
         loadWords()

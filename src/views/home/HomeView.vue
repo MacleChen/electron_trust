@@ -39,21 +39,20 @@ import CreateImportWalletVCard from './CreateImportWalletVCard.vue';
 import BitCoinListView from './BitCoinListView.vue';
 import MainHomeCardView from './MainHomeCardView.vue';
 import { showToast } from 'vant';
-import { createBNBWalletFromRoot, 
-  // createDogecoinWalletFromRoot ok
-  // createBTCWalletFromRoot, ok
-  // createETHWalletFromRoot,  ok
-  // createBNBWalletFromRoot, 
-  // createSOLWalletFromRoot  
-} from '@/services/wallet.js';
-const bip39 = require("bip39");
-const bip32 = require('bip32');
+// import { createSOLWalletFromRoot, 
+//   // createDogecoinWalletFromRoot ok
+//   // createBTCWalletFromRoot, ok
+//   // createETHWalletFromRoot,  ok
+//   // createBNBWalletFromRoot, ok
+//   // createSOLWalletFromRoot  ok
+// } from '@/services/wallet.js';
+// const bip39 = require("bip39");
+// const bip32 = require('bip32');
 
 export default {
   setup() {
     const globalVars = inject("globalVars")
     const child = ref()
-    
     const isHasPhrase = globalVars.secretPhraseStr == null ? ref(false) : ref(globalVars.secretPhraseStr.split(' ').length == 12)
     const count = ref(0);
     const loading = ref(false);
@@ -68,14 +67,14 @@ export default {
       }, 1000);
     };
 
-    // test 测试创建各种钱包
-    // 通过助记词生成种子
-    const seed = bip39.mnemonicToSeedSync(globalVars.secretPhraseStr);
-    const root = bip32.fromSeed(seed);
+    // // test 测试创建各种钱包
+    // // 通过助记词生成种子
+    // const seed = bip39.mnemonicToSeedSync(globalVars.secretPhraseStr);
+    // const root = bip32.fromSeed(seed);
 
-    const myTestData = createBNBWalletFromRoot(root);
-    console.log(myTestData.address);
-    console.log(myTestData.privateKey);
+    // const myTestData = createSOLWalletFromRoot(root);
+    // console.log(myTestData.address);
+    // console.log(myTestData.privateKey);
 
     return {
       count,

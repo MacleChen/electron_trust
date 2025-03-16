@@ -123,11 +123,19 @@ export default {
     setup() {
         const route = useRoute()
         const itemData = ref(JSON.parse(route.query.itemData))
-        
-        const userData = getUserData()
-        const address = ref(userData.wallets.DOGE.address)
-        const showUrlStr = address.value
+        const lowCryptoName = itemData.value.title.toLowerCase()
+        console.log(lowCryptoName)
 
+        const userData = getUserData()
+        const addressData = userData.wallets[itemData.value.title];
+        var address = ref(null)
+        if (addressData == null) {
+            address.value = userData.account.address
+        } else {
+            address.value = addressData.address
+        }
+        
+        const showUrlStr = address.value
         const isShowAmountInputAlert = ref(false)
         const isShowCustomMountDiv = ref(false)
         const amountInputText = ref('')

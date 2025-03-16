@@ -64,7 +64,6 @@ export default {
                 }
             }).then(res => res.json())
             .catch(error => {
-                alert("3323" + error)
                 isShowLoading.value = false
                 console.error('Fetch error:', error); // 捕获 fetch 本身的错误（如网络问题、请求失败等）
             });

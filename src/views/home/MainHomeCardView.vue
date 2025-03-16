@@ -163,7 +163,7 @@ import { getMyWeb3 } from '@/services/wallet';
 // import { useRequest } from 'vue-hooks-plus';
 import axios from "axios";
 import { ethers } from "ethers";
-import { Connection, PublicKey } from "@solana/web3.js";
+import { Connection, clusterApiUrl, PublicKey } from "@solana/web3.js";
 
 const cardInfoList = ref([
     {title: 'Launchpool is Live! Simply Lock and Earn FREE Rewards!', 
@@ -206,28 +206,21 @@ export default defineComponent ({
         const myWeb3 = getMyWeb3()
         const walletName = ref(userData != null ? userData.mainWallet.walletName : "")
         const myBalance = ref(0)
-
         const getBalance = async () => {
             const web3Balance = await myWeb3.eth.getBalance(userData.account.address);
             myBalance.value += parseFloat(web3Balance);
         }
         getBalance()
-
         // 获取dogeCoin的余额
-        const walletAddress = ref(userData.wallets.DOGE.address)
+        const ethWalletAddress = ref(userData.wallets.ETH.address)
+        const btcWalletAddress = ref(userData.wallets.BTC.address)
+        const bnbWalletAddress = ref(userData.wallets.BNB.address)
+        const dogeWalletAddress = ref(userData.wallets.DOGE.address)
+        const solWalletAddress = ref(userData.wallets.SOL.address)
+        
         const walletData = ref('')
         const totalUSDT = ref(0)
         const dogeAddressInfo = ref(null)
-        // var { data } = useRequest(() => {
-        //     return fetch('https://api.blockchair.com/dogecoin/dashboards/address/' + walletAddress.value).then(res => res.json());
-        // })
-        // watch(data, (newValue) => {
-        //     dogeAddressInfo.value = newValue.data[walletAddress.value].address;
-        //     const balanceCount = dogeAddressInfo.value.balance / 100000000; // Satoshis
-        //     const balacneUSD = dogeAddressInfo.value.balance_usd
-        //     console.log(`钱包余额: ${balanceCount} DOGE, usd: ${balacneUSD}`);
-        //     myBalance.value += parseFloat(balacneUSD)
-        // })
 
         const child = ref()
 
@@ -251,7 +244,11 @@ export default defineComponent ({
             walletName,
             myBalance,
             dogeAddressInfo,
-            walletAddress,
+            ethWalletAddress,
+            btcWalletAddress,
+            bnbWalletAddress,
+            dogeWalletAddress,
+            solWalletAddress,
             walletData,
             totalUSDT,
         }
@@ -411,7 +408,6 @@ export default defineComponent ({
             this.walletData = walletData;
             this.totalUSDT = total;
             this.myBalance = total;
-            alert("001")
         },
 
         // 获取币种的 USDT 价格
@@ -436,56 +432,41 @@ export default defineComponent ({
         // 获取所有币种余额
         async getAllBalances() {
             return {
-                ETH: await this.getEVMChainBalance("ETH"),
-                ETC: await this.getEVMChainBalance("ETC"),
-                BNB: await this.getEVMChainBalance("BNB"),
-                DOGE: await this.getDogeBalance(),
+                ETH: await this.getCryptoCoinBalance("eth", this.ethWalletAddress),
+                BTC: await this.getCryptoCoinBalance("btc", this.btcWalletAddress),
+                BNB: await this.getBnbBalance(),
+                DOGE: await this.getCryptoCoinBalance("doge", this.dogeWalletAddress),
                 SOL: await this.getSolBalance(),
             };
         },
 
-        // 查询 EVM 兼容币种 (ETH, ETC, BNB)
-        async getEVMChainBalance(chain) {
-            const rpcUrls = {
-                ETH: "https://rpc.ankr.com/eth",
-                ETC: "https://www.ethercluster.com/etc",
-                BNB: "https://bsc-dataseed.binance.org/",
-            };
-
+        // 查询 加密货币余额
+        async getCryptoCoinBalance(name, address) {
             try {
-                const provider = new ethers.JsonRpcProvider(rpcUrls[chain]);
-                const balance = await provider.getBalance(this.walletAddress);
-                return parseFloat(ethers.formatEther(balance));
-            } catch (error) {
-                console.error(`查询 ${chain} 余额失败:`, error);
-                return 0;
-            }
-        },
-
-        // 查询 DOGE 余额
-        async getDogeBalance() {
-            try {
-                const url = `https://api.blockcypher.com/v1/doge/main/addrs/${this.walletAddress}/balance`;
+                const url = `https://api.blockcypher.com/v1/${name}/main/addrs/${address}/balance`;
                 const { data } = await axios.get(url);
-                const dogeBalance = data.balance / 1e8;
-                return dogeBalance; // 转换为 DOGE 单位
+                const balance = data.balance / 1e8;
+                return balance;
             } catch (error) {
-                console.error("查询 DOGE 余额失败:", error);
+                console.error(`查询 ${name} 余额失败:`, error);
                 return 0;
             }
         },
 
-        // 查询 SOL 余额
-        async getSolBalance() {
-            try {
-                const connection = new Connection("https://api.mainnet-beta.solana.com");
-                const balance = await connection.getBalance(new PublicKey(this.walletAddress));
-                return balance / 1e9; // 转换为 SOL 单位
-            } catch (error) {
-                console.error("查询 SOL 余额失败:", error);
-                return 0;
-            }
+        // 查询bnb的余额
+        async getBnbBalance() {
+            const provider = new ethers.JsonRpcProvider("https://bsc-dataseed.binance.org/"); // BSC 主网 RPC
+            const balance = await provider.getBalance(this.bnbWalletAddress);
+            
+            return balance;
         },
+
+        async getSolBalance() {
+            const connection = new Connection(clusterApiUrl("mainnet-beta"), "confirmed");
+            const publicKey = new PublicKey(this.solWalletAddress);
+            const balance = await connection.getBalance(publicKey);
+            return balance / 1e9;
+        }
     },
 })
 </script>

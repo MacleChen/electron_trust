@@ -35,6 +35,7 @@
 import { ref, inject } from 'vue';
 import ConfirmPasscodeAlert from '../discover/widgets/ConfirmPasscodeAlert.vue';
 import { showToast } from 'vant';
+import { clearStoreInfo } from '@/utils/utils';
 
 export default {
     setup() {
@@ -128,6 +129,7 @@ export default {
         } else if (title == "Clear Cache") {
             showToast("Clear Cache Done. Please Restart App")
             localStorage.clear()
+            clearStoreInfo()
         }
         
         

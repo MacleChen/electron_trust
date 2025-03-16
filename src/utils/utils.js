@@ -1,3 +1,13 @@
+// const Store = require('electron-store');
+const Store = require('electron-store');
+import CryptoJS from 'crypto-js';
+const secureKeyStr = 'iifhwXIheei8*6392663;/.kku1rjfhIKHhfe';
+
+// 生成一个安全的 `electron-store` 实例（推荐加密）
+const store = new Store({
+  encryptionKey: secureKeyStr // 这里的密钥应存储在安全位置
+});
+
 // 打乱数组顺序，并返回新的数组
 export function shuffleArray(originArray) {
   // 使用Fisher-Yates算法来打乱数组
@@ -24,12 +34,21 @@ export function formatNumber(number) {
 
 // 存储用户信息
 export function saveUserData(userInfo) {
-  localStorage.setItem('userData', JSON.stringify(userInfo))
+  // localStorage.setItem('userData', JSON.stringify(userInfo))
+  store.set('userData', CryptoJS.AES.encrypt(JSON.stringify(userInfo), secureKeyStr).toString());
 }
 
 // 读取用户信息
 export function getUserData() {
-  return JSON.parse(localStorage.getItem('userData'))
+  const userStr = store.get('userData');
+  if (!userStr) return null;
+  const deUserStr = CryptoJS.AES.decrypt(userStr, secureKeyStr).toString(CryptoJS.enc.Utf8)
+  return JSON.parse(deUserStr)
+  // return JSON.parse(localStorage.getItem('userData'))
+}
+
+export function clearStoreInfo() {
+  store.clear(); // 清空所有存储的数据
 }
 
 // 本地存储字典

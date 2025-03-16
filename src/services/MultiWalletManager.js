@@ -1,8 +1,8 @@
 import { createDogecoinWalletFromRoot, 
-  // createBTCWalletFromRoot, 
-  // createETHWalletFromRoot, 
-  // createBNBWalletFromRoot, 
-  // createSOLWalletFromRoot  
+  createBTCWalletFromRoot, 
+  createETHWalletFromRoot, 
+  createBNBWalletFromRoot, 
+  createSOLWalletFromRoot  
 } from './wallet.js';
 const bip39 = require("bip39");
 const bip32 = require('bip32');
@@ -31,10 +31,10 @@ export class MultiWalletManager {
 
     // 创建各币种钱包
     this.wallets.DOGE = createDogecoinWalletFromRoot(root);
-    // this.wallets.BTC = createBTCWalletFromRoot(root);
-    // this.wallets.ETH = createETHWalletFromRoot(root);
-    // this.wallets.BNB = createBNBWalletFromRoot(root);
-    // this.wallets.SOL = createSOLWalletFromRoot(root);
+    this.wallets.BTC = createBTCWalletFromRoot(root);
+    this.wallets.ETH = createETHWalletFromRoot(mnemonic);
+    this.wallets.BNB = createBNBWalletFromRoot(root);
+    this.wallets.SOL = createSOLWalletFromRoot(root);
   }
 
   getWallets() {

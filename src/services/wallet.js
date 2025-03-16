@@ -105,7 +105,7 @@ export function createBNBWalletFromRoot(root) {
   const ethPath = "m/44'/60'/0'/0";
   const ethNode = root.derivePath(ethPath);
   const ethPrivateKey = ethNode.privateKey.toString('hex');
-  const ethWallet = new ethers.Wallet(ethNode.privateKey);
+  const ethWallet = new ethers.Wallet(ethPrivateKey);
   const bnbPrivateKey = ethPrivateKey; // BNB 与 ETH 地址相同
   return {
     address: ethWallet.address,
